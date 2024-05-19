@@ -10,14 +10,14 @@
     color: var(--accent-color) !important;
 }
 
-.btn-custom {
+#btn-custom {
     background-color: var(--accent-color);
     color: black !important;
     border: none;
     border-radius: 0.25rem !important;
 }
 
-.btn-custom:hover {
+#btn-custom:hover {
     color: black !important;
     background-color: #ecc94b;
 }
