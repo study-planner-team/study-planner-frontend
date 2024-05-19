@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../styles/HeaderStyles.css';
 
 const Header: React.FC = () => {
   return (

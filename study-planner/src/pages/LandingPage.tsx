@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FeatureCard from '../components/FeatureCard';
+import '../styles/LandingPageStyles.css';
 
 const LandingPage: React.FC = () => {
   return (
