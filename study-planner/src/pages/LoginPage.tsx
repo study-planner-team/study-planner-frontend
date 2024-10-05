@@ -1,32 +1,27 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import AuthService from '../services/AuthService';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useAuthContext } from '../context/useAuthContext';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState<string>('');
   const [errors, setErrors] = useState<string[]>([]);
-
-  const navigate = useNavigate();
+  const { loginUser } = useAuthContext();
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
-      const response = await AuthService.login({ username, password });
-      setMessage(response.data);
-      setErrors([]);
-      navigate('/');
-    } catch (error) {
+      await loginUser(username, password);
+      setErrors([]); // Clear errors on successful login
+    } catch (error: any) {
       if (Array.isArray(error)) {
         setErrors(error.map((err: any) => err.errorMessage));
       } else {
-        setErrors(["Login failed."]);
+        setErrors(["Login failed. Username/Password might be incorrect"]);
       }
     }
   }
@@ -51,8 +46,7 @@ const LoginPage: React.FC = () => {
               <Button variant="warning" type="submit" className="w-100 d-block mt-3">Login</Button>
               <Button variant="danger" type="button" className="w-100 d-block mt-3">Login with Google</Button>
             </Form>
-            
-            {message && <p className="text-success mt-3">{message}</p>}
+
             {errors.length > 0 && (
               <div className="mt-3 mb-5">
                 {errors.map((error, index) => (
