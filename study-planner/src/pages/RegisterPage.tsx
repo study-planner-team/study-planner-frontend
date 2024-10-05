@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import AuthService, { RegisterRequest } from '../services/AuthService'
+import AuthService from '../services/AuthService'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -20,12 +20,12 @@ const RegisterPage: React.FC = () => {
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     
-    const data: RegisterRequest = { username, password, email }
 
     try {
-      const response = await AuthService.register(data);
+      const response = await AuthService.register(username, password, email);
       setMessage(response.data);
       setErrors([]);
+      navigate('/');
     } catch (error) {
       if (Array.isArray(error)) {
         setErrors(error.map((err: any) => err.errorMessage));
