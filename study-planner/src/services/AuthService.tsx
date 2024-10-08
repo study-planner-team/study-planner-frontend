@@ -51,6 +51,29 @@ class AuthService {
     }
   }
   
+  async updateUser(userId: number, userData: any) {
+    try {
+      const response = await axiosInstance.put(`/api/users/${userId}`, userData);
+      return response.data; // Assuming your backend returns the updated user data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject(error);
+    }
+  }
+
+  async deleteUser(userId: number) {
+    try {
+      const response = await axiosInstance.delete(`/api/users/${userId}`);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject(error);
+    }
+  }
+
 }
 
 
