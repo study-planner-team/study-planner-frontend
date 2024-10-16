@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import { AuthProvider } from './context/useAuthContext';
 import ProtectedRoute from './utils/protectedRoute';
 import StudyPlanPage from './pages/StudyPlanPage';
+import AddStudyPlanPage from './pages/AddStudyPlanPage';
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={ <ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/studyplans" element={<ProtectedRoute><StudyPlanPage /></ProtectedRoute>} />
+          <Route path="/studyplans/new" element={<ProtectedRoute><AddStudyPlanPage /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </Router>
