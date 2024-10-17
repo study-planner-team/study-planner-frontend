@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import StudyTopicService from "../services/StudyTopicService";
+import AddTopicModal from "../components/AddTopicModal";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -24,10 +26,18 @@ interface StudyPlanOwner {
   isPublic: boolean;
 }
 
+interface StudyTopic {
+  topicId?: number;
+  title: string;
+  hours: number;
+}
+
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [studyPlan, setStudyPlan] = useState<StudyPlan | null>(null);
   const [key, setKey] = useState("details");
+  const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
+  const [topics, setTopics] = useState<StudyTopic[]>([]);
 
   useEffect(() => {
     const fetchStudyPlan = async () => {
@@ -39,11 +49,32 @@ const StudyPlanDetailsPage: React.FC = () => {
       }
     };
 
+    const fetchTopics = async () => {
+      try {
+        const topicsResponse = await StudyTopicService.getTopicsByPlanId(
+          Number(id)
+        );
+        setTopics(topicsResponse);
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+
     fetchStudyPlan();
+    fetchTopics();
   }, [id]);
 
   const formatDateShort = (dateString: any) => {
     return new Date(dateString).toLocaleDateString("pl-PL");
+  };
+
+  const handleAddTopic = async (newTopic: StudyTopic) => {
+    try {
+      const addedTopic = await StudyTopicService.addTopic(Number(id), newTopic);
+      setTopics([...topics, addedTopic]); // Update topics list
+    } catch (error) {
+      console.error("Error adding topic:", error);
+    }
   };
 
   return (
@@ -99,11 +130,22 @@ const StudyPlanDetailsPage: React.FC = () => {
                 <Button
                   variant="warning"
                   className="mb-3"
+                  onClick={() => setTopicModalShow(true)}
                 >
                   Dodaj zakres materiału
                 </Button>
                 <ul className="list-unstyled">
+                  {topics.length > 0 ? (
+                    topics.map((topic) => (
+                      <li key={topic.topicId} className="mb-3">
+                        <h6>
+                          {topic.title} - {topic.hours} godziny
+                        </h6>
+                      </li>
+                    ))
+                  ) : (
                     <p>Brak zakresu materiału.</p>
+                  )}
                 </ul>
               </Col>
             </Row>
@@ -115,7 +157,11 @@ const StudyPlanDetailsPage: React.FC = () => {
             Tab content for Profile
           </Tab>
         </Tabs>
-
+        <AddTopicModal
+          show={topicModalShow}
+          onHide={() => setTopicModalShow(false)}
+          onSubmit={handleAddTopic}
+        />
       </Container>
       <Footer />
     </>
