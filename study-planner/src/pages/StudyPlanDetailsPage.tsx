@@ -8,6 +8,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import StudyTopicService from "../services/StudyTopicService";
 import AddTopicModal from "../components/AddTopicModal";
+import GenerateScheduleModal from "../components/GenerateScheduleModal";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -32,12 +33,21 @@ interface StudyTopic {
   hours: number;
 }
 
+interface ScheduleFormData {
+  sessionsPerDay: number;
+  sessionLength: number;
+  studyStartTime: string;
+  studyEndTime: string;
+  preferredStudyDays: string[];
+}
+
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [studyPlan, setStudyPlan] = useState<StudyPlan | null>(null);
   const [key, setKey] = useState("details");
   const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
   const [topics, setTopics] = useState<StudyTopic[]>([]);
+  const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchStudyPlan = async () => {
@@ -71,11 +81,29 @@ const StudyPlanDetailsPage: React.FC = () => {
   const handleAddTopic = async (newTopic: StudyTopic) => {
     try {
       const addedTopic = await StudyTopicService.addTopic(Number(id), newTopic);
-      setTopics([...topics, addedTopic]); // Update topics list
+      setTopics([...topics, addedTopic]);
     } catch (error) {
       console.error("Error adding topic:", error);
     }
   };
+
+  const handleScheduleSubmit = async (formData: ScheduleFormData) => {
+    try {
+      const scheduleData = {
+        ...formData,
+        studyPlanId: studyPlan?.studyPlanId,
+        startDate: studyPlan?.startDate,
+        endDate: studyPlan?.endDate,
+        topics: topics
+      };
+
+      await StudyPlanService.generateSchedule(scheduleData);
+
+    } catch (error) {
+      console.error("Error generating schedule", error);
+    }
+  };
+
 
   return (
     <>
@@ -97,7 +125,8 @@ const StudyPlanDetailsPage: React.FC = () => {
           <Col className="text-end">
             <Button
               variant="warning"
-              >
+              onClick={() => setScheduleModalShow(true)}
+            >
               Generuj harmonogram
             </Button>
           </Col>
@@ -157,11 +186,19 @@ const StudyPlanDetailsPage: React.FC = () => {
             Tab content for Profile
           </Tab>
         </Tabs>
+        
         <AddTopicModal
           show={topicModalShow}
           onHide={() => setTopicModalShow(false)}
           onSubmit={handleAddTopic}
         />
+
+        <GenerateScheduleModal
+          show={scheduleModalShow}
+          onHide={() => setScheduleModalShow(false)}
+          onSubmit={handleScheduleSubmit}
+        />
+
       </Container>
       <Footer />
     </>
