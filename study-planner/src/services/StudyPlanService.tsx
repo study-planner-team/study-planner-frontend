@@ -76,6 +76,16 @@ class StudyPlanService {
       throw error;
     }
   }
+
+  async generateSchedule(scheduleData: any) {
+    try {
+      const response = await axiosInstance.post("/api/schedules/generate", scheduleData);
+      return response.data;
+    } catch (error) {
+      console.error("Error generating schedule:", error);
+      throw error;
+    }
+  }
   
 }
 export default new StudyPlanService();
