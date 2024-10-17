@@ -46,5 +46,36 @@ class StudyPlanService {
       throw error;
     }
   }
+
+  async archiveStudyPlan(planId: number) {
+    try {
+      const response = await axiosInstance.put(`/api/studyplans/${planId}/archive`);
+      return response.data;
+    } catch (error) {
+      console.error("Error archiving study plan:", error);
+      throw error;
+    }
+  }
+
+  async getArchivedStudyPlans() {
+    try {
+      const response = await axiosInstance.get("/api/studyplans/archived");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching archived study plans:", error);
+      throw error;
+    }
+  }
+
+  async unarchiveStudyPlan(planId: number) {
+    try {
+      const response = await axiosInstance.put(`/api/studyplans/${planId}/unarchive`);
+      return response.data;
+    } catch (error) {
+      console.error("Error unarchiving study plan:", error);
+      throw error;
+    }
+  }
+  
 }
 export default new StudyPlanService();

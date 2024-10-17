@@ -9,10 +9,12 @@ import StudyPlanService from "../services/StudyPlanService";
 
 const StudyPlanPage: React.FC = () => {
   const [studyPlans, setStudyPlans] = useState<any[]>([]);
+  const [archivedPlans, setArchivedPlans] = useState<any[]>([]);
   const [key, setKey] = useState("active");
 
   useEffect(() => {
     fetchStudyPlans();
+    fetchArchivedPlans();
   }, []);
 
   const fetchStudyPlans = async () => {
@@ -24,6 +26,35 @@ const StudyPlanPage: React.FC = () => {
     }
   };
 
+  const fetchArchivedPlans = async () => {
+    try {
+      const response = await StudyPlanService.getArchivedStudyPlans();
+      setArchivedPlans(response);
+    } catch (error) {
+      console.error("Error fetching archived study plans:", error);
+    }
+  };
+
+  const handleArchive = async (planId: number) => {
+    try {
+      await StudyPlanService.archiveStudyPlan(planId);
+      fetchStudyPlans();  
+      fetchArchivedPlans();
+    } catch (error) {
+      console.error("Error archiving study plan:", error);
+    }
+  };
+
+  const handleUnarchive = async (planId: number) => {
+    try {
+      await StudyPlanService.unarchiveStudyPlan(planId);
+      fetchStudyPlans();   
+      fetchArchivedPlans();
+    } catch (error) {
+      console.error("Error unarchiving study plan:", error);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -34,6 +65,7 @@ const StudyPlanPage: React.FC = () => {
             <Button variant="warning">Dodaj nowy plan</Button>
           </Link>
         </Row>
+
         <Tabs
           id="controlled-tab-example"
           activeKey={key}
@@ -55,7 +87,12 @@ const StudyPlanPage: React.FC = () => {
                         >
                           <Button variant="warning">Szczegóły</Button>
                         </Link>
-                        <Button variant="danger">Archiwizuj</Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleArchive(plan?.studyPlanId)}
+                        >
+                          Archiwizuj
+                        </Button>
                       </Card.Body>
                     </Card>
                   </Col>
@@ -67,7 +104,26 @@ const StudyPlanPage: React.FC = () => {
           </Tab>
           <Tab eventKey="archived" title="Archiwizowane">
             <Row>
-              <p>Brak planów nauki</p>
+              {archivedPlans.length > 0 ? (
+                archivedPlans.map((plan) => (
+                  <Col key={plan.studyPlanId}>
+                    <Card>
+                      <Card.Body>
+                        <Card.Title>{plan.title}</Card.Title>
+                        <Card.Text>{plan.description}</Card.Text>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleUnarchive(plan.studyPlanId)}
+                        >
+                          Przywróć plan
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              ) : (
+                <p>Brak planów nauki</p>
+              )}
             </Row>
           </Tab>
         </Tabs>
