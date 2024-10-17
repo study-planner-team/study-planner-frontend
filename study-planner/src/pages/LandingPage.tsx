@@ -16,7 +16,7 @@ const LandingPage: React.FC = () => {
           </Col>
           <Col md={6} className="d-flex flex-column justify-content-center align-items-center text-center">
             <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel posuere neque eget porttitor.</h2>
-            <Button variant="warning" className="mt-3">Przycisk</Button>
+            <Button variant="warning" className="mt-3">View more</Button>
           </Col>
         </Row>
         <Row className="mt-4" id="braker-row">

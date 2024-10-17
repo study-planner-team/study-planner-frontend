@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import StudyPlanService from "../services/StudyPlanService";
+import "../styles/StudyPlanStyles.css";
 
 const StudyPlanPage: React.FC = () => {
   const [studyPlans, setStudyPlans] = useState<any[]>([]);
@@ -70,20 +71,20 @@ const StudyPlanPage: React.FC = () => {
           id="controlled-tab-example"
           activeKey={key}
           onSelect={(k) => k !== null && setKey(k)}
-          className="mb-3 border-warning"
+          className="mb-3 border-warning custom-tabs"
         >
           <Tab eventKey="active" title="Aktywne">
             <Row>
               {studyPlans.length > 0 ? (
                 studyPlans.map((plan) => (
                   <Col md={3} key={plan.studyPlanId} className="mb-4">
-                    <Card style={{ width: "18rem" }}>
+                    <Card className="custom-bg">
                       <Card.Body>
                         <Card.Title>{plan.title}</Card.Title>
-                        <Card.Text>Postęp: {plan.progress}%</Card.Text>
+                        <Card.Text>Postęp: {plan.progress}0%</Card.Text>
                         <Link
                           to={`/studyplans/${plan.studyPlanId}`}
-                          className="text-center"
+                          className="text-center custom-margin"
                         >
                           <Button variant="warning">Szczegóły</Button>
                         </Link>
@@ -106,13 +107,13 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {archivedPlans.length > 0 ? (
                 archivedPlans.map((plan) => (
-                  <Col key={plan.studyPlanId}>
-                    <Card>
+                  <Col md={3} key={plan.studyPlanId} className="mb-4">
+                    <Card className="custom-bg">
                       <Card.Body>
                         <Card.Title>{plan.title}</Card.Title>
                         <Card.Text>{plan.description}</Card.Text>
                         <Button
-                          variant="primary"
+                          variant="warning"
                           onClick={() => handleUnarchive(plan.studyPlanId)}
                         >
                           Przywróć plan

@@ -9,6 +9,7 @@ import Tabs from "react-bootstrap/Tabs";
 import StudyTopicService from "../services/StudyTopicService";
 import AddTopicModal from "../components/AddTopicModal";
 import GenerateScheduleModal from "../components/GenerateScheduleModal";
+import "../styles/StudyPlanDetailsStyles.css";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -136,7 +137,7 @@ const StudyPlanDetailsPage: React.FC = () => {
           id="controlled-tab-example"
           activeKey={key}
           onSelect={(k) => k !== null && setKey(k)}
-          className="mb-3 border-warning"
+          className="mb-3 border-warning custom-tabs"
         >
           <Tab eventKey="details" title="Szczegóły">
             <Row>
@@ -180,10 +181,10 @@ const StudyPlanDetailsPage: React.FC = () => {
             </Row>
           </Tab>
           <Tab eventKey="members" title="Członkowie planu">
-            Tab content for Profile
+            Brak innych członków planu
           </Tab>
           <Tab eventKey="quizes" title="Quizy">
-            Tab content for Profile
+            Brak przypisanych quizów
           </Tab>
         </Tabs>
         

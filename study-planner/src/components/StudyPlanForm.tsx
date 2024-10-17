@@ -52,7 +52,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
   return (
     <Container className="my-5">
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={6} className="bg-light p-4 rounded">
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="title">
               <Form.Label>Nazwa planu</Form.Label>
