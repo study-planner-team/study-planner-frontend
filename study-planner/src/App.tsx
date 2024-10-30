@@ -10,6 +10,7 @@ import StudyPlanPage from './pages/StudyPlanPage';
 import AddStudyPlanPage from './pages/AddStudyPlanPage';
 import StudyPlanDetailsPage from './pages/StudyPlanDetailsPage';
 import EditStudyPlanPage from './pages/EditStudyPlanPage';
+import SchedulePage from './pages/SchedulePage';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             <Route path="/studyplans/new" element={<ProtectedRoute><AddStudyPlanPage /></ProtectedRoute>} />
             <Route path="/studyplans/:id" element={<ProtectedRoute><StudyPlanDetailsPage /></ProtectedRoute>} />
             <Route path="/studyplans/edit/:id" element={<ProtectedRoute><EditStudyPlanPage /></ProtectedRoute>} />
+            <Route path="/schedules" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
           </Routes>
         </AuthProvider>
       </Router>
