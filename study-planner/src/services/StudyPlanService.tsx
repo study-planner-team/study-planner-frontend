@@ -97,6 +97,26 @@ class StudyPlanService {
     }
   }
 
+  async leaveStudyPlan(planId: number) {
+    try {
+      const response = await axiosInstance.post(`/api/studyplans/${planId}/leave`);
+      return response.data;
+    } catch (error) {
+      console.error("Error leaving study plan:", error);
+      throw error;
+    }
+  }
+
+  async getJoinedPlans() {
+    try {
+      const response = await axiosInstance.get("/api/studyplans/joined");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching study plans", error);
+      throw error;
+    }
+  }
+
   async generateSchedule(scheduleData: any) {
     try {
       const response = await axiosInstance.post("/api/schedules/generate", scheduleData);
