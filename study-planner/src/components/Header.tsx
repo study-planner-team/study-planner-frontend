@@ -26,6 +26,9 @@ const Header: React.FC = () => {
             <Nav.Link as={Link} to="/studyplans">
               Plany nauki
             </Nav.Link>
+            <Nav.Link as={Link} to="/publicstudyplans">
+              Publiczne Plany nauki
+            </Nav.Link>
           </Nav>
         )}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

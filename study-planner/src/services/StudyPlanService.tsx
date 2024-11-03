@@ -77,6 +77,16 @@ class StudyPlanService {
     }
   }
 
+  async getPublicPlans() {
+    try {
+      const response = await axiosInstance.get("/api/studyplans/public");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching study plans", error);
+      throw error;
+    }
+  }
+
   async generateSchedule(scheduleData: any) {
     try {
       const response = await axiosInstance.post("/api/schedules/generate", scheduleData);

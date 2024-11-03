@@ -11,6 +11,7 @@ import AddStudyPlanPage from './pages/AddStudyPlanPage';
 import StudyPlanDetailsPage from './pages/StudyPlanDetailsPage';
 import EditStudyPlanPage from './pages/EditStudyPlanPage';
 import SchedulePage from './pages/SchedulePage';
+import PublicPlanPage from './pages/PublicPlanPage';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
             <Route path="/studyplans/:id" element={<ProtectedRoute><StudyPlanDetailsPage /></ProtectedRoute>} />
             <Route path="/studyplans/edit/:id" element={<ProtectedRoute><EditStudyPlanPage /></ProtectedRoute>} />
             <Route path="/schedules" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
+            <Route path="/publicstudyplans" element={<ProtectedRoute><PublicPlanPage /></ProtectedRoute>} />
           </Routes>
         </AuthProvider>
       </Router>
