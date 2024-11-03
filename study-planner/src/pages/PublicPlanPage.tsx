@@ -5,9 +5,11 @@ import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import StudyPlanService from "../services/StudyPlanService";
 import "../styles/StudyPlanStyles.css";
+import { useAuthContext } from "../context/useAuthContext";
 
 const PublicPlanPage: React.FC = () => {
   const [publicPlans, setPublicPlans] = useState<any[]>([]);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     fetchPublicPlans();
@@ -19,6 +21,15 @@ const PublicPlanPage: React.FC = () => {
       setPublicPlans(data);
     } catch (error) {
       console.error("Couldn't fetch public study plans", error);
+    }
+  };
+
+  const handleJoin = async (planId: number) => {
+    try {
+      await StudyPlanService.joinStudyPlan(planId);
+      fetchPublicPlans();
+    } catch (error) {
+      console.error("Couldn't join study plan:", error);
     }
   };
 
@@ -48,7 +59,7 @@ const PublicPlanPage: React.FC = () => {
                     </Link>
                     <Button
                       variant="danger"
-                      //onClick={() => handleJoin(plan?.studyPlanId)}
+                      onClick={() => handleJoin(plan?.studyPlanId)}
                     >
                       Dołącz
                     </Button>

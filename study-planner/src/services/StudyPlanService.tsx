@@ -87,6 +87,16 @@ class StudyPlanService {
     }
   }
 
+  async joinStudyPlan(planId: number) {
+    try {
+      const response = await axiosInstance.post(`/api/studyplans/${planId}/join`);
+      return response.data;
+    } catch (error) {
+      console.error("Error joining study plan:", error);
+      throw error;
+    }
+  }
+
   async generateSchedule(scheduleData: any) {
     try {
       const response = await axiosInstance.post("/api/schedules/generate", scheduleData);
