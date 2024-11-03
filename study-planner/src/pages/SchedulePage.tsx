@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ScheduleService from "../services/ScheduleService";
+import ScheduleBlock from "../components/ScheduleBlock";
 
 const SchedulePage: React.FC = () => {
   const [schedules, setSchedules] = useState<any[]>([]);
@@ -27,12 +28,11 @@ const SchedulePage: React.FC = () => {
         <h2 className="text-center">Harmonogramy</h2>
             <Row>
               {schedules.length > 0 ? (
-                schedules.map((schedule) => (
-                  <Col md={3} key={schedule.scheduleId} className="mb-4">
+                schedules.map((schedule, index) => (
+                  <Col md={4} key={index} className="mb-4">
                     <Card className="custom-bg">
                       <Card.Body>
-                        <Card.Title>{schedule.title}</Card.Title>
-                        <Card.Text>Zawartość Harmonogramu</Card.Text>
+                      <ScheduleBlock data={schedule} />
                       </Card.Body>
                     </Card>
                   </Col>
