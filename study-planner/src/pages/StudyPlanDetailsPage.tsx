@@ -10,6 +10,7 @@ import StudyTopicService from "../services/StudyTopicService";
 import AddTopicModal from "../components/AddTopicModal";
 import GenerateScheduleModal from "../components/GenerateScheduleModal";
 import "../styles/StudyPlanDetailsStyles.css";
+import { useAuthContext } from "../context/useAuthContext";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -44,36 +45,50 @@ interface ScheduleFormData {
 
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [studyPlan, setStudyPlan] = useState<StudyPlan | null>(null);
+  const [studyPlan, setStudyPlan] = useState<StudyPlan>();
   const [key, setKey] = useState("details");
   const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
   const [topics, setTopics] = useState<StudyTopic[]>([]);
   const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
+  const [members, setMembers] = useState<any[]>([]);
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    const fetchStudyPlan = async () => {
-      try {
-        const response = await StudyPlanService.getStudyPlanById(Number(id));
-        setStudyPlan(response);
-      } catch (error) {
-        console.error("Error fetching study plan:", error);
-      }
-    };
-
-    const fetchTopics = async () => {
-      try {
-        const topicsResponse = await StudyTopicService.getTopicsByPlanId(
-          Number(id)
-        );
-        setTopics(topicsResponse);
-      } catch (error) {
-        console.error("Error fetching topics:", error);
-      }
-    };
-
     fetchStudyPlan();
     fetchTopics();
+    fetchPlanMembers();
   }, [id]);
+
+  const fetchStudyPlan = async () => {
+    try {
+      const response = await StudyPlanService.getStudyPlanById(Number(id));
+      setStudyPlan(response);
+    } catch (error) {
+      console.error("Error fetching study plan:", error);
+    }
+  };
+
+  const fetchTopics = async () => {
+    try {
+      const topicsResponse = await StudyTopicService.getTopicsByPlanId(
+        Number(id)
+      );
+      setTopics(topicsResponse);
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+    }
+  };
+
+  const fetchPlanMembers = async () => {
+    try {
+      const membersResponse = await StudyPlanService.getMembersByPlanId(
+        Number(id)
+      );
+      setMembers(membersResponse);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
+  };
 
   const formatDateShort = (dateString: any) => {
     return new Date(dateString).toLocaleDateString("pl-PL");
@@ -88,6 +103,14 @@ const StudyPlanDetailsPage: React.FC = () => {
     }
   };
 
+  const handleOwnerChange = async (studyPlanId: number, userId: number) => {
+    try {
+      await StudyPlanService.changePlanOwner(studyPlanId, userId);
+    } catch (error) {
+      console.error("Error changing owner:", error);
+    }
+  };
+
   const handleScheduleSubmit = async (formData: ScheduleFormData) => {
     try {
       const scheduleData = {
@@ -95,16 +118,14 @@ const StudyPlanDetailsPage: React.FC = () => {
         studyPlanId: studyPlan?.studyPlanId,
         startDate: studyPlan?.startDate,
         endDate: studyPlan?.endDate,
-        topics: topics
+        topics: topics,
       };
 
       await StudyPlanService.generateSchedule(scheduleData);
-
     } catch (error) {
       console.error("Error generating schedule", error);
     }
   };
-
 
   return (
     <>
@@ -181,13 +202,31 @@ const StudyPlanDetailsPage: React.FC = () => {
             </Row>
           </Tab>
           <Tab eventKey="members" title="Członkowie planu">
-            Brak innych członków planu
+            <ul className="list-unstyled">
+              {members.length > 0 ? (
+                members.map((member) => (
+                  <li key={member.userId} className="mb-3">
+                    {member.username}
+                    {user?.id == studyPlan?.owner.userId &&
+                    <Button
+                      variant="danger"
+                      onClick={() => handleOwnerChange(Number(id), member.userId)}
+                    >
+                      Zmień lidera
+                    </Button>
+                    }
+                  </li>
+                ))
+              ) : (
+                <p>Brak innych członków planu.</p>
+              )}
+            </ul>
           </Tab>
           <Tab eventKey="quizes" title="Quizy">
             Brak przypisanych quizów
           </Tab>
         </Tabs>
-        
+
         <AddTopicModal
           show={topicModalShow}
           onHide={() => setTopicModalShow(false)}
@@ -199,7 +238,6 @@ const StudyPlanDetailsPage: React.FC = () => {
           onHide={() => setScheduleModalShow(false)}
           onSubmit={handleScheduleSubmit}
         />
-
       </Container>
       <Footer />
     </>

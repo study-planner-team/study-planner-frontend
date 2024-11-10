@@ -117,6 +117,29 @@ class StudyPlanService {
     }
   }
 
+  async getMembersByPlanId(studyPlanId: number) {
+    try {
+      const response = await axiosInstance.get(`/api/studyplans/${studyPlanId}/members`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching members:", error);
+      throw error;
+    }
+  }
+
+  async changePlanOwner(studyPlanId: number, newOwnerId: number) {
+    try {
+      const response = await axiosInstance.post(`/api/studyplans/${studyPlanId}/change-owner`, newOwnerId, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error("Error changing owner:", error);
+      throw error;
+    }
+  }
+
   async generateSchedule(scheduleData: any) {
     try {
       const response = await axiosInstance.post("/api/schedules/generate", scheduleData);
