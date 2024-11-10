@@ -1,6 +1,8 @@
 import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance'
 
+
+
 class AuthService {
   async register(username: string, password: string, email: string) {
     try {
@@ -74,6 +76,21 @@ class AuthService {
     }
   }
 
+  async exchangeGoogleCode(authorizationCode: string) {
+    try {
+      const response = await axiosInstance.post("/api/users/exchange-google-code", authorizationCode,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 }
 
 

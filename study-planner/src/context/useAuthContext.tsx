@@ -18,6 +18,7 @@ type AuthContextType = {
   deleteUser: (userId: number) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
+  loginWithGoogle: (jwtToken: string) => void;
 };
 
 type Props = { children: React.ReactNode };
@@ -37,6 +38,19 @@ export const AuthProvider = ({ children }: Props) => {
     }
     setIsReady(true);
   }, []);
+
+  const loginWithGoogle = async (jwtToken: string) => {
+    try {
+      // Send the JWT token to your backend for verification
+      const user = await AuthService.exchangeGoogleCode(jwtToken);
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+      navigate("/");
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  };
 
   const registerUser = async (
     username: string,
@@ -116,7 +130,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ loginUser, user, logout, isLoggedIn, registerUser, updateUser, deleteUser }}
+      value={{ loginUser, user, logout, isLoggedIn, registerUser, updateUser, deleteUser, loginWithGoogle }}
     >
       {isReady ? children : null}
     </AuthContext.Provider>
