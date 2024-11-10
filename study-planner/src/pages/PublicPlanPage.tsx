@@ -9,7 +9,9 @@ import { useAuthContext } from "../context/useAuthContext";
 
 const PublicPlanPage: React.FC = () => {
   const [publicPlans, setPublicPlans] = useState<any[]>([]);
+  const [filteredPlans, setFilteredPlans] = useState<any[]>([]);
   const { user } = useAuthContext();
+  const inputElement = document.getElementById("plan-search") as HTMLInputElement | null;
 
   useEffect(() => {
     fetchPublicPlans();
@@ -19,6 +21,7 @@ const PublicPlanPage: React.FC = () => {
     try {
       const data = await StudyPlanService.getPublicPlans();
       setPublicPlans(data);
+      setFilteredPlans(data);
     } catch (error) {
       console.error("Couldn't fetch public study plans", error);
     }
@@ -33,6 +36,16 @@ const PublicPlanPage: React.FC = () => {
     }
   };
 
+  function handleFilter(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const filterTemp = publicPlans.filter(e => e.title.toLowerCase().includes(inputElement.value.toLowerCase()));
+    setFilteredPlans(filterTemp);
+  }
+
+  if (inputElement) {
+    inputElement.addEventListener("input", handleFilter);
+  }
+
   return (
     <>
       <Header />
@@ -44,8 +57,8 @@ const PublicPlanPage: React.FC = () => {
           <input type="text" id="plan-search" />
         </div>
         <Row>
-          {publicPlans.length > 0 ? (
-            publicPlans.map((plan, index) => (
+          {filteredPlans.length > 0 ? (
+            filteredPlans.map((plan, index) => (
               <Col md={4} key={index} className="mb-4">
                 <Card className="custom-bg">
                   <Card.Body>
