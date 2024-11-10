@@ -11,6 +11,7 @@ import AddTopicModal from "../components/AddTopicModal";
 import GenerateScheduleModal from "../components/GenerateScheduleModal";
 import "../styles/StudyPlanDetailsStyles.css";
 import { useAuthContext } from "../context/useAuthContext";
+import StudyTopic from "../components/StudyTopic";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -74,6 +75,7 @@ const StudyPlanDetailsPage: React.FC = () => {
         Number(id)
       );
       setTopics(topicsResponse);
+      console.log(topicsResponse);
     } catch (error) {
       console.error("Error fetching topics:", error);
     }
@@ -188,11 +190,7 @@ const StudyPlanDetailsPage: React.FC = () => {
                 <ul className="list-unstyled">
                   {topics.length > 0 ? (
                     topics.map((topic) => (
-                      <li key={topic.topicId} className="mb-3">
-                        <h6>
-                          {topic.title} - {topic.hours} godziny
-                        </h6>
-                      </li>
+                      <StudyTopic data={topic}/>
                     ))
                   ) : (
                     <p>Brak zakresu materiału.</p>
