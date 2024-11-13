@@ -6,11 +6,9 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import StudyTopicService from "../services/StudyTopicService";
-import AddTopicModal from "../components/AddTopicModal";
-import GenerateScheduleModal from "../components/GenerateScheduleModal";
 import "../styles/StudyPlanDetailsStyles.css";
 import { useAuthContext } from "../context/useAuthContext";
+import StudyTopicBlock from "../components/StudyTopicBlock";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -29,12 +27,6 @@ interface StudyPlanOwner {
   isPublic: boolean;
 }
 
-interface StudyTopic {
-  topicId?: number;
-  title: string;
-  hours: number;
-}
-
 interface ScheduleFormData {
   sessionsPerDay: number;
   sessionLength: number;
@@ -47,15 +39,12 @@ const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [studyPlan, setStudyPlan] = useState<StudyPlan>();
   const [key, setKey] = useState("details");
-  const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
-  const [topics, setTopics] = useState<StudyTopic[]>([]);
   const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
   const [members, setMembers] = useState<any[]>([]);
   const { user } = useAuthContext();
 
   useEffect(() => {
     fetchStudyPlan();
-    fetchTopics();
     fetchPlanMembers();
   }, [id]);
 
@@ -65,17 +54,6 @@ const StudyPlanDetailsPage: React.FC = () => {
       setStudyPlan(response);
     } catch (error) {
       console.error("Error fetching study plan:", error);
-    }
-  };
-
-  const fetchTopics = async () => {
-    try {
-      const topicsResponse = await StudyTopicService.getTopicsByPlanId(
-        Number(id)
-      );
-      setTopics(topicsResponse);
-    } catch (error) {
-      console.error("Error fetching topics:", error);
     }
   };
 
@@ -94,15 +72,6 @@ const StudyPlanDetailsPage: React.FC = () => {
     return new Date(dateString).toLocaleDateString("pl-PL");
   };
 
-  const handleAddTopic = async (newTopic: StudyTopic) => {
-    try {
-      const addedTopic = await StudyTopicService.addTopic(Number(id), newTopic);
-      setTopics([...topics, addedTopic]);
-    } catch (error) {
-      console.error("Error adding topic:", error);
-    }
-  };
-
   const handleOwnerChange = async (studyPlanId: number, userId: number) => {
     try {
       await StudyPlanService.changePlanOwner(studyPlanId, userId);
@@ -111,21 +80,21 @@ const StudyPlanDetailsPage: React.FC = () => {
     }
   };
 
-  const handleScheduleSubmit = async (formData: ScheduleFormData) => {
-    try {
-      const scheduleData = {
-        ...formData,
-        studyPlanId: studyPlan?.studyPlanId,
-        startDate: studyPlan?.startDate,
-        endDate: studyPlan?.endDate,
-        topics: topics,
-      };
+  // const handleScheduleSubmit = async (formData: ScheduleFormData) => {
+  //   try {
+  //     const scheduleData = {
+  //       ...formData,
+  //       studyPlanId: studyPlan?.studyPlanId,
+  //       startDate: studyPlan?.startDate,
+  //       endDate: studyPlan?.endDate,
+  //       topics: topics,
+  //     };
 
-      await StudyPlanService.generateSchedule(scheduleData);
-    } catch (error) {
-      console.error("Error generating schedule", error);
-    }
-  };
+  //     await StudyPlanService.generateSchedule(scheduleData);
+  //   } catch (error) {
+  //     console.error("Error generating schedule", error);
+  //   }
+  // };
 
   return (
     <>
@@ -177,27 +146,7 @@ const StudyPlanDetailsPage: React.FC = () => {
               </Col>
 
               <Col md={6} className="ps-4">
-                <h5>Zakres materiału:</h5>
-                <Button
-                  variant="warning"
-                  className="mb-3"
-                  onClick={() => setTopicModalShow(true)}
-                >
-                  Dodaj zakres materiału
-                </Button>
-                <ul className="list-unstyled">
-                  {topics.length > 0 ? (
-                    topics.map((topic) => (
-                      <li key={topic.topicId} className="mb-3">
-                        <h6>
-                          {topic.title} - {topic.hours} godziny
-                        </h6>
-                      </li>
-                    ))
-                  ) : (
-                    <p>Brak zakresu materiału.</p>
-                  )}
-                </ul>
+                <StudyTopicBlock studyPlanId={Number(id)}/>
               </Col>
             </Row>
           </Tab>
@@ -227,17 +176,11 @@ const StudyPlanDetailsPage: React.FC = () => {
           </Tab>
         </Tabs>
 
-        <AddTopicModal
-          show={topicModalShow}
-          onHide={() => setTopicModalShow(false)}
-          onSubmit={handleAddTopic}
-        />
-
-        <GenerateScheduleModal
+        {/* <GenerateScheduleModal
           show={scheduleModalShow}
           onHide={() => setScheduleModalShow(false)}
           onSubmit={handleScheduleSubmit}
-        />
+        /> */}
       </Container>
       <Footer />
     </>

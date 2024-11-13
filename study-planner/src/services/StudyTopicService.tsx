@@ -11,9 +11,29 @@ class StudyTopicService {
     }
   }
 
+  async getMaterialsByTopicId(studyTopicId: number) {
+    try {
+      const response = await axiosInstance.get(`/api/topics/${studyTopicId}/materials`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching study materials:", error);
+      throw error;
+    }
+  }
+
   async addTopic(studyPlanId: number, topicData: { title: string; hours: number}) {
     try {
       const response = await axiosInstance.post(`/api/studyplans/${studyPlanId}/topics`, topicData);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding topic:", error);
+      throw error;
+    }
+  }
+
+  async addMaterial(studyTopicId: number, materialData: { title: string; link: string}) {
+    try {
+      const response = await axiosInstance.post(`/api/topics/${studyTopicId}/materials`, materialData);
       return response.data;
     } catch (error) {
       console.error("Error adding topic:", error);
