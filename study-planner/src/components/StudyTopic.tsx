@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudyMaterialsList from './StudyMaterialsList';
 import StudyTopicService from '../services/StudyTopicService';
 import AddMaterialModal from './AddMaterialModal';
@@ -8,7 +8,6 @@ interface Topic {
   topicId?: number;
   title: string;
   hours: number;
-  studyMaterials?: StudyMaterials[];
 }
 
 interface StudyMaterials {
@@ -21,21 +20,41 @@ interface TopicProps {
   data: Topic;
 }
 
-const handleAddMaterial = async (topicId: number, newMaterial: StudyMaterials) => {
+
+
+const StudyTopic: React.FC<TopicProps> = ({ data }) => {
+  const [materialModalShow, setMaterialModalShow] = useState<boolean>(false);
+  const [materials, setMaterials] = useState<StudyMaterials[]>([]);
+
+  useEffect(() => {
+    fetchMaterials();
+  }, []);
+
+  const fetchMaterials = async () => {
     try {
-      const addedTopic = await StudyTopicService.addMaterial(topicId, newMaterial);
+      const materialsResponse = await StudyTopicService.getMaterialsByTopicId(
+        Number(data.topicId)
+      );
+      setMaterials(materialsResponse);
+    } catch (error) {
+      console.error("Error fetching materials:", error);
+    }
+  };
+
+  const handleAddMaterial = async (topicId: number, newMaterial: StudyMaterials) => {
+    try {
+      const addedMaterial = await StudyTopicService.addMaterial(topicId, newMaterial);
+      setMaterials([...materials, addedMaterial]);
     } catch (error) {
       console.error("Error adding topic:", error);
     }
   };
 
-const StudyTopic: React.FC<TopicProps> = ({ data }) => {
-  const [materialModalShow, setMaterialModalShow] = useState<boolean>(false);
   return (
     <>
       <div>
       <h2><strong>{data.title}</strong> - {data.hours.toString()} hours</h2>
-        <StudyMaterialsList data={data.studyMaterials}/>
+        <StudyMaterialsList data={materials}/>
         <Button
                   variant="warning"
                   className="mb-3"
@@ -43,7 +62,6 @@ const StudyTopic: React.FC<TopicProps> = ({ data }) => {
                 >
                   Dodaj
         </Button>
-      <p className='fw-bold'>AJO</p>
     </div>
 
     <AddMaterialModal

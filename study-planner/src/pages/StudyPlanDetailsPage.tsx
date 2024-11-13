@@ -6,12 +6,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import StudyTopicService from "../services/StudyTopicService";
-import AddTopicModal from "../components/AddTopicModal";
-import GenerateScheduleModal from "../components/GenerateScheduleModal";
 import "../styles/StudyPlanDetailsStyles.css";
 import { useAuthContext } from "../context/useAuthContext";
-import StudyTopic from "../components/StudyTopic";
 import StudyTopicBlock from "../components/StudyTopicBlock";
 
 interface StudyPlan {
@@ -31,12 +27,6 @@ interface StudyPlanOwner {
   isPublic: boolean;
 }
 
-interface StudyTopic {
-  topicId?: number;
-  title: string;
-  hours: number;
-}
-
 interface ScheduleFormData {
   sessionsPerDay: number;
   sessionLength: number;
@@ -49,8 +39,6 @@ const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [studyPlan, setStudyPlan] = useState<StudyPlan>();
   const [key, setKey] = useState("details");
-  const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
-  const [topics, setTopics] = useState<StudyTopic[]>([]);
   const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
   const [members, setMembers] = useState<any[]>([]);
   const { user } = useAuthContext();
@@ -69,8 +57,6 @@ const StudyPlanDetailsPage: React.FC = () => {
     }
   };
 
-  
-
   const fetchPlanMembers = async () => {
     try {
       const membersResponse = await StudyPlanService.getMembersByPlanId(
@@ -86,15 +72,6 @@ const StudyPlanDetailsPage: React.FC = () => {
     return new Date(dateString).toLocaleDateString("pl-PL");
   };
 
-  const handleAddTopic = async (newTopic: StudyTopic) => {
-    try {
-      const addedTopic = await StudyTopicService.addTopic(Number(id), newTopic);
-      setTopics([...topics, addedTopic]);
-    } catch (error) {
-      console.error("Error adding topic:", error);
-    }
-  };
-
   const handleOwnerChange = async (studyPlanId: number, userId: number) => {
     try {
       await StudyPlanService.changePlanOwner(studyPlanId, userId);
@@ -103,21 +80,21 @@ const StudyPlanDetailsPage: React.FC = () => {
     }
   };
 
-  const handleScheduleSubmit = async (formData: ScheduleFormData) => {
-    try {
-      const scheduleData = {
-        ...formData,
-        studyPlanId: studyPlan?.studyPlanId,
-        startDate: studyPlan?.startDate,
-        endDate: studyPlan?.endDate,
-        topics: topics,
-      };
+  // const handleScheduleSubmit = async (formData: ScheduleFormData) => {
+  //   try {
+  //     const scheduleData = {
+  //       ...formData,
+  //       studyPlanId: studyPlan?.studyPlanId,
+  //       startDate: studyPlan?.startDate,
+  //       endDate: studyPlan?.endDate,
+  //       topics: topics,
+  //     };
 
-      await StudyPlanService.generateSchedule(scheduleData);
-    } catch (error) {
-      console.error("Error generating schedule", error);
-    }
-  };
+  //     await StudyPlanService.generateSchedule(scheduleData);
+  //   } catch (error) {
+  //     console.error("Error generating schedule", error);
+  //   }
+  // };
 
   return (
     <>
@@ -199,17 +176,11 @@ const StudyPlanDetailsPage: React.FC = () => {
           </Tab>
         </Tabs>
 
-        <AddTopicModal
-          show={topicModalShow}
-          onHide={() => setTopicModalShow(false)}
-          onSubmit={handleAddTopic}
-        />
-
-        <GenerateScheduleModal
+        {/* <GenerateScheduleModal
           show={scheduleModalShow}
           onHide={() => setScheduleModalShow(false)}
           onSubmit={handleScheduleSubmit}
-        />
+        /> */}
       </Container>
       <Footer />
     </>

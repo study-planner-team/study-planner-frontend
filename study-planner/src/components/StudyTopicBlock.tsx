@@ -2,18 +2,12 @@ import React, { useEffect, useState } from "react";
 import StudyTopicService from "../services/StudyTopicService";
 import StudyTopic from "./StudyTopic";
 import { Button } from "react-bootstrap";
+import AddTopicModal from "./AddTopicModal";
 
 interface Topic {
   topicId?: number;
   title: string;
   hours: number;
-  studyMaterials?: StudyMaterials[];
-}
-
-interface StudyMaterials {
-  studyMaterialId?: number;
-  title: string;
-  link: string;
 }
 
 interface TopicProps {
@@ -22,6 +16,7 @@ interface TopicProps {
 
 const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
+  const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
 
   useEffect(() => {
     fetchTopics();
@@ -38,13 +33,22 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
     }
   };
 
+  const handleAddTopic = async (newTopic: Topic) => {
+    try {
+      const addedTopic = await StudyTopicService.addTopic(Number(studyPlanId), newTopic);
+      setTopics([...topics, addedTopic]);
+    } catch (error) {
+      console.error("Error adding topic:", error);
+    }
+  };
+
   return (
     <>
       <h5>Zakres materiału:</h5>
       <Button
         variant="warning"
         className="mb-3"
-        //onClick={() => setTopicModalShow(true)}
+        onClick={() => setTopicModalShow(true)}
       >
         Dodaj zakres materiału
       </Button>
@@ -55,6 +59,13 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
           <p>Brak zakresu materiału.</p>
         )}
       </ul>
+
+      <AddTopicModal
+          show={topicModalShow}
+          onHide={() => setTopicModalShow(false)}
+          onSubmit={handleAddTopic}
+        />
+
     </>
   );
 };
