@@ -20,6 +20,16 @@ class StudyTopicService {
       throw error;
     }
   }
+
+  async addMaterial(studyTopicId: number, materialData: { title: string; link: string}) {
+    try {
+      const response = await axiosInstance.post(`/api/topics/${studyTopicId}/materials`, materialData);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding topic:", error);
+      throw error;
+    }
+  }
 }
 
 export default new StudyTopicService();

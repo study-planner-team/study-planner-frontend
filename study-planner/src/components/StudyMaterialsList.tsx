@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface StudyMaterials {
-  studyMaterialId: number;
+  studyMaterialId?: number;
   title: string;
   link: string;
 }
