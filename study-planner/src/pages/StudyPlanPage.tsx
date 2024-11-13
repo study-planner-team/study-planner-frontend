@@ -126,8 +126,8 @@ const StudyPlanPage: React.FC = () => {
           <Tab eventKey="joined" title="Dołączone">
             <Row>
               {joinedPlans.length > 0 ? (
-                joinedPlans.map((plan) => (
-                  <Col md={3} key={plan.joinedPlanId} className="mb-4">
+                joinedPlans.map((plan, index) => (
+                  <Col md={3} key={index} className="mb-4">
                     <Card className="custom-bg">
                       <Card.Body>
                         <Card.Title>{plan.title}</Card.Title>

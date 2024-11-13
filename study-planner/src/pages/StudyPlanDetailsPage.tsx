@@ -12,6 +12,7 @@ import GenerateScheduleModal from "../components/GenerateScheduleModal";
 import "../styles/StudyPlanDetailsStyles.css";
 import { useAuthContext } from "../context/useAuthContext";
 import StudyTopic from "../components/StudyTopic";
+import StudyTopicBlock from "../components/StudyTopicBlock";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -56,7 +57,6 @@ const StudyPlanDetailsPage: React.FC = () => {
 
   useEffect(() => {
     fetchStudyPlan();
-    fetchTopics();
     fetchPlanMembers();
   }, [id]);
 
@@ -69,17 +69,7 @@ const StudyPlanDetailsPage: React.FC = () => {
     }
   };
 
-  const fetchTopics = async () => {
-    try {
-      const topicsResponse = await StudyTopicService.getTopicsByPlanId(
-        Number(id)
-      );
-      setTopics(topicsResponse);
-      console.log(topicsResponse);
-    } catch (error) {
-      console.error("Error fetching topics:", error);
-    }
-  };
+  
 
   const fetchPlanMembers = async () => {
     try {
@@ -179,23 +169,7 @@ const StudyPlanDetailsPage: React.FC = () => {
               </Col>
 
               <Col md={6} className="ps-4">
-                <h5>Zakres materiału:</h5>
-                <Button
-                  variant="warning"
-                  className="mb-3"
-                  onClick={() => setTopicModalShow(true)}
-                >
-                  Dodaj zakres materiału
-                </Button>
-                <ul className="list-unstyled">
-                  {topics.length > 0 ? (
-                    topics.map((topic) => (
-                      <StudyTopic data={topic}/>
-                    ))
-                  ) : (
-                    <p>Brak zakresu materiału.</p>
-                  )}
-                </ul>
+                <StudyTopicBlock studyPlanId={Number(id)}/>
               </Col>
             </Row>
           </Tab>
