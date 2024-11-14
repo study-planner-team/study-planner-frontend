@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link} from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { useAuthContext } from '../context/useAuthContext';
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
+import { useAuthContext } from '../../context/useAuthContext';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 const LoginPage: React.FC = () => {

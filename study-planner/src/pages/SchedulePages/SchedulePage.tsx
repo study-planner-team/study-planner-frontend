@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import ScheduleService from "../services/ScheduleService";
-import ScheduleBlock from "../components/ScheduleBlock";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
+import ScheduleService from "../../services/ScheduleService";
+import ScheduleBlock from "../../components/ScheduleComponents/ScheduleBlock";
 
 const SchedulePage: React.FC = () => {
   const [schedules, setSchedules] = useState<any[]>([]);

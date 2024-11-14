@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import FeatureCard from '../components/FeatureCard';
-import '../styles/LandingPageStyles.css';
+import Header from '../../components/GeneralComponents//Header';
+import Footer from '../../components/GeneralComponents//Footer';
+import FeatureCard from '../../components/GeneralComponents/FeatureCard';
+import '../../styles/LandingPageStyles.css';
 
 const LandingPage: React.FC = () => {
   return (

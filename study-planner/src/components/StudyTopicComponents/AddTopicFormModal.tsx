@@ -1,48 +1,49 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 
-interface AddMaterialModalProps {
-  topicId: number;
+interface AddTopicFormModalProps {
   show: boolean;
   onHide: () => void;
-  onSubmit: (topicId: number, materialData: { title: string; link: string }) => void;
+  onSubmit: (topicData: { title: string; hours: number }) => void;
 }
 
-const AddMaterialModal: React.FC<AddMaterialModalProps> = ({ topicId, show, onHide, onSubmit }) => {
+const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({ show, onHide, onSubmit }) => {
   const [title, setTitle] = useState<string>("");
-  const [link, setLink] = useState<string>("");
+  const [hours, setHours] = useState<number | string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    onSubmit(topicId, { title, link });
-    onHide();
+    if (typeof hours === "number" && hours > 0) {
+      onSubmit({ title, hours });
+      onHide();
+    }
   };
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Dodaj Materiał</Modal.Title>
+        <Modal.Title>Dodaj Zakres Materiału</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
-            <Form.Label>Nazwa materiału</Form.Label>
+            <Form.Label>Nazwa tematu</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Nazwa materiału"
+              placeholder="Podaj nazwę tematu"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </Form.Group>
 
-          <Form.Group controlId="link" className="mt-3">
-            <Form.Label>Link</Form.Label>
+          <Form.Group controlId="hours" className="mt-3">
+            <Form.Label>Ilość godzin</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Link do materiału"
-              value={link}
-              onChange={(e) => setLink(e.target.value)}
+              type="number"
+              placeholder="Podaj ilość godzin"
+              value={hours}
+              onChange={(e) => setHours(parseFloat(e.target.value))}
               required
             />
           </Form.Group>
@@ -61,4 +62,4 @@ const AddMaterialModal: React.FC<AddMaterialModalProps> = ({ topicId, show, onHi
   );
 };
 
-export default AddMaterialModal;
+export default AddTopicFormModal;

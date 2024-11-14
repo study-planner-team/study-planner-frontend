@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import StudyTopicService from "../services/StudyTopicService";
+import StudyTopicService from "../../services/StudyTopicService";
 import StudyTopic from "./StudyTopic";
 import { Button } from "react-bootstrap";
-import AddTopicModal from "./AddTopicModal";
+import AddTopicFormModal from "./AddTopicFormModal";
 
 interface Topic {
   topicId?: number;
@@ -60,7 +60,7 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
         )}
       </ul>
 
-      <AddTopicModal
+      <AddTopicFormModal
           show={topicModalShow}
           onHide={() => setTopicModalShow(false)}
           onSubmit={handleAddTopic}

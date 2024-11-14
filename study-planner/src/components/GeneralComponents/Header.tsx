@@ -1,8 +1,8 @@
 import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/HeaderStyles.css";
-import { useAuthContext } from "../context/useAuthContext";
+import "../../styles/HeaderStyles.css";
+import { useAuthContext } from "../../context/useAuthContext";
 
 const Header: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuthContext();
