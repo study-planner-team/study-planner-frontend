@@ -1,17 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
-import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
+import LandingPage from './pages/GeneralPages/LandingPage';
+import RegisterPage from './pages/UserPages/RegisterPage';
+import LoginPage from './pages/UserPages/LoginPage';
+import ProfilePage from './pages/UserPages/ProfilePage';
 import { AuthProvider } from './context/useAuthContext';
 import ProtectedRoute from './utils/protectedRoute';
-import StudyPlanPage from './pages/StudyPlanPage';
-import AddStudyPlanPage from './pages/AddStudyPlanPage';
-import StudyPlanDetailsPage from './pages/StudyPlanDetailsPage';
-import EditStudyPlanPage from './pages/EditStudyPlanPage';
-import SchedulePage from './pages/SchedulePage';
-import PublicPlanPage from './pages/PublicPlanPage';
+import StudyPlanPage from './pages/StudyPlanPages/StudyPlanPage';
+import AddStudyPlanPage from './pages/StudyPlanPages/AddStudyPlanPage';
+import StudyPlanDetailsPage from './pages/StudyPlanPages/StudyPlanDetailsPage';
+import EditStudyPlanPage from './pages/StudyPlanPages/EditStudyPlanPage';
+import SchedulePage from './pages/SchedulePages/SchedulePage';
+import PublicPlanPage from './pages/StudyPlanPages/PublicPlanPage';
 
 const App: React.FC = () => {
   return (

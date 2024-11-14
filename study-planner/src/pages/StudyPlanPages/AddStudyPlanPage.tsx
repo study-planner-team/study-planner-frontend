@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import StudyPlanService from '../services/StudyPlanService';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import StudyPlanForm from '../components/StudyPlanForm';
+import StudyPlanService from '../../services/StudyPlanService';
+import Header from '../../components/GeneralComponents/Header';
+import Footer from '../../components/GeneralComponents/Footer';
+import StudyPlanForm from '../../components/StudyPlanComponents/StudyPlanForm';
 
 const AddStudyPlanPage: React.FC = () => {
   const navigate = useNavigate();

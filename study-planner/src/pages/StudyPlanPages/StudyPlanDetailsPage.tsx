@@ -1,100 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import StudyPlanService from "../services/StudyPlanService";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "../styles/StudyPlanDetailsStyles.css";
-import { useAuthContext } from "../context/useAuthContext";
-import StudyTopicBlock from "../components/StudyTopicBlock";
-
-interface StudyPlan {
-  studyPlanId: number;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  isPublic: boolean;
-  owner: StudyPlanOwner;
-}
-
-interface StudyPlanOwner {
-  userId: number;
-  username: string;
-  email: string;
-  isPublic: boolean;
-}
-
-interface ScheduleFormData {
-  sessionsPerDay: number;
-  sessionLength: number;
-  studyStartTime: string;
-  studyEndTime: string;
-  preferredStudyDays: string[];
-}
+import "../../styles/StudyPlanDetailsStyles.css";
+import { useAuthContext } from "../../context/useAuthContext";
+import StudyTopicBlock from "../../components/StudyTopicComponents/StudyTopicBlock";
+import { useStudyPlanDetails } from "../../hooks/useStudyPlanDetails";
 
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [studyPlan, setStudyPlan] = useState<StudyPlan>();
   const [key, setKey] = useState("details");
-  const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
-  const [members, setMembers] = useState<any[]>([]);
   const { user } = useAuthContext();
-
-  useEffect(() => {
-    fetchStudyPlan();
-    fetchPlanMembers();
-  }, [id]);
-
-  const fetchStudyPlan = async () => {
-    try {
-      const response = await StudyPlanService.getStudyPlanById(Number(id));
-      setStudyPlan(response);
-    } catch (error) {
-      console.error("Error fetching study plan:", error);
-    }
-  };
-
-  const fetchPlanMembers = async () => {
-    try {
-      const membersResponse = await StudyPlanService.getMembersByPlanId(
-        Number(id)
-      );
-      setMembers(membersResponse);
-    } catch (error) {
-      console.error("Error fetching members:", error);
-    }
-  };
-
-  const formatDateShort = (dateString: any) => {
-    return new Date(dateString).toLocaleDateString("pl-PL");
-  };
-
-  const handleOwnerChange = async (studyPlanId: number, userId: number) => {
-    try {
-      await StudyPlanService.changePlanOwner(studyPlanId, userId);
-    } catch (error) {
-      console.error("Error changing owner:", error);
-    }
-  };
-
-  // const handleScheduleSubmit = async (formData: ScheduleFormData) => {
-  //   try {
-  //     const scheduleData = {
-  //       ...formData,
-  //       studyPlanId: studyPlan?.studyPlanId,
-  //       startDate: studyPlan?.startDate,
-  //       endDate: studyPlan?.endDate,
-  //       topics: topics,
-  //     };
-
-  //     await StudyPlanService.generateSchedule(scheduleData);
-  //   } catch (error) {
-  //     console.error("Error generating schedule", error);
-  //   }
-  // };
+  const {studyPlan, members, scheduleModalShow, setScheduleModalShow, handleOwnerChange, formatDateShort} = useStudyPlanDetails(id);
 
   return (
     <>
@@ -176,7 +96,7 @@ const StudyPlanDetailsPage: React.FC = () => {
           </Tab>
         </Tabs>
 
-        {/* <GenerateScheduleModal
+        {/* GenerateScheduleFormModal
           show={scheduleModalShow}
           onHide={() => setScheduleModalShow(false)}
           onSubmit={handleScheduleSubmit}

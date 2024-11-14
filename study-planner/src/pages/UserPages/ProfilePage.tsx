@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../../components/GeneralComponents/Header';
+import Footer from '../../components/GeneralComponents/Footer';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const ProfilePage: React.FC = () => {
   const { user, updateUser, deleteUser } = useAuthContext();

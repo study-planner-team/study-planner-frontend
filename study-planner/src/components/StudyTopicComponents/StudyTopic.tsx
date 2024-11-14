@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import StudyMaterialsList from './StudyMaterialsList';
-import StudyTopicService from '../services/StudyTopicService';
-import AddMaterialModal from './AddMaterialModal';
+import StudyMaterialsList from '../StudyMaterialComponents/StudyMaterialsList';
+import StudyTopicService from '../../services/StudyTopicService';
+import AddMaterialFormModal from '../StudyMaterialComponents/AddMaterialFormModal';
 import { Button } from 'react-bootstrap';
 
 interface Topic {
@@ -64,7 +64,7 @@ const StudyTopic: React.FC<TopicProps> = ({ data }) => {
         </Button>
     </div>
 
-    <AddMaterialModal
+    <AddMaterialFormModal
     topicId={data.topicId!}
     show={materialModalShow}
     onHide={() => setMaterialModalShow(false)}

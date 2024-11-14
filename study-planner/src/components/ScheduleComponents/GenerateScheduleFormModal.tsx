@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 
-interface GenerateScheduleModalProps {
+interface GenerateScheduleFormModalProps {
   show: boolean;
   onHide: () => void;
   onSubmit: (formData: ScheduleFormData) => void;
@@ -15,7 +15,7 @@ interface ScheduleFormData {
   preferredStudyDays: string[];
 }
 
-const GenerateScheduleModal: React.FC<GenerateScheduleModalProps> = ({show,onHide,onSubmit,}) => {
+const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({show,onHide,onSubmit,}) => {
   const [sessionsPerDay, setSessionsPerDay] = useState("1");
   const [sessionLength, setSessionLength] = useState("1");
   const [studyStartTime, setStudyStartTime] = useState("18:00");
@@ -137,4 +137,4 @@ const GenerateScheduleModal: React.FC<GenerateScheduleModalProps> = ({show,onHid
   );
 };
 
-export default GenerateScheduleModal;
+export default GenerateScheduleFormModal;

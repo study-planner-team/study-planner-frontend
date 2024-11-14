@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
 import { Link } from "react-router-dom";
-import StudyPlanService from "../services/StudyPlanService";
-import "../styles/StudyPlanStyles.css";
-import { useAuthContext } from "../context/useAuthContext";
+import StudyPlanService from "../..//services/StudyPlanService";
+import "../../styles/StudyPlanStyles.css";
+import { useAuthContext } from "../..//context/useAuthContext";
 
 const PublicPlanPage: React.FC = () => {
   const [publicPlans, setPublicPlans] = useState<any[]>([]);

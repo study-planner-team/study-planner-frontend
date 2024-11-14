@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import AuthService from '../services/AuthService'
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import AuthService from '../../services/AuthService'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import '../styles/RegisterPageStyles.css';
-import axios from 'axios';
+import Header from '../../components/GeneralComponents/Header';
+import Footer from '../../components/GeneralComponents/Footer';
+import '../../styles/RegisterPageStyles.css';
 
 const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +19,6 @@ const RegisterPage: React.FC = () => {
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     
-
     try {
       const response = await AuthService.register(username, password, email);
       setMessage(response.data);

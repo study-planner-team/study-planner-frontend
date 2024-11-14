@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import StudyPlanService from "../services/StudyPlanService";
-import StudyPlanForm from "../components/StudyPlanForm";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import StudyPlanService from "../../services/StudyPlanService";
+import StudyPlanForm from "../../components/StudyPlanComponents/StudyPlanForm";
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
 
 const EditStudyPlanPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
