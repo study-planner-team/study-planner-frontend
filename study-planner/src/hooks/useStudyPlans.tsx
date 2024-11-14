@@ -7,65 +7,39 @@ export const useStudyPlans = () => {
   const [archivedPlans, setArchivedPlans] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchStudyPlans();
-    fetchArchivedPlans();
-    fetchJoinedPlans();
+    fetchAllPlans();
   }, []);
 
-  const fetchStudyPlans = async () => {
-    try {
-      const data = await StudyPlanService.getStudyPlans();
-      setStudyPlans(data);
-    } catch (error) {
-      console.error("Error fetching study plans", error);
-    }
+  const fetchAllPlans = async () => {
+    const activePlans = await StudyPlanService.getStudyPlans();
+    const joined = await StudyPlanService.getJoinedPlans();
+    const archived = await StudyPlanService.getArchivedStudyPlans();
+
+    if (activePlans) setStudyPlans(activePlans);
+    if (joined) setJoinedPlans(joined);
+    if (archived) setArchivedPlans(archived);
   };
 
-  const fetchJoinedPlans = async () => {
-    try {
-      const data = await StudyPlanService.getJoinedPlans();
-      setJoinedPlans(data);
-    } catch (error) {
-      console.error("Error fetching study plans", error);
-    }
-  };
-
-  const fetchArchivedPlans = async () => {
-    try {
-      const response = await StudyPlanService.getArchivedStudyPlans();
-      setArchivedPlans(response);
-    } catch (error) {
-      console.error("Error fetching archived study plans:", error);
+  const handleSuccess = async (success: boolean) => {
+    if (success) {
+      await fetchAllPlans();
     }
   };
 
   const handleArchive = async (planId: number) => {
-    try {
-      await StudyPlanService.archiveStudyPlan(planId);
-      fetchStudyPlans();
-      fetchArchivedPlans();
-    } catch (error) {
-      console.error("Error archiving study plan:", error);
-    }
+    const success = await StudyPlanService.archiveStudyPlan(planId);
+    handleSuccess(success);
   };
 
   const handleUnarchive = async (planId: number) => {
-    try {
-      await StudyPlanService.unarchiveStudyPlan(planId);
-      fetchStudyPlans();
-      fetchArchivedPlans();
-    } catch (error) {
-      console.error("Error unarchiving study plan:", error);
-    }
+    const success = await StudyPlanService.unarchiveStudyPlan(planId);
+    handleSuccess(success);
   };
 
+
   const handleLeave = async (planId: number) => {
-    try {
-      await StudyPlanService.leaveStudyPlan(planId);
-      fetchJoinedPlans();
-    } catch (error) {
-      console.error("Couldn't leave study plan:", error);
-    }
+    const success = await StudyPlanService.leaveStudyPlan(planId);
+    handleSuccess(success);
   };
 
   return {

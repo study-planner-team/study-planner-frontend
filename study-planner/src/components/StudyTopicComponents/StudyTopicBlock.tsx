@@ -23,22 +23,18 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
   }, []);
 
   const fetchTopics = async () => {
-    try {
-      const topicsResponse = await StudyTopicService.getTopicsByPlanId(
-        Number(studyPlanId)
-      );
+    const topicsResponse = await StudyTopicService.getTopicsByPlanId(Number(studyPlanId));
+
+    if (topicsResponse) {
       setTopics(topicsResponse);
-    } catch (error) {
-      console.error("Error fetching topics:", error);
     }
   };
 
   const handleAddTopic = async (newTopic: Topic) => {
-    try {
-      const addedTopic = await StudyTopicService.addTopic(Number(studyPlanId), newTopic);
+    const addedTopic = await StudyTopicService.addTopic(Number(studyPlanId), newTopic);
+
+    if (addedTopic) {
       setTopics([...topics, addedTopic]);
-    } catch (error) {
-      console.error("Error adding topic:", error);
     }
   };
 

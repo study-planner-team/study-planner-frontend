@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import React from "react";
+
 
 export interface User {
   id: number;
@@ -12,13 +12,13 @@ export interface User {
 
 type AuthContextType = {
   user: User | null;
-  registerUser: (username: string, password: string, email: string) => void;
-  loginUser: (username: string, password: string) => void;
-  updateUser: (userId: number, updatedData: any) => void;
-  deleteUser: (userId: number) => void;
-  logout: () => void;
+  registerUser: (username: string, password: string, email: string) => Promise<boolean>;
+  loginUser: (username: string, password: string) => Promise<boolean>;
+  loginWithGoogle: (jwtToken: string) => Promise<boolean>;
+  updateUser: (userId: number, updatedData: any) => Promise<boolean>;
+  deleteUser: (userId: number) => Promise<boolean>;
+  logout: () => Promise<boolean>;
   isLoggedIn: () => boolean;
-  loginWithGoogle: (jwtToken: string) => void;
 };
 
 type Props = { children: React.ReactNode };
@@ -26,7 +26,6 @@ type Props = { children: React.ReactNode };
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: Props) => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -39,99 +38,99 @@ export const AuthProvider = ({ children }: Props) => {
     setIsReady(true);
   }, []);
 
-  const loginWithGoogle = async (jwtToken: string) => {
-    try {
-      // Send the JWT token to your backend for verification
-      const user = await AuthService.exchangeGoogleCode(jwtToken);
+  const loginWithGoogle = async (jwtToken: string): Promise<boolean> => {
+    const user = await AuthService.exchangeGoogleCode(jwtToken); // Send the JWT token to the backend for verification
 
+    if (user) {
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
-      navigate("/");
-    } catch (error) {
-      console.error("Google login failed:", error);
+      return true;
     }
+    return false;
   };
 
-  const registerUser = async (
-    username: string,
-    password: string,
-    email: string
-  ) => {
-    try {
-      const response = await AuthService.register(username, password, email);
-      if (response) {
-        navigate("/");
-      }
-    } catch (error: any) {
-      throw error;
-    }
-  };
-
-  const loginUser = async (username: string, password: string) => {
-    try {
-      const response = await AuthService.login(username, password);
-      if (response) {
-        const userObj = {
-          id: response.data.userId,
-          username: response.data.username,
-          email: response.data.email,
-          isPublic: response.data.IsPublic
-        };
-        localStorage.setItem("user", JSON.stringify(userObj));
-        setUser(userObj);
-        navigate("/");
-      }
-    } catch (error: any) {
-      throw error;
-    }
-  };
-
-  const updateUser = async (userId: number, updatedData: any) => {
-    try {
-      const response = await AuthService.updateUser(userId, updatedData);
+  const registerUser = async (username: string, password: string, email: string): Promise<boolean> => {
+    const response = await AuthService.register(username, password, email);
+    
+    if (response) {
       const userObj = {
         id: response.userId,
         username: response.username,
         email: response.email,
-        isPublic: response.isPublic, 
+        isPublic: response.IsPublic,
       };
+
       localStorage.setItem("user", JSON.stringify(userObj));
-      setUser(userObj); // Update context state with new user data
-    } catch (error: any) {
-      throw error;
+      setUser(userObj);
+      return true;
     }
+    return false;
   };
 
-  const deleteUser = async (userId: number) => {
-    try {
-      await AuthService.deleteUser(userId);
-      localStorage.removeItem("user");
-      setUser(null); // Clear user state
-      navigate("/"); // Redirect to home or login page
-    } catch (error: any) {
-      throw error;
+  const loginUser = async (username: string, password: string): Promise<boolean> => {
+    const response = await AuthService.login(username, password);
+
+    if (response) {
+      const userObj = {
+        id: response.userId,
+        username: response.username,
+        email: response.email,
+        isPublic: response.IsPublic,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userObj));
+      setUser(userObj);
+      return true;
     }
+    return false;
+  };
+
+  const updateUser = async (userId: number, updatedData: any): Promise<boolean> => {
+    const response = await AuthService.updateUser(userId, updatedData);
+
+    if (response) {
+      const userObj = {
+        id: response.userId,
+        username: response.username,
+        email: response.email,
+        isPublic: response.isPublic,
+      };
+
+      localStorage.setItem("user", JSON.stringify(userObj));
+      setUser(userObj);
+      return true;
+    }
+    return false;
+  };
+
+  const deleteUser = async (userId: number): Promise<boolean> => {
+    const response = await AuthService.deleteUser(userId);
+
+    if (response) {
+      localStorage.removeItem("user");
+      setUser(null);
+      return true;
+    }
+    return false;
   };
 
   const isLoggedIn = () => {
     return !!user;
   };
 
-  const logout = async () => {
-    try {
-      await AuthService.logout();
+  const logout = async (): Promise<boolean> => {
+    const response = await AuthService.logout();
+
+    if (response) {
       localStorage.removeItem("user");
       setUser(null);
-      navigate("/");
-    } catch (error: any) {
-      throw error;
+      return true;
     }
+    return false;
   };
 
   return (
-    <AuthContext.Provider
-      value={{ loginUser, user, logout, isLoggedIn, registerUser, updateUser, deleteUser, loginWithGoogle }}
-    >
+    <AuthContext.Provider value={{ user, loginUser, loginWithGoogle, logout, isLoggedIn, registerUser, updateUser, deleteUser }}>
       {isReady ? children : null}
     </AuthContext.Provider>
   );

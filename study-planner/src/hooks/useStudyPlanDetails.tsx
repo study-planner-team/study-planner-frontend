@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import StudyPlanService from "../services/StudyPlanService";
+import { toast } from "react-toastify";
 
 interface StudyPlan {
   studyPlanId: number;
@@ -37,22 +38,28 @@ export const useStudyPlanDetails = (id: string | undefined) => {
   }, [id]);
 
   const fetchStudyPlan = async () => {
-    try {
-      const response = await StudyPlanService.getStudyPlanById(Number(id));
+    const response = await StudyPlanService.getStudyPlanById(Number(id));
+
+    if (response) {
       setStudyPlan(response);
-    } catch (error) {
-      console.error("Error fetching study plan:", error);
     }
   };
 
   const fetchPlanMembers = async () => {
-    try {
-      const membersResponse = await StudyPlanService.getMembersByPlanId(
-        Number(id)
-      );
+    const membersResponse = await StudyPlanService.getMembersByPlanId(
+      Number(id)
+    );
+
+    if (membersResponse) {
       setMembers(membersResponse);
-    } catch (error) {
-      console.error("Error fetching members:", error);
+    }
+  };
+
+  const handleOwnerChange = async (studyPlanId: number, userId: number) => {
+    const success = await StudyPlanService.changePlanOwner(studyPlanId, userId);
+
+    if (success) {
+      toast.success("Pomyślnie zmieniono lidera planu");
     }
   };
 
@@ -60,27 +67,20 @@ export const useStudyPlanDetails = (id: string | undefined) => {
     return new Date(dateString).toLocaleDateString("pl-PL");
   };
 
-  const handleOwnerChange = async (studyPlanId: number, userId: number) => {
-    try {
-      await StudyPlanService.changePlanOwner(studyPlanId, userId);
-    } catch (error) {
-      console.error("Error changing owner:", error);
-    }
-  };
 
   // const handleScheduleSubmit = async (formData: ScheduleFormData) => {
-  //   try {
-  //     const scheduleData = {
-  //       ...formData,
-  //       studyPlanId: studyPlan?.studyPlanId,
-  //       startDate: studyPlan?.startDate,
-  //       endDate: studyPlan?.endDate,
-  //       topics: topics,
-  //     };
+  //   const scheduleData = {
+  //     ...formData,
+  //     studyPlanId: studyPlan?.studyPlanId,
+  //     startDate: studyPlan?.startDate,
+  //     endDate: studyPlan?.endDate,
+  //     topics: topics,
+  //   };
 
-  //     await StudyPlanService.generateSchedule(scheduleData);
-  //   } catch (error) {
-  //     console.error("Error generating schedule", error);
+  //   const success = await StudyPlanService.generateSchedule(scheduleData);
+    
+  //   if (success) {
+  //     toast.success("Pomyślnie utworzono harmonogram!")
   //   }
   // };
 

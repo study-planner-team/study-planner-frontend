@@ -1,4 +1,5 @@
 import axiosInstance from "../utils/axiosInstance";
+import { handleError } from "../utils/errorHandler";
 
 class StudyPlanService {
   async getStudyPlans() {
@@ -6,8 +7,8 @@ class StudyPlanService {
       const response = await axiosInstance.get("/api/studyplans");
       return response.data;
     } catch (error) {
-      console.error("Error fetching study plans", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać planów nauki");
+      return null;
     }
   }
 
@@ -16,34 +17,28 @@ class StudyPlanService {
       const response = await axiosInstance.get(`/api/studyplans/${planId}`);
       return response.data;
     } catch (error) {
-      console.error(`Error fetching study plan with id ${planId}`, error);
-      throw error;
+      handleError(error, `Nie udało się pobrać planu nauki o id ${planId}`);
+      return null;
     }
   }
 
   async createStudyPlan(studyPlanData: any) {
     try {
-      const response = await axiosInstance.post(
-        "/api/studyplans",
-        studyPlanData
-      );
+      const response = await axiosInstance.post("/api/studyplans", studyPlanData);
       return response.data;
     } catch (error) {
-      console.error("Error creating study plan:", error);
-      throw error;
+      handleError(error, "Nie udało się utworzyć planu nauki");
+      return null;
     }
   }
 
   async updateStudyPlan(planId: number, updatedData: any) {
     try {
-      const response = await axiosInstance.put(
-        `/api/studyplans/${planId}`,
-        updatedData
-      );
+      const response = await axiosInstance.put(`/api/studyplans/${planId}`, updatedData);
       return response.data;
     } catch (error) {
-      console.error(`Error updating study plan with id ${planId}`, error);
-      throw error;
+      handleError(error, `Nie udało się zaktualizować planu nauki o id ${planId}`);
+      return null;
     }
   }
 
@@ -52,8 +47,8 @@ class StudyPlanService {
       const response = await axiosInstance.put(`/api/studyplans/${planId}/archive`);
       return response.data;
     } catch (error) {
-      console.error("Error archiving study plan:", error);
-      throw error;
+      handleError(error, "Nie udało się zarchiwizować planu nauki");
+      return null;
     }
   }
 
@@ -62,8 +57,8 @@ class StudyPlanService {
       const response = await axiosInstance.get("/api/studyplans/archived");
       return response.data;
     } catch (error) {
-      console.error("Error fetching archived study plans:", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać zarchiwizowanych planów nauki");
+      return null;
     }
   }
 
@@ -72,8 +67,8 @@ class StudyPlanService {
       const response = await axiosInstance.put(`/api/studyplans/${planId}/unarchive`);
       return response.data;
     } catch (error) {
-      console.error("Error unarchiving study plan:", error);
-      throw error;
+      handleError(error, "Nie udało się odarchiwizować planu nauki");
+      return null;
     }
   }
 
@@ -82,8 +77,8 @@ class StudyPlanService {
       const response = await axiosInstance.get("/api/studyplans/public");
       return response.data;
     } catch (error) {
-      console.error("Error fetching study plans", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać publicznych planów nauki");
+      return null;
     }
   }
 
@@ -92,8 +87,8 @@ class StudyPlanService {
       const response = await axiosInstance.post(`/api/studyplans/${planId}/join`);
       return response.data;
     } catch (error) {
-      console.error("Error joining study plan:", error);
-      throw error;
+      handleError(error, "Nie udało się dołączyć do planu nauki");
+      return null;
     }
   }
 
@@ -102,8 +97,8 @@ class StudyPlanService {
       const response = await axiosInstance.post(`/api/studyplans/${planId}/leave`);
       return response.data;
     } catch (error) {
-      console.error("Error leaving study plan:", error);
-      throw error;
+      handleError(error, "Nie udało się opuścić planu nauki");
+      return null;
     }
   }
 
@@ -112,8 +107,8 @@ class StudyPlanService {
       const response = await axiosInstance.get("/api/studyplans/joined");
       return response.data;
     } catch (error) {
-      console.error("Error fetching study plans", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać planów nauki, do których dołączyłeś");
+      return null;
     }
   }
 
@@ -122,21 +117,22 @@ class StudyPlanService {
       const response = await axiosInstance.get(`/api/studyplans/${studyPlanId}/members`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching members:", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać członków planu nauki");
+      return null;
     }
   }
 
   async changePlanOwner(studyPlanId: number, newOwnerId: number) {
     try {
-      const response = await axiosInstance.post(`/api/studyplans/${studyPlanId}/change-owner`, newOwnerId, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
+      const response = await axiosInstance.post(
+        `/api/studyplans/${studyPlanId}/change-owner`,
+        newOwnerId,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
       return response.data;
     } catch (error) {
-      console.error("Error changing owner:", error);
-      throw error;
+      handleError(error, "Nie udało się zmienić właściciela planu nauki");
+      return null;
     }
   }
 
@@ -145,10 +141,10 @@ class StudyPlanService {
       const response = await axiosInstance.post("/api/schedules/generate", scheduleData);
       return response.data;
     } catch (error) {
-      console.error("Error generating schedule:", error);
-      throw error;
+      handleError(error, "Nie udało się wygenerować harmonogramu");
+      return null;
     }
   }
-  
 }
+
 export default new StudyPlanService();
