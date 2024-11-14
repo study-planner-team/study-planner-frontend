@@ -1,44 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../../components/GeneralComponents/Header';
-import Footer from '../../components/GeneralComponents/Footer';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import { useAuthContext } from '../../context/useAuthContext';
+import React, { useState } from "react";
+import Header from "../../components/GeneralComponents/Header";
+import Footer from "../../components/GeneralComponents/Footer";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useAuthContext } from "../../context/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
   const { user, updateUser, deleteUser } = useAuthContext();
-  const [username, setUsername] = useState(user?.username || '');
-  const [email, setEmail] = useState(user?.email || '');
+  const [username, setUsername] = useState(user?.username || "");
+  const [email, setEmail] = useState(user?.email || "");
   const [isPublic, setIsPublic] = useState(user?.isPublic || false);
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user) {
-      try {
-        const updatedData = { username, email, isPublic };
-        await updateUser(user.id, updatedData);
-        alert("Profile updated successfully!");
-      } catch (error: any) {
-        if (Array.isArray(error)) {
-          setErrors(error.map((err: any) => err.errorMessage));
-        } else {
-          setErrors(["Failed to update profile. Please try again"]);
-        }
+      const updatedData = { username, email, isPublic };
+      const success = await updateUser(user.id, updatedData);
+
+      if (success) {
+        toast.success("Pomyślnie zmodyfikowano konto!");
       }
     }
   };
 
   const handleDelete = async () => {
-    if (user && window.confirm("Are you sure you want to delete your account?")) {
-      try {
-        await deleteUser(user.id);
-      } catch (error: any) {
-        if (Array.isArray(error)) {
-          setErrors(error.map((err: any) => err.errorMessage));
-        } else {
-          setErrors(["Failed to delete account. Please try again"]);
-        }
+    if (user &&window.confirm("Are you sure you want to delete your account?")) {
+      const success = await deleteUser(user.id);
+
+      if (success) {
+        toast.success("Pomyślnie usnięto konto!");
       }
+      navigate("/");
     }
   };
 
@@ -53,16 +47,6 @@ const ProfilePage: React.FC = () => {
 
           <Col md={6} className="bg-light p-4 rounded">
             <h2 className="text-center">Konto</h2>
-            {errors.length > 0 && (
-              <div className="mt-3 mb-5">
-                {errors.map((error, index) => (
-                  <p key={index} className="text-danger mb-0">
-                    {error}
-                  </p>
-                ))}
-              </div>
-            )}
-
             <Form onSubmit={handleUpdate}>
               <Form.Group controlId="username">
                 <Form.Label>Nazwa użytkownika</Form.Label>
@@ -112,6 +96,5 @@ const ProfilePage: React.FC = () => {
     </>
   );
 };
-
 
 export default ProfilePage;

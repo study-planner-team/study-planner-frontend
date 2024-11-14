@@ -1,4 +1,5 @@
 import axiosInstance from "../utils/axiosInstance";
+import { handleError } from "../utils/errorHandler";
 
 class StudyTopicService {
   async getTopicsByPlanId(studyPlanId: number) {
@@ -6,8 +7,8 @@ class StudyTopicService {
       const response = await axiosInstance.get(`/api/studyplans/${studyPlanId}/topics`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching study topics:", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać tematów do planu nauki");
+      return null;
     }
   }
 
@@ -16,8 +17,8 @@ class StudyTopicService {
       const response = await axiosInstance.get(`/api/topics/${studyTopicId}/materials`);
       return response.data;
     } catch (error) {
-      console.error("Error fetching study materials:", error);
-      throw error;
+      handleError(error, "Nie udało się dodać tematu do planu nauki");
+      return null;
     }
   }
 
@@ -26,8 +27,8 @@ class StudyTopicService {
       const response = await axiosInstance.post(`/api/studyplans/${studyPlanId}/topics`, topicData);
       return response.data;
     } catch (error) {
-      console.error("Error adding topic:", error);
-      throw error;
+      handleError(error, "Nie udało się dodać nowego tematu");
+      return null;
     }
   }
 
@@ -36,8 +37,8 @@ class StudyTopicService {
       const response = await axiosInstance.post(`/api/topics/${studyTopicId}/materials`, materialData);
       return response.data;
     } catch (error) {
-      console.error("Error adding topic:", error);
-      throw error;
+      handleError(error, "Nie udało się dodać nowego materiału");
+      return null;
     }
   }
 }

@@ -4,16 +4,17 @@ import StudyPlanService from '../../services/StudyPlanService';
 import Header from '../../components/GeneralComponents/Header';
 import Footer from '../../components/GeneralComponents/Footer';
 import StudyPlanForm from '../../components/StudyPlanComponents/StudyPlanForm';
+import { toast } from 'react-toastify';
 
 const AddStudyPlanPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (data: any) => {
-    try {
-      await StudyPlanService.createStudyPlan(data);
+    const success = await StudyPlanService.createStudyPlan(data);
+
+    if (success) {
+      toast.success("Pomyślnie dodano nowy plan nauki!");
       navigate("/studyplans");
-    } catch (error) {
-      console.error("Error creating study plan:", error);
     }
   };
 

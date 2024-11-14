@@ -6,32 +6,24 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/GeneralComponents/Header';
 import Footer from '../../components/GeneralComponents/Footer';
 import '../../styles/RegisterPageStyles.css';
+import { toast } from 'react-toastify';
+import { useAuthContext } from '../../context/useAuthContext';
 
 const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState<string>('');
-  const [errors, setErrors] = useState<string[]>([]);
-
-  const navigate = useNavigate();
+  const { registerUser, loginWithGoogle } = useAuthContext();
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
+    const success = await registerUser(username, password, email);
     
-    try {
-      const response = await AuthService.register(username, password, email);
-      setMessage(response.data);
-      setErrors([]);
-      navigate('/');
-    } catch (error) {
-      if (Array.isArray(error)) {
-        setErrors(error.map((err: any) => err.errorMessage));
-      } else {
-        setErrors(["Registration failed."]);
-      }
+    if (success) {
+      toast.success("Pomyślnie założono konto!");
+      navigate("/login");
     }
-
   }
   
   return (
@@ -57,16 +49,7 @@ const RegisterPage: React.FC = () => {
             <Button variant="warning" type="submit" className="w-100 d-block mt-3">Zarejestruj</Button>
             <Button variant="danger" type="button" className="w-100 d-block mt-3">Register with Google</Button>
           </Form>
-          
-          {message && <p className="text-success mt-3">{message}</p>}
-            {errors.length > 0 && (
-              <div className="mt-3 mb-5">
-                {errors.map((error, index) => (
-                  <p key={index} className="text-danger mb-0">{error}</p>
-                ))}
-              </div>
-            )}
-          </Col>
+        </Col>
 
         <Col md={6} className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center">
           <h3 className="text-center">Witaj!<br/>Masz już u nas konto?</h3>

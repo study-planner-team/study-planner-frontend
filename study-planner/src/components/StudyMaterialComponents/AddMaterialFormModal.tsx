@@ -18,6 +18,7 @@ const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({ topicId, show, 
     onSubmit(topicId, { title, link });
     onHide();
   };
+  
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>

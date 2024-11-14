@@ -20,8 +20,6 @@ interface TopicProps {
   data: Topic;
 }
 
-
-
 const StudyTopic: React.FC<TopicProps> = ({ data }) => {
   const [materialModalShow, setMaterialModalShow] = useState<boolean>(false);
   const [materials, setMaterials] = useState<StudyMaterials[]>([]);
@@ -31,22 +29,18 @@ const StudyTopic: React.FC<TopicProps> = ({ data }) => {
   }, []);
 
   const fetchMaterials = async () => {
-    try {
-      const materialsResponse = await StudyTopicService.getMaterialsByTopicId(
-        Number(data.topicId)
-      );
+    const materialsResponse = await StudyTopicService.getMaterialsByTopicId(Number(data.topicId));
+
+    if (materialsResponse) {
       setMaterials(materialsResponse);
-    } catch (error) {
-      console.error("Error fetching materials:", error);
     }
   };
 
   const handleAddMaterial = async (topicId: number, newMaterial: StudyMaterials) => {
-    try {
-      const addedMaterial = await StudyTopicService.addMaterial(topicId, newMaterial);
+    const addedMaterial = await StudyTopicService.addMaterial(topicId, newMaterial);
+    
+    if (addedMaterial) {
       setMaterials([...materials, addedMaterial]);
-    } catch (error) {
-      console.error("Error adding topic:", error);
     }
   };
 

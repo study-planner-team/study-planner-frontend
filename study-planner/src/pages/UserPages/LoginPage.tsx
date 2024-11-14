@@ -1,36 +1,36 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Link} from 'react-router-dom';
-import Header from "../../components/GeneralComponents/Header";
-import Footer from "../../components/GeneralComponents/Footer";
+import Header from '../../components/GeneralComponents/Header';
+import Footer from '../../components/GeneralComponents/Footer';
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from '../../context/useAuthContext';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
+
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<string[]>([]);
   const { loginUser, loginWithGoogle } = useAuthContext();
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      await loginUser(username, password);
-      setErrors([]); // Clear errors on successful login
-    } catch (error: any) {
-      if (Array.isArray(error)) {
-        setErrors(error.map((err: any) => err.errorMessage));
-      } else {
-        setErrors(["Login failed. Username/Password might be incorrect"]);
-      }
+    const success = await loginUser(username, password);
+
+    if (success) {
+      navigate("/");
     }
   };
 
   const handleGoogleSuccess = async (credentialResponse: any) => {
     const jwtToken = credentialResponse.credential; // Extract the JWT token from the response
-    await loginWithGoogle(jwtToken);
-  };
+    const success = await loginWithGoogle(jwtToken);
 
+    if (success) {
+      navigate("/");
+    }
+  };
   return (
     <>
       <Header />
@@ -59,14 +59,6 @@ const LoginPage: React.FC = () => {
                 />
               </GoogleOAuthProvider>
             </Form>
-
-            {errors.length > 0 && (
-              <div className="mt-3 mb-5">
-                {errors.map((error, index) => (
-                  <p key={index} className="text-danger mb-0">{error}</p>
-                ))}
-              </div>
-            )}
           </Col>
 
           <Col md={6} className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center">

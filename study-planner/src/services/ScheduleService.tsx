@@ -1,4 +1,5 @@
 import axiosInstance from "../utils/axiosInstance";
+import { handleError } from "../utils/errorHandler";
 
 class ScheduleService {
   async getSchedules() {
@@ -6,8 +7,8 @@ class ScheduleService {
       const response = await axiosInstance.get("/api/schedules");
       return response.data;
     } catch (error) {
-      console.error("Couldn't fetch schedules", error);
-      throw error;
+      handleError(error, "Nie udało się pobrać harmonogramów");
+      return null;
     }
   }
 
@@ -16,9 +17,10 @@ class ScheduleService {
       const response = await axiosInstance.get(`/api/schedules/${scheduleId}`);
       return response.data;
     } catch (error) {
-      console.error(`Couldn't fetch schedule with id ${scheduleId}`, error);
-      throw error;
+      handleError(error, `Nie udało się pobrać harmonogramu o id ${scheduleId}`);
+      return null;
     }
   }
 }
+
 export default new ScheduleService();

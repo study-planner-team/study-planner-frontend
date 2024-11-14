@@ -14,11 +14,7 @@ interface StudyPlanFormProps {
   submitButtonLabel: string;
 }
 
-const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
-  initialValues,
-  onSubmit,
-  submitButtonLabel,
-}) => {
+const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, submitButtonLabel }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -39,14 +35,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit({
-      title,
-      description,
-      category,
-      startDate,
-      endDate,
-      isPublic,
-    });
+    onSubmit({ title, description, category, startDate, endDate, isPublic });
   };
 
   return (

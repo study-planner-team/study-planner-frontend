@@ -18,21 +18,19 @@ const PublicPlanPage: React.FC = () => {
   }, []);
 
   const fetchPublicPlans = async () => {
-    try {
-      const data = await StudyPlanService.getPublicPlans();
+    const data = await StudyPlanService.getPublicPlans();
+
+    if (data) {
       setPublicPlans(data);
       setFilteredPlans(data);
-    } catch (error) {
-      console.error("Couldn't fetch public study plans", error);
     }
   };
 
   const handleJoin = async (planId: number) => {
-    try {
-      await StudyPlanService.joinStudyPlan(planId);
+    const success = await StudyPlanService.joinStudyPlan(planId);
+    
+    if (success) {
       fetchPublicPlans();
-    } catch (error) {
-      console.error("Couldn't join study plan:", error);
     }
   };
 

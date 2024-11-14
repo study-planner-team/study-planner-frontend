@@ -13,11 +13,9 @@ const SchedulePage: React.FC = () => {
   }, []);
 
   const fetchSchedules = async () => {
-    try {
-      const data = await ScheduleService.getSchedules();
+    const data = await ScheduleService.getSchedules();
+    if (data) {
       setSchedules(data);
-    } catch (error) {
-      console.error("Couldn't get schedules", error);
     }
   };
 
