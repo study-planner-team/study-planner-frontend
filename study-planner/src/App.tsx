@@ -12,10 +12,13 @@ import StudyPlanDetailsPage from './pages/StudyPlanPages/StudyPlanDetailsPage';
 import EditStudyPlanPage from './pages/StudyPlanPages/EditStudyPlanPage';
 import SchedulePage from './pages/SchedulePages/SchedulePage';
 import PublicPlanPage from './pages/StudyPlanPages/PublicPlanPage';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const App: React.FC = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
+      <ToastContainer position="top-center" autoClose={5000} />
       <Router>
         <AuthProvider>
           <Routes>
