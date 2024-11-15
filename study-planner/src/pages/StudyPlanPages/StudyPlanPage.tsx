@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "../../styles/StudyPlanStyles.css";
 import { useStudyPlans } from "../../hooks/useStudyPlans";
+import StudyPlanCard from "../../components/StudyPlanComponents/StudyPlanCard";
 
 const StudyPlanPage: React.FC = () => {
   const [key, setKey] = useState("active");
@@ -33,25 +34,13 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {studyPlans.length > 0 ? (
                 studyPlans.map((plan) => (
-                  <Col md={3} key={plan.studyPlanId} className="mb-4">
-                    <Card className="custom-bg">
-                      <Card.Body>
-                        <Card.Title>{plan.title}</Card.Title>
-                        <Card.Text>Postęp: {plan.progress}0%</Card.Text>
-                        <Link
-                          to={`/studyplans/${plan.studyPlanId}`}
-                          className="text-center custom-margin"
-                        >
-                          <Button variant="warning">Szczegóły</Button>
-                        </Link>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleArchive(plan?.studyPlanId)}
-                        >
-                          Archiwizuj
-                        </Button>
-                      </Card.Body>
-                    </Card>
+                  <Col md={3} key={plan.studyPlanId}>
+                    <StudyPlanCard
+                      plan={plan}
+                      onActionClick={() => handleArchive(plan.studyPlanId)}
+                      actionLabel="Archiwizuj"
+                      actionVariant="danger"
+                    />
                   </Col>
                 ))
               ) : (
@@ -63,25 +52,13 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {joinedPlans.length > 0 ? (
                 joinedPlans.map((plan, index) => (
-                  <Col md={3} key={index} className="mb-4">
-                    <Card className="custom-bg">
-                      <Card.Body>
-                        <Card.Title>{plan.title}</Card.Title>
-                        <Card.Text>Postęp: {plan.progress}0%</Card.Text>
-                        <Link
-                          to={`/studyplans/${plan.studyPlanId}`}
-                          className="text-center custom-margin"
-                        >
-                          <Button variant="warning">Szczegóły</Button>
-                        </Link>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleLeave(plan?.studyPlanId)}
-                        >
-                          Opuść
-                        </Button>
-                      </Card.Body>
-                    </Card>
+                  <Col md={3} key={index}>
+                    <StudyPlanCard
+                      plan={plan}
+                      onActionClick={() => handleLeave(plan.studyPlanId)}
+                      actionLabel="Opuść"
+                      actionVariant="danger"
+                    />
                   </Col>
                 ))
               ) : (
@@ -93,19 +70,13 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {archivedPlans.length > 0 ? (
                 archivedPlans.map((plan) => (
-                  <Col md={3} key={plan.studyPlanId} className="mb-4">
-                    <Card className="custom-bg">
-                      <Card.Body>
-                        <Card.Title>{plan.title}</Card.Title>
-                        <Card.Text>{plan.description}</Card.Text>
-                        <Button
-                          variant="warning"
-                          onClick={() => handleUnarchive(plan.studyPlanId)}
-                        >
-                          Przywróć plan
-                        </Button>
-                      </Card.Body>
-                    </Card>
+                  <Col md={3} key={plan.studyPlanId}>
+                    <StudyPlanCard
+                      plan={plan}
+                      onActionClick={() => handleUnarchive(plan.studyPlanId)}
+                      actionLabel="Przywróć plan"
+                      actionVariant="warning"
+                    />
                   </Col>
                 ))
               ) : (

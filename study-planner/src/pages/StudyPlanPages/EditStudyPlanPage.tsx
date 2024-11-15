@@ -17,7 +17,6 @@ const EditStudyPlanPage: React.FC = () => {
 
   const fetchStudyPlan = async () => {
     const plan = await StudyPlanService.getStudyPlanById(Number(id));
-
     if (plan) {
       setInitialValues(plan);
     }
@@ -25,12 +24,12 @@ const EditStudyPlanPage: React.FC = () => {
 
   const handleSubmit = async (data: any) => {
     const success = await StudyPlanService.updateStudyPlan(Number(id), data);
-
     if (success) {
       toast.success("Pomyślnie zmodyfikowano plan nauki")
       navigate('/studyplans');
     }
   };
+
   return (
     <>
       <Header />

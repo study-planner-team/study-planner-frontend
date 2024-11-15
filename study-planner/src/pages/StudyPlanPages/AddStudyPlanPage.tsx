@@ -11,7 +11,6 @@ const AddStudyPlanPage: React.FC = () => {
 
   const handleSubmit = async (data: any) => {
     const success = await StudyPlanService.createStudyPlan(data);
-
     if (success) {
       toast.success("Pomyślnie dodano nowy plan nauki!");
       navigate("/studyplans");

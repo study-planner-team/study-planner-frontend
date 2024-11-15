@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import StudyTopicService from "../../services/StudyTopicService";
 import StudyTopic from "./StudyTopic";
 import { Button } from "react-bootstrap";
 import AddTopicFormModal from "./AddTopicFormModal";
-
-interface Topic {
-  topicId?: number;
-  title: string;
-  hours: number;
-}
+import { useStudyTopics } from "../../hooks/useStudyTopics";
 
 interface TopicProps {
   studyPlanId: number;
@@ -16,31 +10,7 @@ interface TopicProps {
 }
 
 const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId, onTopicsFetched }) => {
-  const [topics, setTopics] = useState<Topic[]>([]);
-  const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetchTopics();
-  }, []);
-
-  const fetchTopics = async () => {
-    const topicsResponse = await StudyTopicService.getTopicsByPlanId(Number(studyPlanId));
-
-    if (topicsResponse) {
-      setTopics(topicsResponse);
-      onTopicsFetched?.(topicsResponse.map((topic: Topic) => topic.topicId!));
-    }
-  };
-
-  const handleAddTopic = async (newTopic: Topic) => {
-    const addedTopic = await StudyTopicService.addTopic(Number(studyPlanId), newTopic);
-
-    if (addedTopic) {
-      const updatedTopics = [...topics, addedTopic];
-      setTopics(updatedTopics);
-      onTopicsFetched?.(updatedTopics.map((topic: Topic) => topic.topicId!));
-    }
-  };
+  const { topics, topicModalShow, setTopicModalShow, handleAddTopic } = useStudyTopics(studyPlanId, onTopicsFetched);
 
   return (
     <>

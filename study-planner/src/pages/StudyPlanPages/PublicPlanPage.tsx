@@ -1,44 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
-import { Link } from "react-router-dom";
-import StudyPlanService from "../..//services/StudyPlanService";
+import { usePublicPlans } from "../../hooks/usePublicPlans";
 import "../../styles/StudyPlanStyles.css";
-import { useAuthContext } from "../..//context/useAuthContext";
+import StudyPlanCard from "../../components/StudyPlanComponents/StudyPlanCard";
 
 const PublicPlanPage: React.FC = () => {
-  const [publicPlans, setPublicPlans] = useState<any[]>([]);
-  const [filteredPlans, setFilteredPlans] = useState<any[]>([]);
-  const { user } = useAuthContext();
+  const { filteredPlans, handleFilter, handleJoin } = usePublicPlans();
   const inputElement = document.getElementById("plan-search") as HTMLInputElement | null;
-
-  useEffect(() => {
-    fetchPublicPlans();
-  }, []);
-
-  const fetchPublicPlans = async () => {
-    const data = await StudyPlanService.getPublicPlans();
-
-    if (data) {
-      setPublicPlans(data);
-      setFilteredPlans(data);
-    }
-  };
-
-  const handleJoin = async (planId: number) => {
-    const success = await StudyPlanService.joinStudyPlan(planId);
-    
-    if (success) {
-      fetchPublicPlans();
-    }
-  };
-
-  function handleFilter(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const filterTemp = publicPlans.filter(e => e.title.toLowerCase().includes(inputElement.value.toLowerCase()));
-    setFilteredPlans(filterTemp);
-  }
 
   if (inputElement) {
     inputElement.addEventListener("input", handleFilter);
@@ -58,24 +28,12 @@ const PublicPlanPage: React.FC = () => {
           {filteredPlans.length > 0 ? (
             filteredPlans.map((plan, index) => (
               <Col md={4} key={index} className="mb-4">
-                <Card className="custom-bg">
-                  <Card.Body>
-                    <Card.Title>{plan.title}</Card.Title>
-                    <Card.Text>Postęp: {plan.progress}0%</Card.Text>
-                    <Link
-                      to={`/studyplans/${plan.studyPlanId}`}
-                      className="text-center custom-margin"
-                    >
-                      <Button variant="warning">Szczegóły</Button>
-                    </Link>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleJoin(plan?.studyPlanId)}
-                    >
-                      Dołącz
-                    </Button>
-                  </Card.Body>
-                </Card>
+                <StudyPlanCard
+                  plan={plan}
+                  onActionClick={() => handleJoin(plan.studyPlanId)}
+                  actionLabel="Dołącz"
+                  actionVariant="danger"
+                />
               </Col>
             ))
           ) : (

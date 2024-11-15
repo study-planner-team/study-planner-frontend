@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import StudyMaterialsList from '../StudyMaterialComponents/StudyMaterialsList';
-import StudyTopicService from '../../services/StudyTopicService';
 import AddMaterialFormModal from '../StudyMaterialComponents/AddMaterialFormModal';
 import { Button } from 'react-bootstrap';
+import { useStudyMaterials } from '../../hooks/useStudyMaterials';
 
 interface Topic {
   topicId?: number;
@@ -10,48 +10,13 @@ interface Topic {
   hours: number;
 }
 
-interface StudyMaterials {
-    studyMaterialId?: number;
-    title: string;
-    link: string;
-}
-
 interface TopicProps {
   data: Topic;
 }
 
 const StudyTopic: React.FC<TopicProps> = ({ data }) => {
-  const [materialModalShow, setMaterialModalShow] = useState<boolean>(false);
-  const [materials, setMaterials] = useState<StudyMaterials[]>([]);
-
-  useEffect(() => {
-    fetchMaterials();
-  }, []);
-
-  const fetchMaterials = async () => {
-    const materialsResponse = await StudyTopicService.getMaterialsByTopicId(
-      Number(data.topicId)
-    );
-
-    if (materialsResponse) {
-      setMaterials(materialsResponse);
-    }
-  };
-
-  const handleAddMaterial = async (
-    topicId: number,
-    newMaterial: StudyMaterials
-  ) => {
-    const addedMaterial = await StudyTopicService.addMaterial(
-      topicId,
-      newMaterial
-    );
-
-    if (addedMaterial) {
-      setMaterials([...materials, addedMaterial]);
-    }
-  };
-
+  const { materials, materialModalShow, setMaterialModalShow, handleAddMaterial } = useStudyMaterials(Number(data.topicId));
+  
   return (
     <>
       <div>
