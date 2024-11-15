@@ -14,6 +14,7 @@ const SchedulePage: React.FC = () => {
 
   const fetchSchedules = async () => {
     const data = await ScheduleService.getSchedules();
+    console.log(data);
     if (data) {
       setSchedules(data);
     }

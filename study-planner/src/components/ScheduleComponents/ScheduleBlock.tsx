@@ -16,6 +16,7 @@ interface Schedule {
   //studyPlan: StudyPlan;
   userId: number;
   //user: User;
+  studyTopic: Topic;
 }
 
 interface ScheduleProps {
@@ -25,7 +26,7 @@ interface ScheduleProps {
 const ScheduleBlock: React.FC<ScheduleProps> = ({ data }) => {
   return (
     <div>
-      <h2>{data.topicTitle}</h2>
+      <h2>{data.studyTopic.title}</h2>
 
       <p className='fw-bold'>Date: {data.date.toString()}</p>
       <p className='fw-bold'>Duration: {data.duration.toString()}</p>

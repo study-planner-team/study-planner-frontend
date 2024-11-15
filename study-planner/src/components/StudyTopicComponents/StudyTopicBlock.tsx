@@ -12,9 +12,10 @@ interface Topic {
 
 interface TopicProps {
   studyPlanId: number;
+  onTopicsFetched?: (topics: number[]) => void;
 }
 
-const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
+const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId, onTopicsFetched }) => {
   const [topics, setTopics] = useState<Topic[]>([]);
   const [topicModalShow, setTopicModalShow] = useState<boolean>(false);
 
@@ -27,6 +28,7 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
 
     if (topicsResponse) {
       setTopics(topicsResponse);
+      onTopicsFetched?.(topicsResponse.map((topic: Topic) => topic.topicId!));
     }
   };
 
@@ -34,7 +36,9 @@ const StudyTopicBlock: React.FC<TopicProps> = ({ studyPlanId }) => {
     const addedTopic = await StudyTopicService.addTopic(Number(studyPlanId), newTopic);
 
     if (addedTopic) {
-      setTopics([...topics, addedTopic]);
+      const updatedTopics = [...topics, addedTopic];
+      setTopics(updatedTopics);
+      onTopicsFetched?.(updatedTopics.map((topic: Topic) => topic.topicId!));
     }
   };
 

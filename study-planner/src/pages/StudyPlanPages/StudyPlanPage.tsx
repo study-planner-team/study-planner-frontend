@@ -9,8 +9,8 @@ import "../../styles/StudyPlanStyles.css";
 import { useStudyPlans } from "../../hooks/useStudyPlans";
 
 const StudyPlanPage: React.FC = () => {
-  const { studyPlans, joinedPlans, archivedPlans, handleArchive, handleUnarchive, handleLeave } = useStudyPlans();
   const [key, setKey] = useState("active");
+  const { studyPlans, joinedPlans, archivedPlans, handleArchive, handleUnarchive, handleLeave } = useStudyPlans();
 
   return (
     <>

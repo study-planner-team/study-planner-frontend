@@ -29,16 +29,24 @@ const StudyTopic: React.FC<TopicProps> = ({ data }) => {
   }, []);
 
   const fetchMaterials = async () => {
-    const materialsResponse = await StudyTopicService.getMaterialsByTopicId(Number(data.topicId));
+    const materialsResponse = await StudyTopicService.getMaterialsByTopicId(
+      Number(data.topicId)
+    );
 
     if (materialsResponse) {
       setMaterials(materialsResponse);
     }
   };
 
-  const handleAddMaterial = async (topicId: number, newMaterial: StudyMaterials) => {
-    const addedMaterial = await StudyTopicService.addMaterial(topicId, newMaterial);
-    
+  const handleAddMaterial = async (
+    topicId: number,
+    newMaterial: StudyMaterials
+  ) => {
+    const addedMaterial = await StudyTopicService.addMaterial(
+      topicId,
+      newMaterial
+    );
+
     if (addedMaterial) {
       setMaterials([...materials, addedMaterial]);
     }
@@ -47,23 +55,25 @@ const StudyTopic: React.FC<TopicProps> = ({ data }) => {
   return (
     <>
       <div>
-      <h2><strong>{data.title}</strong> - {data.hours.toString()} hours</h2>
-        <StudyMaterialsList data={materials}/>
+        <h2>
+          <strong>{data.title}</strong> - {data.hours.toString()} hours
+        </h2>
+        <StudyMaterialsList data={materials} />
         <Button
-                  variant="warning"
-                  className="mb-3"
-                  onClick={() => setMaterialModalShow(true)}
-                >
-                  Dodaj
+          variant="warning"
+          className="mb-3"
+          onClick={() => setMaterialModalShow(true)}
+        >
+          Dodaj
         </Button>
-    </div>
+      </div>
 
-    <AddMaterialFormModal
-    topicId={data.topicId!}
-    show={materialModalShow}
-    onHide={() => setMaterialModalShow(false)}
-    onSubmit={handleAddMaterial}
-    />
+      <AddMaterialFormModal
+        topicId={data.topicId!}
+        show={materialModalShow}
+        onHide={() => setMaterialModalShow(false)}
+        onSubmit={handleAddMaterial}
+      />
     </>
   );
 };

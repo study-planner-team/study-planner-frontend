@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import Header from "../../components/GeneralComponents/Header";
@@ -9,12 +9,14 @@ import "../../styles/StudyPlanDetailsStyles.css";
 import { useAuthContext } from "../../context/useAuthContext";
 import StudyTopicBlock from "../../components/StudyTopicComponents/StudyTopicBlock";
 import { useStudyPlanDetails } from "../../hooks/useStudyPlanDetails";
+import ScheduleGeneratingBlock from "../../components/ScheduleComponents/ScheduleGeneratingBlock";
 
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [key, setKey] = useState("details");
   const { user } = useAuthContext();
-  const {studyPlan, members, scheduleModalShow, setScheduleModalShow, handleOwnerChange, formatDateShort} = useStudyPlanDetails(id);
+  const [key, setKey] = useState("details");
+  const [topicIds, setTopicIds] = useState<number[]>([]);
+  const {studyPlan, members, handleOwnerChange, formatDateShort} = useStudyPlanDetails(id);
 
   return (
     <>
@@ -34,12 +36,14 @@ const StudyPlanDetailsPage: React.FC = () => {
             </Link>
           </Col>
           <Col className="text-end">
-            <Button
-              variant="warning"
-              onClick={() => setScheduleModalShow(true)}
-            >
-              Generuj harmonogram
-            </Button>
+          {studyPlan && (
+              <ScheduleGeneratingBlock
+                studyPlanId={studyPlan.studyPlanId}
+                startDate={studyPlan.startDate}
+                endDate={studyPlan.endDate}
+                topicIds={topicIds}
+              />
+            )}
           </Col>
         </Row>
 
@@ -66,7 +70,7 @@ const StudyPlanDetailsPage: React.FC = () => {
               </Col>
 
               <Col md={6} className="ps-4">
-                <StudyTopicBlock studyPlanId={Number(id)}/>
+                <StudyTopicBlock studyPlanId={Number(id)} onTopicsFetched={setTopicIds} />
               </Col>
             </Row>
           </Tab>
@@ -95,12 +99,6 @@ const StudyPlanDetailsPage: React.FC = () => {
             Brak przypisanych quizów
           </Tab>
         </Tabs>
-
-        {/* GenerateScheduleFormModal
-          show={scheduleModalShow}
-          onHide={() => setScheduleModalShow(false)}
-          onSubmit={handleScheduleSubmit}
-        /> */}
       </Container>
       <Footer />
     </>

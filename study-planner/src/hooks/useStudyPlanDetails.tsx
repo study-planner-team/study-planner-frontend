@@ -19,18 +19,9 @@ interface StudyPlanOwner {
   isPublic: boolean;
 }
 
-interface ScheduleFormData {
-  sessionsPerDay: number;
-  sessionLength: number;
-  studyStartTime: string;
-  studyEndTime: string;
-  preferredStudyDays: string[];
-}
-
 export const useStudyPlanDetails = (id: string | undefined) => {
   const [studyPlan, setStudyPlan] = useState<StudyPlan>();
   const [members, setMembers] = useState<any[]>([]);
-  const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
 
   useEffect(() => {
     fetchStudyPlan();
@@ -67,28 +58,9 @@ export const useStudyPlanDetails = (id: string | undefined) => {
     return new Date(dateString).toLocaleDateString("pl-PL");
   };
 
-
-  // const handleScheduleSubmit = async (formData: ScheduleFormData) => {
-  //   const scheduleData = {
-  //     ...formData,
-  //     studyPlanId: studyPlan?.studyPlanId,
-  //     startDate: studyPlan?.startDate,
-  //     endDate: studyPlan?.endDate,
-  //     topics: topics,
-  //   };
-
-  //   const success = await StudyPlanService.generateSchedule(scheduleData);
-    
-  //   if (success) {
-  //     toast.success("Pomyślnie utworzono harmonogram!")
-  //   }
-  // };
-
   return {
     studyPlan,
     members,
-    scheduleModalShow,
-    setScheduleModalShow,
     handleOwnerChange,
     formatDateShort,
   };
