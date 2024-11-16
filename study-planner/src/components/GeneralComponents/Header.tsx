@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../styles/HeaderStyles.css";
 import { useAuthContext } from "../../context/useAuthContext";
@@ -16,27 +16,28 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Navbar variant="dark" expand="lg" className="navbar-custom">
-      <Container fluid>
+    <Navbar collapseOnSelect expand="lg" className="navbar-custom" variant="dark">
+      <Container className="navbar-wrapper">
         <Navbar.Brand as={Link} to="/" className="fw-bold">
           Study Planner
         </Navbar.Brand>
-        {isLoggedIn() && (
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/studyplans">
-              Plany nauki
-            </Nav.Link>
-            <Nav.Link as={Link} to="/publicstudyplans">
-              Publiczne Plany nauki
-            </Nav.Link>
-            <Nav.Link as={Link} to="/calendar">
-              Kalendarz
-            </Nav.Link>
-          </Nav>
-        )}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          {isLoggedIn() && (
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/studyplans">
+                Plany nauki
+              </Nav.Link>
+              <Nav.Link as={Link} to="/publicstudyplans">
+                Publiczne Plany nauki
+              </Nav.Link>
+              <Nav.Link as={Link} to="/calendar">
+                Kalendarz
+              </Nav.Link>
+            </Nav>
+          )}
+
+          <Nav>
             {!isLoggedIn() ? (
               <>
                 <Nav.Link

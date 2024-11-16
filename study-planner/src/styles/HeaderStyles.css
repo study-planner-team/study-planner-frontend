@@ -1,5 +1,13 @@
 .navbar {
     background-color: var(--primary-color) !important;
+    width: 100% !important;
+}
+
+.navbar-wrapper {
+    padding: 0% !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    max-width: 100% !important;
 }
 
 .nav-link {
