@@ -1,0 +1,12 @@
+.calendar-container {
+    width: 85vw;
+    height: 85vh;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.my-calendar {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 20px;
+}
