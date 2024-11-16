@@ -21,13 +21,13 @@ const PublicPlanPage: React.FC = () => {
         <div>
           <h2 className="text-center">Publiczne Plany Nauki</h2>
         </div>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mb-3 mt-3">
           <input type="text" id="plan-search" />
         </div>
         <Row>
           {filteredPlans.length > 0 ? (
             filteredPlans.map((plan, index) => (
-              <Col md={4} key={index} className="mb-4">
+              <Col md="auto" key={index} className="mb-4">
                 <StudyPlanCard
                   plan={plan}
                   onActionClick={() => handleJoin(plan.studyPlanId)}

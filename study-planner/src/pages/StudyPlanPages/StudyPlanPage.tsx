@@ -34,7 +34,7 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {studyPlans.length > 0 ? (
                 studyPlans.map((plan) => (
-                  <Col md={3} key={plan.studyPlanId}>
+                  <Col md="auto" key={plan.studyPlanId}>
                     <StudyPlanCard
                       plan={plan}
                       onActionClick={() => handleArchive(plan.studyPlanId)}
@@ -52,7 +52,7 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {joinedPlans.length > 0 ? (
                 joinedPlans.map((plan, index) => (
-                  <Col md={3} key={index}>
+                  <Col md="auto" key={index}>
                     <StudyPlanCard
                       plan={plan}
                       onActionClick={() => handleLeave(plan.studyPlanId)}
@@ -70,7 +70,7 @@ const StudyPlanPage: React.FC = () => {
             <Row>
               {archivedPlans.length > 0 ? (
                 archivedPlans.map((plan) => (
-                  <Col md={3} key={plan.studyPlanId}>
+                  <Col md="auto" key={plan.studyPlanId}>
                     <StudyPlanCard
                       plan={plan}
                       onActionClick={() => handleUnarchive(plan.studyPlanId)}

@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { ListGroup } from "react-bootstrap";
 
 interface StudyMaterials {
   studyMaterialId?: number;
@@ -12,17 +13,17 @@ interface Props {
 
 const StudyMaterialsList: React.FC<Props> = ({ data }) => {
   return (
-    <ul>
+    <ListGroup className="list-group-flush">
       {data && data.length > 0 ? (
         data.map((material) => (
-          <li key={material.studyMaterialId} className="mb-3">
+          <ListGroup.Item key={material.studyMaterialId}>
             {material.title} - {material.link}
-          </li>
+          </ListGroup.Item>
         ))
       ) : (
-        <p>Brak materiałów.</p>
+        <ListGroup.Item>Brak materiałów.</ListGroup.Item>
       )}
-    </ul>
+    </ListGroup>
   );
 };
 
