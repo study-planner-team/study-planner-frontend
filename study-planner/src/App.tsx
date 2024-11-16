@@ -32,7 +32,7 @@ const App: React.FC = () => {
             <Route path="/studyplans/:id" element={<ProtectedRoute><StudyPlanDetailsPage /></ProtectedRoute>} />
             <Route path="/studyplans/edit/:id" element={<ProtectedRoute><EditStudyPlanPage /></ProtectedRoute>} />
             <Route path="/schedules" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
-            <Route path="/calendars" element={<ProtectedRoute><ScheduleCalendarPage /></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute><ScheduleCalendarPage /></ProtectedRoute>} />
             <Route path="/publicstudyplans" element={<ProtectedRoute><PublicPlanPage /></ProtectedRoute>} />
           </Routes>
         </AuthProvider>
