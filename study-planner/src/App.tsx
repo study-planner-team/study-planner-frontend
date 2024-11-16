@@ -14,6 +14,7 @@ import SchedulePage from './pages/SchedulePages/SchedulePage';
 import PublicPlanPage from './pages/StudyPlanPages/PublicPlanPage';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import ScheduleCalendarPage from './pages/SchedulePages/ScheduleCalendarPage';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/studyplans/:id" element={<ProtectedRoute><StudyPlanDetailsPage /></ProtectedRoute>} />
             <Route path="/studyplans/edit/:id" element={<ProtectedRoute><EditStudyPlanPage /></ProtectedRoute>} />
             <Route path="/schedules" element={<ProtectedRoute><SchedulePage /></ProtectedRoute>} />
+            <Route path="/calendar" element={<ProtectedRoute><ScheduleCalendarPage /></ProtectedRoute>} />
             <Route path="/publicstudyplans" element={<ProtectedRoute><PublicPlanPage /></ProtectedRoute>} />
           </Routes>
         </AuthProvider>
