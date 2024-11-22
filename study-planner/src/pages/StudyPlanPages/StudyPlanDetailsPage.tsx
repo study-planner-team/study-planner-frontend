@@ -10,6 +10,7 @@ import { useAuthContext } from "../../context/useAuthContext";
 import StudyTopicBlock from "../../components/StudyTopicComponents/StudyTopicBlock";
 import { useStudyPlanDetails } from "../../hooks/useStudyPlanDetails";
 import ScheduleGeneratingBlock from "../../components/ScheduleComponents/ScheduleGeneratingBlock";
+import usePermissions from "../../hooks/usePermissions";
 
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,6 +18,7 @@ const StudyPlanDetailsPage: React.FC = () => {
   const [key, setKey] = useState("details");
   const [topicIds, setTopicIds] = useState<number[]>([]);
   const {studyPlan, members, handleOwnerChange, formatDateShort} = useStudyPlanDetails(id);
+  const { canEdit, canGenerateSchedule} = usePermissions(studyPlan);
 
   return (
     <>
@@ -28,15 +30,18 @@ const StudyPlanDetailsPage: React.FC = () => {
             <p>
               Status planu: {studyPlan?.isPublic ? "Publiczny" : "Prywatny"}
             </p>
-            <Link
+            { studyPlan && canEdit && (
+              <Link
               to={`/studyplans/edit/${studyPlan?.studyPlanId}`}
               className="text-center"
             >
               <Button variant="warning">Edytuj plan</Button>
             </Link>
+            )}
+            
           </Col>
           <Col className="text-end">
-          {studyPlan && (
+          {studyPlan && canGenerateSchedule && (
               <ScheduleGeneratingBlock
                 studyPlanId={studyPlan.studyPlanId}
                 startDate={studyPlan.startDate}
@@ -70,7 +75,7 @@ const StudyPlanDetailsPage: React.FC = () => {
               </Col>
 
               <Col md={6} className="ps-4">
-                <StudyTopicBlock studyPlanId={Number(id)} onTopicsFetched={setTopicIds} />
+                <StudyTopicBlock studyPlanId={Number(id)} onTopicsFetched={setTopicIds} canEdit={canEdit} />
               </Col>
             </Row>
           </Tab>
@@ -80,14 +85,14 @@ const StudyPlanDetailsPage: React.FC = () => {
                 members.map((member) => (
                   <li key={member.userId} className="mb-3">
                     {member.username}
-                    {user?.id == studyPlan?.owner.userId &&
+                    {canEdit && (member.userId != studyPlan?.owner.userId) && (
                     <Button
                       variant="danger"
                       onClick={() => handleOwnerChange(Number(id), member.userId)}
                     >
                       Zmień lidera
                     </Button>
-                    }
+                    )}
                   </li>
                 ))
               ) : (

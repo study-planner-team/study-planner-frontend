@@ -7,11 +7,13 @@ import { useStudyTopics } from "../../hooks/useStudyTopics";
 interface TopicProps {
   studyPlanId: number;
   onTopicsFetched?: (topics: number[]) => void;
+  canEdit: boolean;
 }
 
 const StudyTopicBlock: React.FC<TopicProps> = ({
   studyPlanId,
   onTopicsFetched,
+  canEdit,
 }) => {
   const { topics, topicModalShow, setTopicModalShow, handleAddTopic } =
     useStudyTopics(studyPlanId, onTopicsFetched);
@@ -20,13 +22,15 @@ const StudyTopicBlock: React.FC<TopicProps> = ({
     <>
       <div className="d-flex justify-content-between align-items-center">
         <h5>Tematy:</h5>
-        <Button
-          variant="warning"
-          className="mb-3"
-          onClick={() => setTopicModalShow(true)}
-        >
-          Dodaj Temat
-        </Button>
+        {canEdit && (
+          <Button
+            variant="warning"
+            className="mb-3"
+            onClick={() => setTopicModalShow(true)}
+          >
+            Dodaj Temat
+          </Button>
+        )}
       </div>
 
       <ul className="list-unstyled">
