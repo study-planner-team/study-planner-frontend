@@ -34,10 +34,19 @@ export const useStudyTopics = (studyPlanId: number, onTopicsFetched?: (topics: n
     }
   };
 
+  const handleDeleteTopic = async (topicId: number) => {
+    const response = await StudyTopicService.deleteTopic(studyPlanId, topicId);
+    
+    if (response) {
+      fetchTopics();
+    }
+  };
+
   return {
     topics,
     topicModalShow,
     setTopicModalShow,
     handleAddTopic,
+    handleDeleteTopic
   };
 };

@@ -15,8 +15,7 @@ const StudyTopicBlock: React.FC<TopicProps> = ({
   onTopicsFetched,
   canEdit,
 }) => {
-  const { topics, topicModalShow, setTopicModalShow, handleAddTopic } =
-    useStudyTopics(studyPlanId, onTopicsFetched);
+  const { topics, topicModalShow, setTopicModalShow, handleAddTopic, handleDeleteTopic } = useStudyTopics(studyPlanId, onTopicsFetched);
 
   return (
     <>
@@ -35,7 +34,7 @@ const StudyTopicBlock: React.FC<TopicProps> = ({
 
       <ul className="list-unstyled">
         {topics.length > 0 ? (
-          topics.map((topic, index) => <StudyTopic data={topic} key={index} />)
+          topics.map((topic, index) => <StudyTopic data={topic} key={index} handleDelete={handleDeleteTopic} canEdit={canEdit}/>)
         ) : (
           <p>Brak zakresu materiału.</p>
         )}

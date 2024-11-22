@@ -29,10 +29,19 @@ export const useStudyMaterials = (topicId: number) => {
     }
   };
 
+  const handleDeleteMaterial = async (materialId: number) => {
+    const response = await StudyTopicService.deleteMaterial(topicId, materialId);
+    
+    if (response) {
+      fetchMaterials();
+    }
+  };
+
   return {
     materials,
     materialModalShow,
     setMaterialModalShow,
     handleAddMaterial,
+    handleDeleteMaterial
   };
 };

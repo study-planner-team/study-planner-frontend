@@ -102,6 +102,16 @@ class StudyPlanService {
     }
   }
 
+  async deleteStudyPlan(studyPlanId: number) {
+    try {
+      const response = await axiosInstance.delete(`/api/studyplans/${studyPlanId}`);
+      return response.data; 
+    } catch (error) {
+      handleError(error, "Nie udało się usunąć planu");
+      return null;
+    }
+  }
+
   async getJoinedPlans() {
     try {
       const response = await axiosInstance.get("/api/studyplans/joined");
