@@ -47,15 +47,19 @@ export const useCalendar = () => {
 
   const transformStudySessionsToEvents = (studySessions: StudySession[]): CalendarEvent[] => {
     return studySessions.map((session) => {
-      const start = moment(`${session.date} ${session.startTime}`, "YYYY-MM-DD HH:mm:ss").toDate();
-      const end = moment(`${session.date} ${session.endTime}`, "YYYY-MM-DD HH:mm:ss").toDate();
-      const formattedStartTime = moment(start).format("HH:mm");
-      const formattedEndTime = moment(end).format("HH:mm");
+
+      // Convert UTC session times to local time
+      const start = new Date(`${session.date.split('T')[0]}T${session.startTime}Z`);
+      const end = new Date(`${session.date.split('T')[0]}T${session.endTime}Z`);
+
+      // Format start and end times to local time
+      const formattedStartTime = start.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
+      const formattedEndTime = end.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
 
       return {
-        title: `${session.studyTopic.title} (${formattedStartTime} - ${formattedEndTime})`,
-        start,
-        end,
+          title: `${session.studyTopic.title} (${formattedStartTime} - ${formattedEndTime})`,
+          start,
+          end,
         resource: {
           studySessionId: session.studySessionId,
           duration: session.duration,
