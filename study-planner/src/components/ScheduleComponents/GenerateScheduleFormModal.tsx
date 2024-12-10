@@ -30,17 +30,22 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Convert study times to valid time format (HH:mm:ss)
-    const formattedStartTime = `${studyStartTime}:00`; 
-    const formattedEndTime = `${studyEndTime}:00`;
-  
+
+    // Combine the selected date and time as a local Date object
+    const today = new Date(); // Current local date
+    const startDateTime = new Date(`${today.toISOString().split('T')[0]}T${studyStartTime}:00`);
+    const endDateTime = new Date(`${today.toISOString().split('T')[0]}T${studyEndTime}:00`);
+
+    // Convert to UTC directly using toISOString()
+    const utcStartTime = startDateTime.toISOString();
+    const utcEndTime = endDateTime.toISOString();
+
     onSubmit({
       sessionsPerDay: parseInt(sessionsPerDay),
       sessionLength: parseInt(sessionLength),
-      studyStartTime: formattedStartTime, // Time format as a string
-      studyEndTime: formattedEndTime,     // Time format as a string
-      preferredStudyDays, 
+      studyStartTime: utcStartTime, // Send UTC format
+      studyEndTime: utcEndTime,     // Send UTC format
+      preferredStudyDays,
     });
     onHide();
   };
