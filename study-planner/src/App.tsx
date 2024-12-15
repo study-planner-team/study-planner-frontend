@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import ScheduleCalendarPage from './pages/SchedulePages/ScheduleCalendarPage';
 import { ActiveSessionProvider } from './context/ActiveSessionProvider';
 import ActiveSessionPage from './pages/SessionPages/ActiveSessionPage';
+import StatisticPage from './pages/StatisticPages/StatisticPage';
 
 const App: React.FC = () => {
   return (
@@ -38,6 +39,7 @@ const App: React.FC = () => {
               <Route path="/calendar" element={<ProtectedRoute><ScheduleCalendarPage /></ProtectedRoute>} />
               <Route path="/publicstudyplans" element={<ProtectedRoute><PublicPlanPage /></ProtectedRoute>} />
               <Route path="/sessions/active" element={<ProtectedRoute><ActiveSessionPage /></ProtectedRoute>} />
+              <Route path="/statistics" element={<ProtectedRoute><StatisticPage /></ProtectedRoute>} />
             </Routes>
           </ActiveSessionProvider>
         </AuthProvider>
