@@ -5,8 +5,10 @@ export const formatDate = (date: string): string => {
   };
 
 // Converts a UTC time to local time in "HH:mm" format
-export const formatTime = (date: string, time: string): string => {
-    const utcDateTime = new Date(`${date.split("T")[0]}T${time}Z`);
+export const formatTime = (date: string | null, time: string): string => {
+    const utcDate = date ? date.split("T")[0] : "1970-01-01";
+
+    const utcDateTime = new Date(`${utcDate.split("T")[0]}T${time}Z`);
     return utcDateTime.toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
 };
   

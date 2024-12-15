@@ -37,6 +37,9 @@ const Header: React.FC = () => {
               <Nav.Link as={Link} to="/sessions/active">
                 Sesje
               </Nav.Link>
+              <Nav.Link as={Link} to="/statistics">
+                Statystyki
+              </Nav.Link>
             </Nav>
           )}
 
