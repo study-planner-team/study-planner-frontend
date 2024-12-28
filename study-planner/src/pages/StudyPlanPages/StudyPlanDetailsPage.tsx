@@ -11,6 +11,7 @@ import StudyTopicBlock from "../../components/StudyTopicComponents/StudyTopicBlo
 import { useStudyPlanDetails } from "../../hooks/useStudyPlanDetails";
 import ScheduleGeneratingBlock from "../../components/ScheduleComponents/ScheduleGeneratingBlock";
 import usePermissions from "../../hooks/usePermissions";
+import QuizBlock from "../../components/QuizComponents/QuizBlock";
 
 const StudyPlanDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +19,7 @@ const StudyPlanDetailsPage: React.FC = () => {
   const [key, setKey] = useState("details");
   const [topicIds, setTopicIds] = useState<number[]>([]);
   const {studyPlan, members, handleOwnerChange, formatDateShort} = useStudyPlanDetails(id);
-  const { canEdit, canGenerateSchedule} = usePermissions(studyPlan);
+  const { canEdit, canGenerateSchedule, canViewDetails} = usePermissions(studyPlan);
 
   return (
     <>
@@ -101,7 +102,9 @@ const StudyPlanDetailsPage: React.FC = () => {
             </ul>
           </Tab>
           <Tab eventKey="quizes" title="Quizy">
-            Brak przypisanych quizów
+            {studyPlan &&
+              <QuizBlock studyPlanId={studyPlan?.studyPlanId} canViewDetails={canViewDetails} members={members}/>
+            }
           </Tab>
         </Tabs>
       </Container>
