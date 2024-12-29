@@ -19,7 +19,13 @@ const QuizComponent: React.FC<QuizComponentProps> = ({createdQuiz, assignedQuiz,
 
   if (!quizData) {
     return <p>No quiz data available</p>;
-  }
+  };
+
+  const handleStartQuiz = () => {
+    if (assignedQuiz) {
+      navigate(`/studyplans/${quizData.studyPlanId}/quizzes/${quizData.quizId}`);
+    }
+  };
 
   return (
     <Card className="mb-3">
@@ -39,7 +45,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({createdQuiz, assignedQuiz,
         )}
 
         {assignedQuiz && assignedQuiz.state === "Assigned" && (
-          <Button variant="success" size="sm">
+          <Button variant="success" size="sm" onClick={handleStartQuiz}>
             Start Quiz
           </Button>
         )}
