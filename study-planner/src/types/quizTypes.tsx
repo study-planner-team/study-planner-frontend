@@ -30,3 +30,12 @@ export interface QuizAssignment {
   totalQuestions?: number;
   quiz: QuizWithQuestions;
 }
+
+export interface UserAnswerDTO {
+  questionId: number;
+  selectedOptionId: number;
+}
+
+export interface QuizCompletionDTO {
+  answers: UserAnswerDTO[];
+}

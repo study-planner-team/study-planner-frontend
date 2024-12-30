@@ -57,14 +57,6 @@ export const useQuiz = (studyPlanId: number) => {
     }
   };
 
-  const handleCompleteQuiz = async ( assignmentId: number, correctAnswers: number, totalQuestions: number) => {
-    const result = await QuizService.completeQuiz(studyPlanId, assignmentId, correctAnswers, totalQuestions);
-    if(result) {
-      toast.success("Ukończono quiz!");
-    }
-  }
-
-
   return {
     createdQuizzes,
     assignedQuizzes,
@@ -73,7 +65,6 @@ export const useQuiz = (studyPlanId: number) => {
     setQuizModalShow,
     handleAddQuiz,
     handleDeleteQuiz,
-    handleAssignQuiz,
-    handleCompleteQuiz
+    handleAssignQuiz
   };
 };

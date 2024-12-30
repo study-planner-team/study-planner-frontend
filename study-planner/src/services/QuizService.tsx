@@ -1,4 +1,4 @@
-import { Quiz, QuizWithQuestions } from "../types/quizTypes";
+import { Quiz, QuizWithQuestions, UserAnswerDTO } from "../types/quizTypes";
 import axiosInstance from "../utils/axiosInstance";
 import { handleError } from "../utils/errorHandler";
 
@@ -97,18 +97,19 @@ class QuizService {
     }
   }
 
-  async completeQuiz(studyPlanId: number, assignmentId: number, correctAnswers: number, totalQuestions: number) {
+  async completeQuiz(studyPlanId: number, assignmentId: number, userAnswers: UserAnswerDTO[]) {
     try {
       const response = await axiosInstance.put(
         `/api/studyplans/${studyPlanId}/quizzes/assigned/${assignmentId}/complete`,
-        { correctAnswers, totalQuestions } 
+        { answers: userAnswers }
       );
-      return response.data;
+      return response.data; 
     } catch (error) {
       handleError(error, "Nie udało się ukończyć quizu");
       return null;
     }
   }
+  
   
 }
 

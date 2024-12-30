@@ -8,12 +8,13 @@ import { Question } from "../../types/quizTypes";
 const ResultPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { score, correctAnswers, totalQuestions, questions, answers } = location.state as {
+  const { score, correctAnswers, totalQuestions, questions, answers, studyPlanId } = location.state as {
     score: number;
     correctAnswers: number;
     totalQuestions: number; 
     questions: Question[];
     answers: { [questionIndex: number]: number };
+    studyPlanId: number;
   };
 
   return (
@@ -23,7 +24,7 @@ const ResultPage: React.FC = () => {
         <Row className="mb-4">
           <Col className="text-center">
             <h1>Quiz Completed!</h1>
-            <h2>Your Score: {correctAnswers}/{totalQuestions} ({score}%)</h2>
+            <h2>Your Score: {correctAnswers}/{totalQuestions} ({score.toFixed(2)}%)</h2>
           </Col>
         </Row>
 
@@ -67,7 +68,7 @@ const ResultPage: React.FC = () => {
 
         <Row className="mt-4">
           <Col className="text-center">
-            <Button variant="primary" onClick={() => navigate("/")}>Back to Dashboard</Button>
+            <Button variant="primary" onClick={() => navigate(`/studyplans/${studyPlanId}`)}>Back to Dashboard</Button>
           </Col>
         </Row>
       </Container>

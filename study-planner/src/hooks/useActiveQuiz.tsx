@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import QuizService from "../services/QuizService";
-import { Question, QuizAssignment} from "../types/quizTypes";
+import { Question, QuizAssignment, UserAnswerDTO} from "../types/quizTypes";
 import { useNavigate } from "react-router-dom";
 
 export const useActiveQuiz = (studyPlanId: number, quizId: number) => {
@@ -26,40 +26,26 @@ export const useActiveQuiz = (studyPlanId: number, quizId: number) => {
       }
     };
 
-    const calculateQuizResults = () => {
-      let correctAnswers = 0;
-
-      questions.forEach((question, questionIndex) => {
-        const correctOptionIndex = question.options.findIndex(
-          (option) => option.isCorrect
-        );
-        if (answers[questionIndex] === correctOptionIndex) {
-          correctAnswers++;
-        }
-      });
-
-      const totalQuestions = questions.length;
-      const score = (correctAnswers / totalQuestions) * 100;
-
-      return { score, correctAnswers, totalQuestions };
-    };
-
     const handleOptionSelect = (questionIndex: number,selectedOptionIndex: number) => {
       setAnswers((prevAnswers) => ({...prevAnswers,[questionIndex]: selectedOptionIndex}));
     };
 
     const handleSubmit = async () => {
-      const { score, correctAnswers, totalQuestions } = calculateQuizResults();
-
-      await QuizService.completeQuiz(studyPlanId, activeQuiz?.assignmentId!, correctAnswers, totalQuestions);
+      const userAnswers: UserAnswerDTO[] = questions.map((question, questionIndex) => ({
+        questionId: question.questionId!,
+        selectedOptionId: question.options[answers[questionIndex]].optionId!,
+      }));
+      
+      const updatedAssignment = await QuizService.completeQuiz(studyPlanId, activeQuiz?.assignmentId!, userAnswers);
 
       navigate(`/studyplans/${studyPlanId}/quizzes/${quizId}/score`, {
         state: {
-          score,
-          correctAnswers,
-          totalQuestions,
-          questions,
-          answers,
+          score: updatedAssignment.correctAnswers! / updatedAssignment.totalQuestions! * 100,
+          correctAnswers: updatedAssignment.correctAnswers,
+          totalQuestions: updatedAssignment.totalQuestions,
+          questions: updatedAssignment.quiz.questions,
+          answers: answers,
+          studyPlanId
         },
       });
     };
@@ -69,7 +55,6 @@ export const useActiveQuiz = (studyPlanId: number, quizId: number) => {
     questions,
     answers,
     fetchQuiz,
-    calculateQuizResults,
     handleOptionSelect,
     handleSubmit,
     loading
