@@ -3,9 +3,12 @@ import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../../styles/HeaderStyles.css";
 import { useAuthContext } from "../../context/useAuthContext";
+import { useTranslation } from "react-i18next";
+import VisSettingsBox from "./VisSettingsBox";
 
 const Header: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuthContext();
+  const [t, i18n] = useTranslation("global");
 
   const handleLogout = async () => {
     try {
@@ -26,22 +29,23 @@ const Header: React.FC = () => {
           {isLoggedIn() && (
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/studyplans">
-                Plany nauki
+                {t("header.studyplans")}
               </Nav.Link>
               <Nav.Link as={Link} to="/publicstudyplans">
-                Publiczne Plany nauki
+                {t("header.publicstudyplans")}
               </Nav.Link>
               <Nav.Link as={Link} to="/calendar">
-                Kalendarz
+                {t("header.calendar")}
               </Nav.Link>
               <Nav.Link as={Link} to="/sessions/active">
-                Sesje
+                {t("header.sessions")}
               </Nav.Link>
               <Nav.Link as={Link} to="/statistics">
-                Statystyki
+                {t("header.statistics")}
               </Nav.Link>
             </Nav>
           )}
+          <VisSettingsBox/>
 
           <Nav>
             {!isLoggedIn() ? (
@@ -51,10 +55,10 @@ const Header: React.FC = () => {
                   to="/register"
                   className="btn-custom w-100 text-left"
                 >
-                  Rejestracja
+                  {t("header.user.register")}
                 </Nav.Link>
                 <Nav.Link as={Link} to="/login">
-                  Login
+                  {t("header.user.login")}
                 </Nav.Link>
               </>
             ) : (
@@ -62,7 +66,7 @@ const Header: React.FC = () => {
                 <Nav.Link as={Link} to="/profile">
                   {user?.username}
                 </Nav.Link>
-                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                <Nav.Link onClick={handleLogout}>{t("header.user.logout")}</Nav.Link>
               </>
             )}
           </Nav>

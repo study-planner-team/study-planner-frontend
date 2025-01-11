@@ -1,0 +1,19 @@
+{
+    "header": {
+        "studyplans": "Study Plans",
+        "publicstudyplans": "Public Plans",
+        "calendar": "Calendar",
+        "sessions": "Sessions",
+        "statistics": "Statistics",
+        "user": {
+            "login": "Login",
+            "register": "Register",
+            "logout": "Logout"
+        },
+        "pickLang": "Choose Language",
+        "languages": {
+            "eng": "English",
+            "pol": "Polish"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "header": {
+        "studyplans": "Plany Nauki",
+        "publicstudyplans": "Publiczne Plany",
+        "calendar": "Kalendarz",
+        "sessions": "Sesje Nauki",
+        "statistics": "Statystyki",
+        "user": {
+            "login": "Zaloguj",
+            "register": "Zarejestruj",
+            "logout": "Wyloguj"
+        },
+        "pickLang": "Wybierz Język",
+        "languages": {
+            "eng": "Angielski",
+            "pol": "Polski"
+        }
+    }
+}
