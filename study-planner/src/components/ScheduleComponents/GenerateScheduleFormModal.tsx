@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 interface GenerateScheduleFormModalProps {
   show: boolean;
@@ -15,7 +16,13 @@ interface ScheduleFormData {
   preferredStudyDays: string[];
 }
 
-const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({show,onHide,onSubmit,}) => {
+const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({
+  show,
+  onHide,
+  onSubmit,
+}) => {
+  const { t } = useTranslation("global");
+
   const [sessionsPerDay, setSessionsPerDay] = useState("1");
   const [sessionLength, setSessionLength] = useState("1");
   const [studyStartTime, setStudyStartTime] = useState("18:00");
@@ -31,20 +38,22 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Combine the selected date and time as a local Date object
-    const today = new Date(); // Current local date
-    const startDateTime = new Date(`${today.toISOString().split('T')[0]}T${studyStartTime}:00`);
-    const endDateTime = new Date(`${today.toISOString().split('T')[0]}T${studyEndTime}:00`);
+    const today = new Date();
+    const startDateTime = new Date(
+      `${today.toISOString().split("T")[0]}T${studyStartTime}:00`
+    );
+    const endDateTime = new Date(
+      `${today.toISOString().split("T")[0]}T${studyEndTime}:00`
+    );
 
-    // Convert to UTC directly using toISOString()
     const utcStartTime = startDateTime.toISOString();
     const utcEndTime = endDateTime.toISOString();
 
     onSubmit({
       sessionsPerDay: parseInt(sessionsPerDay),
       sessionLength: parseInt(sessionLength),
-      studyStartTime: utcStartTime, // Send UTC format
-      studyEndTime: utcEndTime,     // Send UTC format
+      studyStartTime: utcStartTime,
+      studyEndTime: utcEndTime,
       preferredStudyDays,
     });
     onHide();
@@ -60,16 +69,16 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Wygeneruj harmonogram
+          {t("schedule.generateSchedule")}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="sessionsPerDay">
-            <Form.Label>Liczba sesji dziennie</Form.Label>
+            <Form.Label>{t("schedule.sessionsPerDay")}</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Podaj liczbę sesji dziennie"
+              placeholder={t("schedule.sessionsPerDayPlaceholder")}
               value={sessionsPerDay}
               onChange={(e) => setSessionsPerDay(e.target.value)}
               required
@@ -77,10 +86,10 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
           </Form.Group>
 
           <Form.Group controlId="sessionLength" className="mt-3">
-            <Form.Label>Długość jednej sesji (w godzinach)</Form.Label>
+            <Form.Label>{t("schedule.sessionLength")}</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Podaj długość jednej sesji (w godzinach)"
+              placeholder={t("schedule.sessionLengthPlaceholder")}
               value={sessionLength}
               onChange={(e) => setSessionLength(e.target.value)}
               required
@@ -90,7 +99,7 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
           <Row className="mt-3">
             <Col>
               <Form.Group controlId="studyStartTime">
-                <Form.Label>Początek okna nauki (godzina)</Form.Label>
+                <Form.Label>{t("schedule.startTime")}</Form.Label>
                 <Form.Control
                   type="time"
                   value={studyStartTime}
@@ -101,7 +110,7 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
             </Col>
             <Col>
               <Form.Group controlId="studyEndTime">
-                <Form.Label>Koniec okna nauki (godzina)</Form.Label>
+                <Form.Label>{t("schedule.endTime")}</Form.Label>
                 <Form.Control
                   type="time"
                   value={studyEndTime}
@@ -113,13 +122,21 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
           </Row>
 
           <Form.Group controlId="preferredStudyDays" className="mt-3">
-            <Form.Label>Preferowane dni nauki</Form.Label>
+            <Form.Label>{t("schedule.preferredStudyDays")}</Form.Label>
             <div className="d-flex flex-wrap">
-              {["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map((day) => (
+              {[
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ].map((day) => (
                 <Form.Check
                   key={day}
                   inline
-                  label={day}
+                  label={t(`days.${day.toLowerCase()}`)}
                   type="checkbox"
                   checked={preferredStudyDays.includes(day)}
                   onChange={() => handleStudyDaysChange(day)}
@@ -130,10 +147,10 @@ const GenerateScheduleFormModal: React.FC<GenerateScheduleFormModalProps> = ({sh
 
           <Modal.Footer>
             <Button variant="secondary" onClick={onHide}>
-              Zamknij
+              {t("common.close")}
             </Button>
             <Button variant="primary" type="submit">
-              Zapisz harmonogram
+              {t("schedule.saveSchedule")}
             </Button>
           </Modal.Footer>
         </Form>

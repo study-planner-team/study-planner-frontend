@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import { useTranslation } from "react-i18next"; // Import translations
 
 interface AddMaterialModalProps {
   topicId: number;
@@ -8,7 +9,13 @@ interface AddMaterialModalProps {
   onSubmit: (topicId: number, materialData: { title: string; link: string }) => void;
 }
 
-const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({ topicId, show, onHide, onSubmit }) => {
+const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({
+  topicId,
+  show,
+  onHide,
+  onSubmit,
+}) => {
+  const { t } = useTranslation("global");
   const [title, setTitle] = useState<string>("");
   const [link, setLink] = useState<string>("");
 
@@ -18,19 +25,19 @@ const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({ topicId, show, 
     onSubmit(topicId, { title, link });
     onHide();
   };
-  
+
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Dodaj Materiał</Modal.Title>
+        <Modal.Title>{t("studyMaterials.addMaterial")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
-            <Form.Label>Nazwa materiału</Form.Label>
+            <Form.Label>{t("studyMaterials.materialName")}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Nazwa materiału"
+              placeholder={t("studyMaterials.materialNamePlaceholder")}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -38,10 +45,10 @@ const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({ topicId, show, 
           </Form.Group>
 
           <Form.Group controlId="link" className="mt-3">
-            <Form.Label>Link</Form.Label>
+            <Form.Label>{t("studyMaterials.link")}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Link do materiału"
+              placeholder={t("studyMaterials.linkPlaceholder")}
               value={link}
               onChange={(e) => setLink(e.target.value)}
               required
@@ -50,10 +57,10 @@ const AddMaterialFormModal: React.FC<AddMaterialModalProps> = ({ topicId, show, 
 
           <Modal.Footer>
             <Button variant="secondary" onClick={onHide}>
-              Zamknij
+              {t("common.cancel")}
             </Button>
             <Button variant="primary" type="submit">
-              Dodaj
+              {t("common.add")}
             </Button>
           </Modal.Footer>
         </Form>

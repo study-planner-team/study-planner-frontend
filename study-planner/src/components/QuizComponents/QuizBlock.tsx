@@ -3,6 +3,7 @@ import { Button, Row, Col, Card } from "react-bootstrap";
 import { useQuiz } from "../../hooks/useQuiz";
 import AddQuizFormModal from "./AddQuizFormModal";
 import QuizComponent from "./QuizComponent";
+import { useTranslation } from "react-i18next";
 
 interface QuizBlockProps {
   studyPlanId: number;
@@ -10,7 +11,12 @@ interface QuizBlockProps {
   members: { userId: number; username: string }[];
 }
 
-const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, members}) => {
+const QuizBlock: React.FC<QuizBlockProps> = ({
+  studyPlanId,
+  canViewDetails,
+  members,
+}) => {
+  const { t } = useTranslation("global");
   const {
     createdQuizzes,
     assignedQuizzes,
@@ -19,7 +25,7 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
     setQuizModalShow,
     handleAddQuiz,
     handleDeleteQuiz,
-    handleAssignQuiz
+    handleAssignQuiz,
   } = useQuiz(studyPlanId);
 
   return (
@@ -27,15 +33,15 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
       <Row className="g-4">
         <Col md={4}>
           <Card>
-            <Card.Header className="d-flex justify-content-between align-items-center" style={{ minHeight: "3.5rem" }}>
-              <h5 className="mb-0">Created Quizzes</h5>
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">{t("quiz.createdQuizzes")}</h5>
               {canViewDetails && (
                 <Button
                   variant="warning"
                   size="sm"
                   onClick={() => setQuizModalShow(true)}
                 >
-                  Add Quiz
+                  {t("quiz.addQuiz")}
                 </Button>
               )}
             </Card.Header>
@@ -51,7 +57,7 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
                   />
                 ))
               ) : (
-                <p className="text-muted">No created quizzes available.</p>
+                <p className="text-muted">{t("quiz.noQuizzes")}</p>
               )}
             </Card.Body>
           </Card>
@@ -59,8 +65,8 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
 
         <Col md={4}>
           <Card>
-            <Card.Header className="d-flex justify-content-between align-items-center" style={{ minHeight: "3.5rem" }}>
-              <h5 className="mb-0">Assigned Quizzes</h5>
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">{t("quiz.assignedQuizzes")}</h5>
             </Card.Header>
             <Card.Body>
               {assignedQuizzes.length > 0 ? (
@@ -74,7 +80,7 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
                   />
                 ))
               ) : (
-                <p className="text-muted">No assigned quizzes available.</p>
+                <p className="text-muted">{t("quiz.noQuizzes")}</p>
               )}
             </Card.Body>
           </Card>
@@ -82,24 +88,24 @@ const QuizBlock: React.FC<QuizBlockProps> = ({studyPlanId, canViewDetails, membe
 
         <Col md={4}>
           <Card>
-              <Card.Header className="d-flex justify-content-between align-items-center" style={{ minHeight: "3.5rem" }}>
-                  <h5 className="mb-0">Completed Quizzes</h5>
-              </Card.Header>
-              <Card.Body>
-                  {completedQuizzes.length > 0 ? (
-                      completedQuizzes.map((quiz) => (
-                          <QuizComponent
-                              key={quiz.assignmentId}
-                              assignedQuiz={quiz}
-                              members={members}
-                              onDelete={() => {}} // Disable delete for completed quizzes
-                              onAssign={() => {}} // Disable assign for completed quizzes
-                          />
-                      ))
-                  ) : (
-                      <p className="text-muted">No completed quizzes available.</p>
-                  )}
-              </Card.Body>
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">{t("quiz.completedQuizzes")}</h5>
+            </Card.Header>
+            <Card.Body>
+              {completedQuizzes.length > 0 ? (
+                completedQuizzes.map((quiz) => (
+                  <QuizComponent
+                    key={quiz.assignmentId}
+                    assignedQuiz={quiz}
+                    members={members}
+                    onDelete={() => {}} // Disable delete for completed quizzes
+                    onAssign={() => {}} // Disable assign for completed quizzes
+                  />
+                ))
+              ) : (
+                <p className="text-muted">{t("quiz.noQuizzes")}</p>
+              )}
+            </Card.Body>
           </Card>
         </Col>
       </Row>

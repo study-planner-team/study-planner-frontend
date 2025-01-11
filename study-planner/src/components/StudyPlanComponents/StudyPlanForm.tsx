@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next"; // Import translations
 
 interface StudyPlanFormProps {
   initialValues?: {
@@ -14,7 +15,13 @@ interface StudyPlanFormProps {
   submitButtonLabel: string;
 }
 
-const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, submitButtonLabel }) => {
+const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
+  initialValues,
+  onSubmit,
+  submitButtonLabel,
+}) => {
+  const { t } = useTranslation("global");
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -24,14 +31,22 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
 
   useEffect(() => {
     if (initialValues) {
-        setTitle(initialValues.title || '');
-        setDescription(initialValues.description || '');
-        setCategory(initialValues.category || '');
-        setStartDate(initialValues.startDate  ? new Date(initialValues.startDate).toISOString().split('T')[0] : '');
-        setEndDate(initialValues.endDate ? new Date(initialValues.endDate).toISOString().split('T')[0] : '');
-        setIsPublic(initialValues.isPublic || false);
-      }
-    }, [initialValues]);
+      setTitle(initialValues.title || "");
+      setDescription(initialValues.description || "");
+      setCategory(initialValues.category || "");
+      setStartDate(
+        initialValues.startDate
+          ? new Date(initialValues.startDate).toISOString().split("T")[0]
+          : ""
+      );
+      setEndDate(
+        initialValues.endDate
+          ? new Date(initialValues.endDate).toISOString().split("T")[0]
+          : ""
+      );
+      setIsPublic(initialValues.isPublic || false);
+    }
+  }, [initialValues]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -44,10 +59,10 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
         <Col md={6} className="bg-light p-4 rounded">
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="title">
-              <Form.Label>Nazwa planu</Form.Label>
+              <Form.Label>{t("studyPlans.title")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nazwa planu"
+                placeholder={t("studyPlans.titlePlaceholder")}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
@@ -55,20 +70,20 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
             </Form.Group>
 
             <Form.Group controlId="description" className="mt-3">
-              <Form.Label>Opis</Form.Label>
+              <Form.Label>{t("studyPlans.description")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Opis"
+                placeholder={t("studyPlans.descriptionPlaceholder")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
 
             <Form.Group controlId="category" className="mt-3">
-              <Form.Label>Przedmiot/Kategoria</Form.Label>
+              <Form.Label>{t("studyPlans.category")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Przedmiot/Kategoria"
+                placeholder={t("studyPlans.categoryPlaceholder")}
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
@@ -77,7 +92,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
             <Row className="mt-3">
               <Col>
                 <Form.Group controlId="startDate">
-                  <Form.Label>Data startowa</Form.Label>
+                  <Form.Label>{t("studyPlans.startDate")}</Form.Label>
                   <Form.Control
                     type="date"
                     value={startDate}
@@ -88,7 +103,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
               </Col>
               <Col>
                 <Form.Group controlId="endDate">
-                  <Form.Label>Data końcowa</Form.Label>
+                  <Form.Label>{t("studyPlans.endDate")}</Form.Label>
                   <Form.Control
                     type="date"
                     value={endDate}
@@ -102,7 +117,7 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({ initialValues, onSubmit, 
             <Form.Group controlId="isPublic" className="mt-3">
               <Form.Check
                 type="checkbox"
-                label="Publiczny"
+                label={t("studyPlans.public")}
                 checked={isPublic}
                 onChange={(e) => setIsPublic(e.target.checked)}
               />

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import { useTranslation } from "react-i18next"; // Import translations
 
 interface AddTopicFormModalProps {
   show: boolean;
@@ -7,7 +8,12 @@ interface AddTopicFormModalProps {
   onSubmit: (topicData: { title: string; hours: number }) => void;
 }
 
-const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({ show, onHide, onSubmit }) => {
+const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({
+  show,
+  onHide,
+  onSubmit,
+}) => {
+  const { t } = useTranslation("global");
   const [title, setTitle] = useState<string>("");
   const [hours, setHours] = useState<number | string>("");
 
@@ -19,19 +25,19 @@ const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({ show, onHide, onS
       onHide();
     }
   };
-  
+
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Dodaj Zakres Materiału</Modal.Title>
+        <Modal.Title>{t("studyTopics.addTopic")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
-            <Form.Label>Nazwa tematu</Form.Label>
+            <Form.Label>{t("studyTopics.topicName")}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Podaj nazwę tematu"
+              placeholder={t("studyTopics.topicNamePlaceholder")}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -39,10 +45,10 @@ const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({ show, onHide, onS
           </Form.Group>
 
           <Form.Group controlId="hours" className="mt-3">
-            <Form.Label>Ilość godzin</Form.Label>
+            <Form.Label>{t("studyTopics.hours")}</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Podaj ilość godzin"
+              placeholder={t("studyTopics.hoursPlaceholder")}
               value={hours}
               onChange={(e) => setHours(parseFloat(e.target.value))}
               required
@@ -51,10 +57,10 @@ const AddTopicFormModal: React.FC<AddTopicFormModalProps> = ({ show, onHide, onS
 
           <Modal.Footer>
             <Button variant="secondary" onClick={onHide}>
-              Zamknij
+              {t("common.cancel")}
             </Button>
             <Button variant="primary" type="submit">
-              Dodaj
+              {t("common.add")}
             </Button>
           </Modal.Footer>
         </Form>

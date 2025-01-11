@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Import translations
 import StudyPlanService from "../../services/StudyPlanService";
 import StudyPlanForm from "../../components/StudyPlanComponents/StudyPlanForm";
 import Header from "../../components/GeneralComponents/Header";
@@ -8,6 +9,7 @@ import { toast } from "react-toastify";
 
 const EditStudyPlanPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation("global");
   const [initialValues, setInitialValues] = useState<any>(null);
   const navigate = useNavigate();
 
@@ -25,15 +27,19 @@ const EditStudyPlanPage: React.FC = () => {
   const handleSubmit = async (data: any) => {
     const success = await StudyPlanService.updateStudyPlan(Number(id), data);
     if (success) {
-      toast.success("Pomyślnie zmodyfikowano plan nauki")
-      navigate('/studyplans');
+      toast.success(t("studyPlans.editSuccess"));
+      navigate("/studyplans");
     }
   };
 
   return (
     <>
       <Header />
-      <StudyPlanForm initialValues={initialValues} onSubmit={handleSubmit} submitButtonLabel="Zapisz zmiany" />
+      <StudyPlanForm
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        submitButtonLabel={t("studyPlans.saveChanges")}
+      />
       <Footer />
     </>
   );

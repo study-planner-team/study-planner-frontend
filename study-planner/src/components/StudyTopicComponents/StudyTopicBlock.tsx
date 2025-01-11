@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import StudyTopic from "./StudyTopic";
+import React from "react";
 import { Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next"; // Import translations
 import AddTopicFormModal from "./AddTopicFormModal";
+import StudyTopic from "./StudyTopic";
 import { useStudyTopics } from "../../hooks/useStudyTopics";
 
 interface TopicProps {
@@ -15,28 +16,42 @@ const StudyTopicBlock: React.FC<TopicProps> = ({
   onTopicsFetched,
   canEdit,
 }) => {
-  const { topics, topicModalShow, setTopicModalShow, handleAddTopic, handleDeleteTopic } = useStudyTopics(studyPlanId, onTopicsFetched);
+  const { t } = useTranslation("global");
+  const {
+    topics,
+    topicModalShow,
+    setTopicModalShow,
+    handleAddTopic,
+    handleDeleteTopic,
+  } = useStudyTopics(studyPlanId, onTopicsFetched);
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
-        <h5>Tematy:</h5>
+        <h5>{t("studyTopics.topics")}:</h5>
         {canEdit && (
           <Button
             variant="warning"
             className="mb-3"
             onClick={() => setTopicModalShow(true)}
           >
-            Dodaj Temat
+            {t("studyTopics.addTopic")}
           </Button>
         )}
       </div>
 
       <ul className="list-unstyled">
         {topics.length > 0 ? (
-          topics.map((topic, index) => <StudyTopic data={topic} key={index} handleDelete={handleDeleteTopic} canEdit={canEdit}/>)
+          topics.map((topic, index) => (
+            <StudyTopic
+              data={topic}
+              key={index}
+              handleDelete={handleDeleteTopic}
+              canEdit={canEdit}
+            />
+          ))
         ) : (
-          <p>Brak zakresu materiału.</p>
+          <p>{t("studyTopics.noTopics")}</p>
         )}
       </ul>
 

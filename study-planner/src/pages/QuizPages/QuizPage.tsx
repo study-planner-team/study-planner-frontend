@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Button, Container, Form, Row, Col, Card} from "react-bootstrap";
-import QuizService from "../../services/QuizService";
-import { Question, QuizAssignment } from "../../types/quizTypes";
+import { useParams } from "react-router-dom";
+import { Button, Container, Form, Row, Col, Card } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
+import { useActiveQuiz } from "../../hooks/useActiveQuiz";
 import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
-import { useActiveQuiz } from "../../hooks/useActiveQuiz";
 
 const QuizPage: React.FC = () => {
+  const { t } = useTranslation("global");
   const { studyPlanId, quizId } = useParams<{ studyPlanId: string; quizId: string }>();
-  const {activeQuiz, questions, answers, handleOptionSelect, handleSubmit, loading} = useActiveQuiz(parseInt(studyPlanId!), parseInt(quizId!));
+  const {
+    activeQuiz,
+    questions,
+    answers,
+    handleOptionSelect,
+    handleSubmit,
+    loading,
+  } = useActiveQuiz(parseInt(studyPlanId!), parseInt(quizId!));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleNext = () => {
@@ -29,7 +36,7 @@ const QuizPage: React.FC = () => {
   if (loading) {
     return (
       <Container className="py-5 text-center">
-        <p>Loading quiz...</p>
+        <p>{t("quiz.loading")}</p>
       </Container>
     );
   }
@@ -40,7 +47,9 @@ const QuizPage: React.FC = () => {
       <Container className="py-5">
         <Row className="mb-4">
           <Col className="text-center">
-            <h2>Quiz: {activeQuiz?.quiz.title}</h2>
+            <h2>
+              {t("quiz.title")}: {activeQuiz?.quiz.title}
+            </h2>
           </Col>
         </Row>
 
@@ -49,7 +58,8 @@ const QuizPage: React.FC = () => {
             <Card className="mb-4 shadow-sm">
               <Card.Body>
                 <Card.Title as="h5">
-                  Pytanie {currentQuestionIndex + 1} z {questions.length}
+                  {t("quiz.question")} {currentQuestionIndex + 1} {t("quiz.of")}{" "}
+                  {questions.length}
                 </Card.Title>
                 <Card.Text>{currentQuestion.questionText}</Card.Text>
                 <Form>
@@ -59,7 +69,7 @@ const QuizPage: React.FC = () => {
                       type="radio"
                       label={option.optionText}
                       name={`question-${currentQuestionIndex}`}
-                      checked={answers[currentQuestionIndex] == optionIndex}
+                      checked={answers[currentQuestionIndex] === optionIndex}
                       onChange={() =>
                         handleOptionSelect(currentQuestionIndex, optionIndex)
                       }
@@ -77,17 +87,17 @@ const QuizPage: React.FC = () => {
             <Button
               variant="secondary"
               onClick={handleBack}
-              disabled={currentQuestionIndex == 0}
+              disabled={currentQuestionIndex === 0}
             >
-              Back
+              {t("quiz.back")}
             </Button>
-            {currentQuestionIndex == questions.length - 1 ? (
+            {currentQuestionIndex === questions.length - 1 ? (
               <Button variant="primary" onClick={handleSubmit}>
-                Submit Quiz
+                {t("quiz.submitQuiz")}
               </Button>
             ) : (
               <Button variant="primary" onClick={handleNext}>
-                Next
+                {t("quiz.next")}
               </Button>
             )}
           </Col>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"; // Import translations
 import ScheduleService from "../../services/ScheduleService";
 import FinishedSessionCard from "./FinishedSessionCard";
 
-const FinishedSessionBlock: React.FC = ({}) => {
+const FinishedSessionBlock: React.FC = () => {
+  const { t } = useTranslation("global");
   const [sessions, setSessions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,21 +21,19 @@ const FinishedSessionBlock: React.FC = ({}) => {
   };
 
   if (loading) {
-    return <p>Ładowanie sesji...</p>;
+    return <p>{t("session.loadingSessions")}</p>;
   }
-  
+
   return (
-    <>
-      <ul className="list-unstyled">
-        {sessions.length > 0 ? (
-          sessions.map((sessionData, index) => (
-            <FinishedSessionCard key={index} session={sessionData} />
-          ))
-        ) : (
-          <p>Brak zakończonych sesji.</p>
-        )}
-      </ul>
-    </>
+    <ul className="list-unstyled">
+      {sessions.length > 0 ? (
+        sessions.map((sessionData, index) => (
+          <FinishedSessionCard key={index} session={sessionData} />
+        ))
+      ) : (
+        <p>{t("session.noFinishedSessions")}</p>
+      )}
+    </ul>
   );
 };
 

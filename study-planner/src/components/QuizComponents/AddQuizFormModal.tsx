@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 import { QuizWithQuestions, Question, Option } from "../../types/quizTypes";
 
 interface AddQuizFormModalProps {
@@ -8,12 +9,13 @@ interface AddQuizFormModalProps {
   onSubmit: (quizData: QuizWithQuestions) => void;
 }
 
-const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubmit}) => {
+const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({ show, onHide, onSubmit }) => {
+  const { t } = useTranslation("global"); // Use the "global" namespace for translations
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  // Add a new question with default options
   const addQuestion = () => {
     setQuestions((prev) => [
       ...prev,
@@ -24,14 +26,12 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
     ]);
   };
 
-  // Update a specific question's text
   const updateQuestionText = (index: number, text: string) => {
     const updatedQuestions = [...questions];
     updatedQuestions[index].questionText = text;
     setQuestions(updatedQuestions);
   };
 
-  // Update a specific option (text or isCorrect)
   const updateOption = (questionIndex: number, optionIndex: number, updatedValue: Partial<Option>) => {
     const updatedQuestions = [...questions];
     updatedQuestions[questionIndex].options[optionIndex] = {
@@ -41,15 +41,12 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
     setQuestions(updatedQuestions);
   };
 
-    // Remove a question by index
-    const removeQuestion = (questionIndex: number) => {
-      setQuestions((prevQuestions) =>
-        prevQuestions.filter((_, index) => index !== questionIndex)
-      );
-    };
-  
+  const removeQuestion = (questionIndex: number) => {
+    setQuestions((prevQuestions) =>
+      prevQuestions.filter((_, index) => index !== questionIndex)
+    );
+  };
 
-  // Handle submit
   const handleSubmit = () => {
     const payload: QuizWithQuestions = { title, description, questions };
     onSubmit(payload);
@@ -62,40 +59,40 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Add a Quiz</Modal.Title>
+        <Modal.Title>{t("quiz.modalTitle")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group>
-            <Form.Label>Title</Form.Label>
+            <Form.Label>{t("quiz.title")}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter quiz title"
+              placeholder={t("quiz.titlePlaceholder")}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Description</Form.Label>
+            <Form.Label>{t("quiz.description")}</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Enter quiz description"
+              placeholder={t("quiz.descriptionPlaceholder")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
 
-          <h5>Questions</h5>
+          <h5>{t("quiz.questions")}</h5>
           {questions.map((question, questionIndex) => (
             <div key={questionIndex} className="mb-3">
               <Form.Group>
-                <Form.Label>Question {questionIndex + 1}</Form.Label>
+                <Form.Label>{t("quiz.question")} {questionIndex + 1}</Form.Label>
                 <Row>
                   <Col>
                     <Form.Control
                       type="text"
-                      placeholder="Enter question text"
+                      placeholder={t("quiz.questionPlaceholder")}
                       defaultValue={question.questionText}
                       onBlur={(e) =>
                         updateQuestionText(questionIndex, e.target.value)
@@ -108,18 +105,18 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
                       size="sm"
                       onClick={() => removeQuestion(questionIndex)}
                     >
-                      Remove
+                      {t("quiz.removeQuestion")}
                     </Button>
                   </Col>
                 </Row>
               </Form.Group>
-              <h6>Options</h6>
+              <h6>{t("quiz.options")}</h6>
               {question.options.map((option, optionIndex) => (
                 <Row key={optionIndex} className="mb-2">
                   <Col>
                     <Form.Control
                       type="text"
-                      placeholder={`Option ${optionIndex + 1}`}
+                      placeholder={`${t("quiz.option")} ${optionIndex + 1}`}
                       defaultValue={option.optionText}
                       onBlur={(e) =>
                         updateOption(questionIndex, optionIndex, {
@@ -131,7 +128,7 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
                   <Col xs="auto">
                     <Form.Check
                       type="checkbox"
-                      label="Correct"
+                      label={t("quiz.correct")}
                       defaultChecked={option.isCorrect}
                       onChange={(e) =>
                         updateOption(questionIndex, optionIndex, {
@@ -145,16 +142,16 @@ const AddQuizFormModal: React.FC<AddQuizFormModalProps> = ({show, onHide, onSubm
             </div>
           ))}
           <Button variant="secondary" onClick={addQuestion}>
-            Add Question
+            {t("quiz.addQuestion")}
           </Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button variant="primary" onClick={handleSubmit}>
-          Add Quiz
+          {t("quiz.addQuiz")}
         </Button>
       </Modal.Footer>
     </Modal>
