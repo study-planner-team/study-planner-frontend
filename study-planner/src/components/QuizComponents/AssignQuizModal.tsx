@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 
 interface AssignQuizModalProps {
@@ -10,7 +11,8 @@ interface AssignQuizModalProps {
   onAssign: (quizId: number, userId: number) => void;
 }
 
-const AssignQuizModal: React.FC<AssignQuizModalProps> = ({show, onHide, quizId, members, onAssign}) => {
+const AssignQuizModal: React.FC<AssignQuizModalProps> = ({ show, onHide, quizId, members, onAssign }) => {
+  const { t } = useTranslation("global");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   const handleAssign = () => {
@@ -24,7 +26,7 @@ const AssignQuizModal: React.FC<AssignQuizModalProps> = ({show, onHide, quizId, 
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Assign Quiz</Modal.Title>
+        <Modal.Title>{t("quiz.assignQuiz")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -35,7 +37,7 @@ const AssignQuizModal: React.FC<AssignQuizModalProps> = ({show, onHide, quizId, 
               name="member"
               label={member.username}
               value={member.userId}
-              checked={selectedUserId == member.userId}
+              checked={selectedUserId === member.userId}
               onChange={() => setSelectedUserId(member.userId)}
             />
           ))}
@@ -43,10 +45,10 @@ const AssignQuizModal: React.FC<AssignQuizModalProps> = ({show, onHide, quizId, 
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button variant="primary" onClick={handleAssign} disabled={selectedUserId == null}>
-          Assign
+          {t("quiz.assignQuiz")}
         </Button>
       </Modal.Footer>
     </Modal>

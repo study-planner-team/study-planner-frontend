@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next"; // Import translations
 
 interface Topic {
   title: string;
@@ -13,9 +14,7 @@ interface Schedule {
   startTime: Date;
   endTime: Date;
   studyPlanId: number;
-  //studyPlan: StudyPlan;
   userId: number;
-  //user: User;
   studyTopic: Topic;
 }
 
@@ -24,14 +23,23 @@ interface ScheduleProps {
 }
 
 const ScheduleBlock: React.FC<ScheduleProps> = ({ data }) => {
+  const { t } = useTranslation("global");
+
   return (
     <div>
       <h2>{data.studyTopic.title}</h2>
-
-      <p className='fw-bold'>Date: {data.date.toString()}</p>
-      <p className='fw-bold'>Duration: {data.duration.toString()}</p>
-      <p className='fw-bold'>Start Time: {data.startTime.toString()}</p>
-      <p className='fw-bold'>End Time: {data.endTime.toString()}</p>
+      <p className="fw-bold">
+        {t("schedule.date")}: {data.date.toLocaleString()}
+      </p>
+      <p className="fw-bold">
+        {t("schedule.duration")}: {data.duration.toString()} {t("schedule.hours")}
+      </p>
+      <p className="fw-bold">
+        {t("schedule.startTime")}: {data.startTime.toLocaleString()}
+      </p>
+      <p className="fw-bold">
+        {t("schedule.endTime")}: {data.endTime.toLocaleString()}
+      </p>
     </div>
   );
 };

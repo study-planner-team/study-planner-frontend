@@ -6,12 +6,14 @@ import Footer from "../../components/GeneralComponents/Footer";
 import Header from "../../components/GeneralComponents/Header";
 import { Col, Container, Row } from "react-bootstrap";
 import { formatDate, formatTime } from "../../utils/dateTimeUtils";
+import { useTranslation } from "react-i18next";
 
 const StatisticPage: React.FC = () => {
+  const { t } = useTranslation("global");
   const [statistics, setStatistics] = useState<any>(null);
 
   const fetchStatistics = async () => {
-    const response =  await StatisticService.getStatistics(); 
+    const response = await StatisticService.getStatistics();
     setStatistics(response);
   };
 
@@ -20,12 +22,12 @@ const StatisticPage: React.FC = () => {
   }, []);
 
   if (!statistics || !statistics.aggregatedStatistics) {
-    return <p>Loading...</p>;
+    return <p>{t("statistics.loading")}</p>;
   }
 
   const { precomputedMetrics, aggregatedStatistics } = statistics;
 
-  const labelStyle: any  = {
+  const labelStyle: any = {
     show: true,
     position: "top",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -38,7 +40,7 @@ const StatisticPage: React.FC = () => {
     formatter: "{c}",
   };
 
-  const pieLabelStyle: any  = {
+  const pieLabelStyle: any = {
     show: true,
     position: "outside",
     backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -53,13 +55,13 @@ const StatisticPage: React.FC = () => {
 
   // StudyPlans and Sessions
   const totalSessionsData = [
-    { name: "Completed", value: precomputedMetrics.completedSessions },
-    { name: "Missed", value: precomputedMetrics.missedSessions },
-    { name: "In Progress", value: precomputedMetrics.inProgressSessions },
+    { name: t("statistics.completed"), value: precomputedMetrics.completedSessions },
+    { name: t("statistics.missed"), value: precomputedMetrics.missedSessions },
+    { name: t("statistics.inProgress"), value: precomputedMetrics.inProgressSessions },
   ].filter((item) => item.value > 0);
 
   const totalSessionsOption: echarts.EChartsOption = {
-    title: { text: "Total Completed vs. Missed Sessions" },
+    title: { text: t("statistics.totalSessions") },
     series: [
       {
         type: "pie",
@@ -71,13 +73,13 @@ const StatisticPage: React.FC = () => {
   };
 
   const plansOption: echarts.EChartsOption = {
-    title: { text: "Active Plans vs. Archived Plans" },
+    title: { text: t("statistics.plansStatus") },
     series: [
       {
         type: "pie",
         data: [
-          { name: "Active", value: precomputedMetrics.activePlans },
-          { name: "Archived", value: precomputedMetrics.archivedPlans },
+          { name: t("statistics.active"), value: precomputedMetrics.activePlans },
+          { name: t("statistics.archived"), value: precomputedMetrics.archivedPlans },
         ],
         label: { ...pieLabelStyle },
         labelLine: { show: true },
@@ -86,7 +88,7 @@ const StatisticPage: React.FC = () => {
   };
 
   const timeDistributionByPlanOption: echarts.EChartsOption = {
-    title: { text: "Time Distribution by Study Plan (Hours)" },
+    title: { text: t("statistics.timeByPlan") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.planName),
@@ -102,7 +104,7 @@ const StatisticPage: React.FC = () => {
   };
 
   const timeDistributionOption: echarts.EChartsOption = {
-    title: { text: "Time Distribution by Topics (Hours)" },
+    title: { text: t("statistics.timeByTopic") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.timeDistribution.map((d: any) => d.topicName),
@@ -112,14 +114,14 @@ const StatisticPage: React.FC = () => {
       {
         type: "bar",
         data: aggregatedStatistics.timeDistribution.map((d: any) => d.totalTime),
-        name: "Total Time",
+        name: t("statistics.totalTime"),
         label: { ...labelStyle, formatter: "{c}h" },
       },
     ],
   };
 
   const durationTrendsOption: echarts.EChartsOption = {
-    title: { text: "Actual Study Time per Day (Minutes)" },
+    title: { text: t("statistics.durationTrends") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.durationTrends.map((d: any) => formatDate(d.date)),
@@ -129,7 +131,7 @@ const StatisticPage: React.FC = () => {
       {
         type: "line",
         data: aggregatedStatistics.durationTrends.map((d: any) => d.totalActualDuration),
-        name: "Actual Study Time",
+        name: t("statistics.actualStudyTime"),
         label: {
           ...labelStyle,
           formatter: "{c} min",
@@ -143,7 +145,7 @@ const StatisticPage: React.FC = () => {
   };
 
   const progressTowardGoalsOption: echarts.EChartsOption = {
-    title: { text: "Progress Toward Goals (%)" },
+    title: { text: t("statistics.progressTowardGoals") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.planName),
@@ -153,14 +155,14 @@ const StatisticPage: React.FC = () => {
       {
         type: "bar",
         data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.completionPercentage),
-        name: "Completion %",
+        name: t("statistics.completionPercentage"),
         label: { ...labelStyle, formatter: "{c} %" },
       },
     ],
   };
 
   const sessionsByDayOption: echarts.EChartsOption = {
-    title: { text: "Sessions Completed per Day" },
+    title: { text: t("statistics.sessionsByDay") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.sessionsByDay.map((d: any) => formatDate(d.date)),
@@ -170,14 +172,14 @@ const StatisticPage: React.FC = () => {
       {
         type: "bar",
         data: aggregatedStatistics.sessionsByDay.map((d: any) => d.count),
-        name: "Sessions",
+        name: t("statistics.sessions"),
         label: { ...labelStyle },
       },
     ],
   };
 
   const sessionsMissedByDayOption: echarts.EChartsOption = {
-    title: { text: "Sessions Missed per Day" },
+    title: { text: t("statistics.sessionsMissedByDay") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => formatDate(d.date)),
@@ -187,7 +189,7 @@ const StatisticPage: React.FC = () => {
       {
         type: "bar",
         data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => d.count),
-        name: "Missed Sessions",
+        name: t("statistics.missedSessions"),
         label: { ...labelStyle },
         itemStyle: { color: "#c23531" },
       },
@@ -195,7 +197,7 @@ const StatisticPage: React.FC = () => {
   };
 
   const preferredStudyTimesOption: echarts.EChartsOption = {
-    title: { text: "Preferred Study Times (Hour of the Day)" },
+    title: { text: t("statistics.preferredStudyTimes") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.preferredStudyTimes.map((d: any) => formatTime(null, d.hour)),
@@ -205,31 +207,28 @@ const StatisticPage: React.FC = () => {
       {
         type: "bar",
         data: aggregatedStatistics.preferredStudyTimes.map((d: any) => d.count),
-        name: "Sessions",
+        name: t("statistics.sessions"),
         label: { ...labelStyle },
       },
     ],
   };
 
-  // Quiz
-  const quizStatsData = [
-    { name: "Assigned", value: precomputedMetrics.assignedQuizCount },
-    { name: "Completed", value: precomputedMetrics.completedQuizCount },
-  ];
-
   const quizStatsOption: echarts.EChartsOption = {
-    title: { text: "Quizzes Assigned vs. Completed" },
+    title: { text: t("statistics.quizStats") },
     series: [
       {
         type: "pie",
-        data: quizStatsData,
+        data: [
+          { name: t("statistics.assigned"), value: precomputedMetrics.assignedQuizCount },
+          { name: t("statistics.completed"), value: precomputedMetrics.completedQuizCount },
+        ],
         label: { ...pieLabelStyle },
       },
     ],
   };
 
   const averageScoreOption: echarts.EChartsOption = {
-    title: { text: "Average Quiz Score (%)" },
+    title: { text: t("statistics.averageScore") },
     series: [
       {
         type: "gauge",
@@ -241,17 +240,15 @@ const StatisticPage: React.FC = () => {
   };
 
   const quizCompletionsOverTimeOption: echarts.EChartsOption = {
-    title: { text: "Quiz Completions Over Time" },
+    title: { text: t("statistics.quizCompletionsOverTime") },
     xAxis: {
       type: "category",
-      data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) =>
-        formatDate(d.date)
-      ),
+      data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => formatDate(d.date)),
     },
     yAxis: { type: "value" },
     series: [
       {
-        name: "Completions",
+        name: t("statistics.completions"),
         type: "line",
         data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => d.count),
         label: { ...labelStyle },
@@ -260,7 +257,7 @@ const StatisticPage: React.FC = () => {
   };
 
   const quizScoreDistributionOption: echarts.EChartsOption = {
-    title: { text: "Quiz Score Distribution" },
+    title: { text: t("statistics.quizScoreDistribution") },
     xAxis: {
       type: "category",
       data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.bucket),
@@ -268,7 +265,7 @@ const StatisticPage: React.FC = () => {
     yAxis: { type: "value" },
     series: [
       {
-        name: "Quizzes",
+        name: t("statistics.quizzes"),
         type: "bar",
         data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.count),
         label: { ...labelStyle },
@@ -282,7 +279,7 @@ const StatisticPage: React.FC = () => {
       <Container fluid className="my-5">
         <Row className="mb-4">
           <Col>
-            <h2>Study Plans and Sessions</h2>
+            <h2>{t("statistics.studyPlansAndSessions")}</h2>
             <hr />
           </Col>
         </Row>
@@ -323,10 +320,9 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={preferredStudyTimesOption} />
           </Col>
         </Row>
-
         <Row className="my-4">
           <Col>
-            <h2>Quiz Statistics</h2>
+            <h2>{t("statistics.quizStatistics")}</h2>
             <hr />
           </Col>
         </Row>

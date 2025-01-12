@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next"; // Import translations
 import GenerateScheduleFormModal from "../../components/ScheduleComponents/GenerateScheduleFormModal";
 import StudyPlanService from "../../services/StudyPlanService";
 
@@ -19,7 +20,13 @@ interface ScheduleGeneratingBlockProps {
   topicIds: number[];
 }
 
-const ScheduleGeneratingBlock: React.FC<ScheduleGeneratingBlockProps> = ({studyPlanId, startDate, endDate, topicIds}) => {
+const ScheduleGeneratingBlock: React.FC<ScheduleGeneratingBlockProps> = ({
+  studyPlanId,
+  startDate,
+  endDate,
+  topicIds,
+}) => {
+  const { t } = useTranslation("global");
   const [scheduleModalShow, setScheduleModalShow] = useState<boolean>(false);
 
   const handleScheduleSubmit = async (formData: ScheduleFormData) => {
@@ -33,14 +40,14 @@ const ScheduleGeneratingBlock: React.FC<ScheduleGeneratingBlockProps> = ({studyP
 
     const success = await StudyPlanService.generateSchedule(scheduleData);
     if (success) {
-      toast.success("Pomyślnie utworzono harmonogram!");
+      toast.success(t("schedule.scheduleCreated"));
     }
   };
 
   return (
     <>
       <Button variant="warning" onClick={() => setScheduleModalShow(true)}>
-        Generuj harmonogram
+        {t("schedule.generateSchedule")}
       </Button>
 
       <GenerateScheduleFormModal
@@ -48,7 +55,6 @@ const ScheduleGeneratingBlock: React.FC<ScheduleGeneratingBlockProps> = ({studyP
         onHide={() => setScheduleModalShow(false)}
         onSubmit={handleScheduleSubmit}
       />
-
     </>
   );
 };

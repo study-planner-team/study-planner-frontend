@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import { Quiz, QuizAssignment } from "../../types/quizTypes";
 import { useNavigate } from "react-router-dom";
 import AssignQuizModal from "./AssignQuizModal";
@@ -12,14 +13,21 @@ interface QuizComponentProps {
   onAssign: (quizId: number, userId: number) => void;
 }
 
-const QuizComponent: React.FC<QuizComponentProps> = ({createdQuiz, assignedQuiz, members, onDelete, onAssign}) => {
+const QuizComponent: React.FC<QuizComponentProps> = ({
+  createdQuiz,
+  assignedQuiz,
+  members,
+  onDelete,
+  onAssign,
+}) => {
+  const { t } = useTranslation("global"); 
   const navigate = useNavigate();
   const [assignModalShow, setAssignModalShow] = useState(false);
   const quizData = createdQuiz || assignedQuiz?.quiz;
 
   if (!quizData) {
-    return <p>No quiz data available</p>;
-  };
+    return <p>{t("quiz.noQuizData")}</p>;
+  }
 
   const handleStartQuiz = () => {
     if (assignedQuiz) {
@@ -33,28 +41,37 @@ const QuizComponent: React.FC<QuizComponentProps> = ({createdQuiz, assignedQuiz,
         <Card.Title>{quizData.title}</Card.Title>
         {quizData.description && <Card.Text>{quizData.description}</Card.Text>}
         <div className="d-flex justify-content-between">
-        {createdQuiz && (
-          <>
-            <Button variant="danger" size="sm" onClick={() => onDelete(quizData.quizId!)}>
-              Delete
-            </Button>
-            <Button variant="primary" size="sm" onClick={() => setAssignModalShow(true)}>
-              Assign
-            </Button>
-          </>
-        )}
+          {createdQuiz && (
+            <>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => onDelete(quizData.quizId!)}
+              >
+                {t("common.delete")}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setAssignModalShow(true)}
+              >
+                {t("quiz.assignQuiz")}
+              </Button>
+            </>
+          )}
 
-        {assignedQuiz && assignedQuiz.state === "Assigned" && (
-          <Button variant="success" size="sm" onClick={handleStartQuiz}>
-            Start Quiz
-          </Button>
-        )}
+          {assignedQuiz && assignedQuiz.state === "Assigned" && (
+            <Button variant="success" size="sm" onClick={handleStartQuiz}>
+              {t("quiz.startQuiz")}
+            </Button>
+          )}
 
-        {assignedQuiz && assignedQuiz.state === "Completed" && (
-          <div className="text">
-            <strong>Score:</strong> {assignedQuiz.correctAnswers} / {assignedQuiz.totalQuestions}
-          </div>
-        )}
+          {assignedQuiz && assignedQuiz.state === "Completed" && (
+            <div className="text">
+              <strong>{t("quiz.score")}:</strong> {assignedQuiz.correctAnswers}{" "}
+              / {assignedQuiz.totalQuestions}
+            </div>
+          )}
         </div>
       </Card.Body>
 
@@ -63,11 +80,12 @@ const QuizComponent: React.FC<QuizComponentProps> = ({createdQuiz, assignedQuiz,
           show={assignModalShow}
           onHide={() => setAssignModalShow(false)}
           quizId={quizData.quizId!}
-          members={members.filter((member) => member.userId !== quizData.createdByUserId)} // Exclude the quiz creator
-          onAssign={onAssign} // Callback to handle assignment
+          members={members.filter(
+            (member) => member.userId !== quizData.createdByUserId
+          )}
+          onAssign={onAssign} 
         />
       )}
-
     </Card>
   );
 };
