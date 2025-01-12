@@ -20,6 +20,7 @@ import ActiveSessionPage from './pages/SessionPages/ActiveSessionPage';
 import StatisticPage from './pages/StatisticPages/StatisticPage';
 import QuizPage from './pages/QuizPages/QuizPage';
 import ResultPage from './pages/QuizPages/ResultPage';
+import ChangePasswordPage from './pages/UserPages/ChangePasswordPage';
 
 const App: React.FC = () => {
   return (
@@ -44,6 +45,7 @@ const App: React.FC = () => {
               <Route path="/statistics" element={<ProtectedRoute><StatisticPage /></ProtectedRoute>} />
               <Route path="/studyplans/:studyPlanId/quizzes/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
               <Route path="/studyplans/:studyPlanId/quizzes/:quizId/score" element={<ProtectedRoute><ResultPage /></ProtectedRoute>} />
+              <Route path="/change-password" element={<ProtectedRoute><ChangePasswordPage /></ProtectedRoute>} />
             </Routes>
           </ActiveSessionProvider>
         </AuthProvider>

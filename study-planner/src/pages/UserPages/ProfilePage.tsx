@@ -3,7 +3,7 @@ import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useAuthContext } from "../../context/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next"; // Import translations
 import BadgeGrid from "../../components/BadgeComponents/BadgeGrid";
@@ -69,9 +69,9 @@ const ProfilePage: React.FC = () => {
                 <Form.Group controlId="password" className="mt-3">
                   <Form.Label>Hasło</Form.Label>
                   <Form.Control type="password" placeholder="********" disabled />
-                  <a href="/change-password" style={{ marginLeft: "10px" }}>
+                  <Link to="/change-password" style={{ marginLeft: "10px" }}>
                     Zmień hasło
-                  </a>
+                  </Link>
                 </Form.Group>
                 <Form.Group controlId="email" className="mt-3">
                   <Form.Label>Adres email</Form.Label>

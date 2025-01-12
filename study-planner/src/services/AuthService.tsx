@@ -85,6 +85,19 @@ class AuthService {
       return null;
     }
   }
+
+  async changePassword(userId: number, oldPassword: string, newPassword: string) {
+    try {
+      const response = await axiosInstance.post(`/api/users/${userId}/change-password`, {
+        oldPassword,
+        newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      handleError(error, "Nie udało się zmienić hasła");
+      return null
+    }
+  }
 }
 
 export default new AuthService();
