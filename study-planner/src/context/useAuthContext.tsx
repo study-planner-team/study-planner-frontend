@@ -19,6 +19,7 @@ type AuthContextType = {
   deleteUser: (userId: number) => Promise<boolean>;
   logout: () => Promise<boolean>;
   isLoggedIn: () => boolean;
+  changePassword: (userId: number, oldPassword: string, newPassword: string) => Promise<boolean>;
 };
 
 type Props = { children: React.ReactNode };
@@ -129,8 +130,17 @@ export const AuthProvider = ({ children }: Props) => {
     return false;
   };
 
+  const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<boolean> => {
+    const response = await AuthService.changePassword(userId, oldPassword, newPassword);
+
+    if (response) {
+      return true;
+    }
+    return false;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loginUser, loginWithGoogle, logout, isLoggedIn, registerUser, updateUser, deleteUser }}>
+    <AuthContext.Provider value={{ user, loginUser, loginWithGoogle, logout, isLoggedIn, registerUser, updateUser, deleteUser, changePassword}}>
       {isReady ? children : null}
     </AuthContext.Provider>
   );
