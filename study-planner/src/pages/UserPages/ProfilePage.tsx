@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useAuthContext } from "../../context/useAuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next"; // Import translations
 import BadgeGrid from "../../components/BadgeComponents/BadgeGrid";
 
 const ProfilePage: React.FC = () => {
@@ -47,7 +47,7 @@ const ProfilePage: React.FC = () => {
           {/* Left Column: Badges */}
           <Col md={6}>
             <div className="bg-light p-4 rounded shadow-sm h-100 d-flex flex-column">
-              <h2 className="text-center mb-4">Twoje odznaki</h2>
+              <h2 className="text-center mb-4">{t("profile.badgesTitle")}</h2>
               <BadgeGrid userId={user!.id} />
             </div>
           </Col>
@@ -55,46 +55,46 @@ const ProfilePage: React.FC = () => {
           {/* Right Column: Profile Form */}
           <Col md={6}>
             <div className="bg-light p-4 rounded shadow-sm h-100 d-flex flex-column">
-              <h2 className="text-center">Konto</h2>
+              <h2 className="text-center">{t("profile.title")}</h2>
               <Form onSubmit={handleUpdate} className="mt-3 flex-grow-1">
                 <Form.Group controlId="username">
-                  <Form.Label>Nazwa użytkownika</Form.Label>
+                  <Form.Label>{t("profile.username")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Nazwa użytkownika"
+                    placeholder={t("profile.usernamePlaceholder")}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group controlId="password" className="mt-3">
-                  <Form.Label>Hasło</Form.Label>
+                  <Form.Label>{t("profile.password")}</Form.Label>
                   <Form.Control type="password" placeholder="********" disabled />
                   <Link to="/change-password" style={{ marginLeft: "10px" }}>
-                    Zmień hasło
+                    {t("profile.changePassword")}
                   </Link>
                 </Form.Group>
                 <Form.Group controlId="email" className="mt-3">
-                  <Form.Label>Adres email</Form.Label>
+                  <Form.Label>{t("profile.email")}</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="jan.nowak@test.com"
+                    placeholder={t("profile.emailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
                 <Form.Group controlId="accountStatus" className="mt-3">
-                  <Form.Label>Status konta</Form.Label>
+                  <Form.Label>{t("profile.accountStatus")}</Form.Label>
                   <Form.Control
                     as="select"
-                    value={isPublic ? "Publiczny" : "Prywatny"}
-                    onChange={(e) => setIsPublic(e.target.value === "Publiczny")}
+                    value={isPublic ? t("profile.public") : t("profile.private")}
+                    onChange={(e) => setIsPublic(e.target.value === t("profile.public"))}
                   >
-                    <option value="Prywatny">Prywatny</option>
-                    <option value="Publiczny">Publiczny</option>
+                    <option value="private">{t("profile.private")}</option>
+                    <option value="public">{t("profile.public")}</option>
                   </Form.Control>
                 </Form.Group>
                 <Button variant="warning" type="submit" className="w-100 mt-3">
-                  Zapisz
+                  {t("profile.save")}
                 </Button>
                 <Button
                   variant="danger"
@@ -102,7 +102,7 @@ const ProfilePage: React.FC = () => {
                   onClick={handleDelete}
                   className="w-100 mt-3"
                 >
-                  Usuń konto
+                  {t("profile.delete")}
                 </Button>
               </Form>
             </div>

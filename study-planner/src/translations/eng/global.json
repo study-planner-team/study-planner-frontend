@@ -53,21 +53,21 @@
     "deleteIconAlt": "Trash Icon",
     "close": "Close"
   },
-"schedule": {
-  "date": "Date",
-  "duration": "Duration",
-  "hours": "Hours",
-  "startTime": "Start Time",
-  "endTime": "End Time",
-  "scheduleCreated": "Schedule created successfully!",
-  "generateSchedule": "Generate Schedule",
-  "sessionsPerDay": "Sessions Per Day",
-  "sessionsPerDayPlaceholder": "Enter number of sessions per day",
-  "sessionLength": "Session Length (minutes)",
-  "sessionLengthPlaceholder": "Enter session length",
-  "preferredStudyDays": "Preferred Study Days",
-  "saveSchedule": "Save Schedule"
-},
+  "schedule": {
+    "date": "Date",
+    "duration": "Duration",
+    "hours": "Hours",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "scheduleCreated": "Schedule created successfully!",
+    "generateSchedule": "Generate Schedule",
+    "sessionsPerDay": "Sessions Per Day",
+    "sessionsPerDayPlaceholder": "Enter number of sessions per day",
+    "sessionLength": "Session Length (minutes)",
+    "sessionLengthPlaceholder": "Enter session length",
+    "preferredStudyDays": "Preferred Study Days",
+    "saveSchedule": "Save Schedule"
+  },
   "session": {
     "noActiveSession": "No active session",
     "activeSession": "Active Session",
@@ -115,24 +115,7 @@
     "quizScoreDistribution": "Quiz Score Distribution",
     "quizzes": "Quizzes"
   },
-  "profile": {
-    "title": "Account",
-    "username": "Username",
-    "usernamePlaceholder": "Enter your username",
-    "password": "Password",
-    "changePassword": "Change password",
-    "email": "Email Address",
-    "emailPlaceholder": "Enter your email address",
-    "accountStatus": "Account Status",
-    "private": "Private",
-    "public": "Public",
-    "save": "Save",
-    "delete": "Delete Account",
-    "updateSuccess": "Account successfully updated!",
-    "deleteConfirmation": "Are you sure you want to delete your account?",
-    "deleteSuccess": "Account successfully deleted!",
-    "editProfileImageAlt": "Edit Profile"
-  },
+
   "studyPlans": {
     "myPlans": "My Study Plans",
     "addNewPlan": "Add New Plan",
@@ -232,12 +215,43 @@
     "login": "Login"
   },
   "days": {
-  "monday": "Monday",
-  "tuesday": "Tuesday",
-  "wednesday": "Wednesday",
-  "thursday": "Thursday",
-  "friday": "Friday",
-  "saturday": "Saturday",
-  "sunday": "Sunday"
-}
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "oldPassword": "Old Password",
+    "oldPasswordPlaceholder": "Enter old password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter new password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "successMessage": "Password successfully changed!",
+    "mismatchError": "New password and confirmation do not match",
+    "submitButton": "Change Password"
+  },
+  "profile": {
+    "badgesTitle": "Your Badges",
+    "title": "Account",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "changePassword": "Change Password",
+    "email": "Email Address",
+    "emailPlaceholder": "Enter your email address",
+    "accountStatus": "Account Status",
+    "private": "Private",
+    "public": "Public",
+    "save": "Save",
+    "delete": "Delete Account",
+    "updateSuccess": "Account successfully updated!",
+    "deleteConfirmation": "Are you sure you want to delete your account?",
+    "deleteSuccess": "Account successfully deleted!",
+    "editProfileImageAlt": "Edit Profile"
+  }
 }
