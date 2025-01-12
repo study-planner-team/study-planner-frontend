@@ -40,11 +40,19 @@ export const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const loginWithGoogle = async (jwtToken: string): Promise<boolean> => {
-    const user = await AuthService.exchangeGoogleCode(jwtToken); // Send the JWT token to the backend for verification
+    const response = await AuthService.exchangeGoogleCode(jwtToken); // Send the JWT token to the backend for verification
 
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      setUser(user);
+    if (response) {
+      const userObj = {
+        id: response.userId,
+        username: response.username,
+        email: response.email,
+        isPublic: response.isPublic,
+      };
+  
+
+      localStorage.setItem("user", JSON.stringify(userObj));
+      setUser(userObj);
       return true;
     }
     return false;
