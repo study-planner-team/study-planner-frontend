@@ -19,12 +19,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Navbar
-      collapseOnSelect
-      expand="lg"
-      className="navbar-custom"
-      variant="dark"
-    >
+    <Navbar collapseOnSelect expand="lg" className="navbar-custom" variant="dark">
       <Container className="navbar-wrapper">
         <Navbar.Brand as={Link} to="/" className="fw-bold">
           Study Planner
@@ -51,8 +46,9 @@ const Header: React.FC = () => {
             </Nav>
           )}
 
-          <Nav className="align-items-left">
-            <div className="vis-settings-box"> 
+          {/* Always align this section to the right */}
+          <Nav className="ms-auto align-items-center">
+            <div className="vis-settings-box">
               <VisSettingsBox />
             </div>
             {!isLoggedIn() ? (
@@ -60,14 +56,14 @@ const Header: React.FC = () => {
                 <Nav.Link
                   as={Link}
                   to="/register"
-                  className="btn-custom w-100 text-left mt-2 mt-lg-0"
+                  className="btn-custom w-100 mt-2 mt-lg-0"
                 >
                   {t("header.user.register")}
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className="w-100 text-left mt-2 mt-lg-0"
+                  className="w-100 mt-2 mt-lg-0"
                 >
                   {t("header.user.login")}
                 </Nav.Link>

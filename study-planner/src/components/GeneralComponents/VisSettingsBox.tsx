@@ -5,15 +5,20 @@ import { useTranslation } from "react-i18next";
 
 const VisSettingsBox: React.FC = () => {
   const { t, i18n } = useTranslation("global");
-  const languages = ["eng", "pol"];
-  const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language);
+  const languages = ["pol", "eng"];
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(
+    localStorage.getItem("language") || "pol" // Initialize with localStorage or default language
+  );
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language") || "eng";
+    const savedLanguage = localStorage.getItem("language") || "pol";
+
+    // Update i18n language only if it's different from the current language
     if (savedLanguage !== i18n.language) {
       i18n.changeLanguage(savedLanguage);
     }
-    setSelectedLanguage(savedLanguage);
+
+    setSelectedLanguage(savedLanguage); // Synchronize state
   }, [i18n]);
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
