@@ -42,7 +42,13 @@
     "option": "Option",
     "correct": "Correct",
     "questionPlaceholder": "Enter question text",
-    "removeQuestion": "Remove Question"
+    "removeQuestion": "Remove Question",
+    "yourAnswer": "Your answer",
+    "correctAnswer": "Correct Answer",
+    "backToDashboard": "Back to study plan",
+    "completed": "Completed quiz",
+    "yourScore": "Your score",
+    "yourResults": "Your results"
   },
   "common": {
     "delete": "Delete",

@@ -42,7 +42,13 @@
     "option": "Opcja",
     "correct": "Poprawne",
     "questionPlaceholder": "Wpisz treść pytania",
-    "removeQuestion": "Usuń pytanie"
+    "removeQuestion": "Usuń pytanie",
+    "yourAnswer": "Twoja odpowiedź",
+    "correctAnswer": "Poprawna odpowiedź",
+    "backToDashboard": "Powrót do planu nauki",
+    "completed": "Ukończony quiz",
+    "yourScore": "Twój wynik",
+    "yourResults": "Twoje odpowiedzi"
   },
   "common": {
     "delete": "Usuń",
