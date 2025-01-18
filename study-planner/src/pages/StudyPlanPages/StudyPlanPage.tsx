@@ -18,7 +18,7 @@ const StudyPlanPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Container className="my-5">
+      <Container  className="my-5 custom-container">
         <h2 className="text-center">{t("studyPlans.myPlans")}</h2>
         <Row className="justify-content-center mx-auto mt-3 mb-5 w-25">
           <Link to="/studyplans/new" className="text-center">

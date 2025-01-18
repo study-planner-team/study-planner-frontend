@@ -22,8 +22,8 @@ const RegisterPage: React.FC = () => {
     const success = await registerUser(username, password, email);
 
     if (success) {
-      toast.success(t("register.success"));
-      navigate("/login");
+      toast.success(t("common.success"));
+      navigate("/");
     }
   };
 

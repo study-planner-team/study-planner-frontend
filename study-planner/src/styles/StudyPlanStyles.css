@@ -20,3 +20,13 @@
   background-color: #F8F9FA !important;
   width: 20rem;
 }
+
+.custom-container {
+  min-width: 85vw !important;
+}
+
+.custom-line {
+  height: 1.5px;
+  background-color: var(--main-orange-color);
+  min-width: 85vw !important; 
+}

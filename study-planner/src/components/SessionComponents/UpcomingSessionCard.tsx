@@ -28,7 +28,7 @@ const UpcomingSessionCard: React.FC = () => {
   }
 
   return (
-    <Card className="shadow-lg">
+    <Card className="mb-2">
       <Card.Body>
         <Card.Title className="text-center text-primary mb-4">
           {session.studyTopic.title}

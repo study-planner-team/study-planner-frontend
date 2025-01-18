@@ -51,7 +51,8 @@
     "private": "Prywatny",
     "add": "Dodaj",
     "deleteIconAlt": "Ikona Kosza",
-    "close": "Zamknij"
+    "close": "Zamknij",
+    "success": "Pomyślnie utworzono konto"
   },
   "schedule": {
     "date": "Data",
@@ -63,7 +64,7 @@
     "generateSchedule": "Generuj Harmonogram",
     "sessionsPerDay": "Sesje dziennie",
     "sessionsPerDayPlaceholder": "Wprowadź liczbę sesji dziennie",
-    "sessionLength": "Długość sesji (minuty)",
+    "sessionLength": "Długość sesji (godziny)",
     "sessionLengthPlaceholder": "Wprowadź długość sesji",
     "preferredStudyDays": "Preferowane dni nauki",
     "saveSchedule": "Zapisz Harmonogram"
@@ -82,7 +83,8 @@
     "endSession": "Zakończ Sesję",
     "loadingSessions": "Ładowanie sesji...",
     "noFinishedSessions": "Brak zakończonych sesji.",
-    "noUpcomingSession": "Brak nadchodzących sesji."
+    "noUpcomingSession": "Brak nadchodzących sesji.",
+    "yourSessions": "Twoje Sesje"
   },
   "statistics": {
     "loading": "Ładowanie...",
@@ -252,5 +254,29 @@
     "deleteConfirmation": "Czy na pewno chcesz usunąć swoje konto?",
     "deleteSuccess": "Konto zostało pomyślnie usunięte!",
     "editProfileImageAlt": "Edytuj profil"
+  },
+  "badges": {
+    "1": "Utwórz swój pierwszy plan nauki",
+    "2": "Rozwiąż 10 quizów",
+    "3": "Dołącz do 3 grupowych planów nauki",
+    "4": "Ukończ sesje nauki przez 7 kolejnych dni",
+    "5": "Utwórz 5 planów nauki",
+    "6": "Zgromadź 50 godzin czasu nauki",
+    "7": "Udostępnij plan nauki publicznie",
+    "8": "Utwórz 10 quizów"
+  },
+  "calendar": {
+    "today": "Dziś",
+    "previous": "Poprzedni",
+    "next": "Następny",
+    "month": "Miesiąc",
+    "week": "Tydzień",
+    "day": "Dzień",
+    "agenda": "Agenda",
+    "date": "Data",
+    "time": "Czas",
+    "event": "Wydarzenie",
+    "allDay": "Cały dzień",
+    "noEventsInRange": "Brak wydarzeń w tym zakresie."
   }
 }

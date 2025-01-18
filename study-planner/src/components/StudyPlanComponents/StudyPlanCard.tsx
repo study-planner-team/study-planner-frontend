@@ -1,15 +1,15 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next"; // Import translations
+import { useTranslation } from "react-i18next";
 import usePermissions from "../../hooks/usePermissions";
 
 interface StudyPlanCardProps {
   plan: {
     studyPlanId: number;
     title: string;
-    progress: number;
     description?: string;
+    progress: number;
   };
   onActionClick: () => void;
   actionLabel: string;
@@ -26,7 +26,7 @@ const StudyPlanCard: React.FC<StudyPlanCardProps> = ({
   const { canViewDetails } = usePermissions(plan);
 
   return (
-    <Card className="custom-bg mb-4">
+    <Card className="custom-bg mb-4" style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>{plan.title}</Card.Title>
         {plan.description && <Card.Text>{plan.description}</Card.Text>}

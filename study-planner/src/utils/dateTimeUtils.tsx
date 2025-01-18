@@ -1,7 +1,11 @@
 // Converts a UTC date to a local date in "dd-mm-yyyy" format
 export const formatDate = (date: string): string => {
+    const language = localStorage.getItem("language") || "eng";
+    const locale = language === "pol" ? "pl-PL" : "en-EN";
+  
     const d = new Date(date);
-    return d.toLocaleDateString("pl-PL", { year: "numeric", month: "long", day: "numeric" });
+  
+    return d.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
   };
 
 // Converts a UTC time to local time in "HH:mm" format

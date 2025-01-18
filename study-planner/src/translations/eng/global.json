@@ -51,7 +51,8 @@
     "private": "Private",
     "add": "Add",
     "deleteIconAlt": "Trash Icon",
-    "close": "Close"
+    "close": "Close",
+    "success": "Account created successfully"
   },
   "schedule": {
     "date": "Date",
@@ -63,7 +64,7 @@
     "generateSchedule": "Generate Schedule",
     "sessionsPerDay": "Sessions Per Day",
     "sessionsPerDayPlaceholder": "Enter number of sessions per day",
-    "sessionLength": "Session Length (minutes)",
+    "sessionLength": "Session Length (hours)",
     "sessionLengthPlaceholder": "Enter session length",
     "preferredStudyDays": "Preferred Study Days",
     "saveSchedule": "Save Schedule"
@@ -82,7 +83,8 @@
     "endSession": "End Session",
     "loadingSessions": "Loading sessions...",
     "noFinishedSessions": "No finished sessions available.",
-    "noUpcomingSession": "No upcoming session available"
+    "noUpcomingSession": "No upcoming session available",
+    "yourSessions": "Your Sessions"
   },
   "statistics": {
     "loading": "Loading...",
@@ -253,5 +255,19 @@
     "deleteConfirmation": "Are you sure you want to delete your account?",
     "deleteSuccess": "Account successfully deleted!",
     "editProfileImageAlt": "Edit Profile"
+  },
+  "calendar": {
+    "today": "Today",
+    "previous": "Previous",
+    "next": "Next",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "agenda": "Agenda",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "allDay": "All Day",
+    "noEventsInRange": "No events in this range."
   }
 }

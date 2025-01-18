@@ -92,6 +92,11 @@ const StatisticPage: React.FC = () => {
     xAxis: {
       type: "category",
       data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.planName),
+      axisLabel: {
+        show: true,
+        interval: 0, 
+        rotate: 45,
+      },
     },
     yAxis: { type: "value" },
     series: [
@@ -108,8 +113,14 @@ const StatisticPage: React.FC = () => {
     xAxis: {
       type: "category",
       data: aggregatedStatistics.timeDistribution.map((d: any) => d.topicName),
+      axisLabel: {
+        show: true,
+        interval: 0, 
+        rotate: 45,
+      },
     },
     yAxis: { type: "value" },
+
     series: [
       {
         type: "bar",
@@ -149,6 +160,11 @@ const StatisticPage: React.FC = () => {
     xAxis: {
       type: "category",
       data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.planName),
+      axisLabel: {
+        show: true,
+        interval: 0, 
+        rotate: 45,
+      },
     },
     yAxis: { type: "value" },
     series: [
@@ -166,6 +182,11 @@ const StatisticPage: React.FC = () => {
     xAxis: {
       type: "category",
       data: aggregatedStatistics.sessionsByDay.map((d: any) => formatDate(d.date)),
+      axisLabel: {
+        show: true,
+        interval: 0, 
+        rotate: 45,
+      },
     },
     yAxis: { type: "value" },
     series: [
@@ -183,6 +204,11 @@ const StatisticPage: React.FC = () => {
     xAxis: {
       type: "category",
       data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => formatDate(d.date)),
+      axisLabel: {
+        show: true,
+        interval: 0, 
+        rotate: 45,
+      },
     },
     yAxis: { type: "value" },
     series: [
@@ -277,13 +303,13 @@ const StatisticPage: React.FC = () => {
     <>
       <Header />
       <Container fluid className="my-5">
-        <Row className="mb-4">
+        <Row>
           <Col>
             <h2>{t("statistics.studyPlansAndSessions")}</h2>
             <hr />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={totalSessionsOption} />
           </Col>
@@ -291,7 +317,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={plansOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={timeDistributionByPlanOption} />
           </Col>
@@ -299,7 +325,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={timeDistributionOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={durationTrendsOption} />
           </Col>
@@ -307,7 +333,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={progressTowardGoalsOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={sessionsByDayOption} />
           </Col>
@@ -315,18 +341,18 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={sessionsMissedByDayOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={preferredStudyTimesOption} />
           </Col>
         </Row>
-        <Row className="my-4">
+        <Row className="mb-4">
           <Col>
             <h2>{t("statistics.quizStatistics")}</h2>
             <hr />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={quizStatsOption} />
           </Col>
