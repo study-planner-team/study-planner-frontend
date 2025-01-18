@@ -22,7 +22,7 @@ const UpcomingSessionCard: React.FC = () => {
   if (!session) {
     return (
       <Container className="text-center my-5">
-        <h3>{t("session.noUpcomingSession")}</h3>
+        <h4>{t("session.noUpcomingSession")}</h4>
       </Container>
     );
   }

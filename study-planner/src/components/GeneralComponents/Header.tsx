@@ -19,7 +19,12 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" className="navbar-custom" variant="dark">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className="navbar-custom"
+      variant="dark"
+    >
       <Container className="navbar-wrapper">
         <Navbar.Brand as={Link} to="/" className="fw-bold">
           Study Planner
@@ -46,9 +51,8 @@ const Header: React.FC = () => {
             </Nav>
           )}
 
-          {/* Always align this section to the right */}
-          <Nav className="ms-auto align-items-center">
-            <div className="vis-settings-box">
+          <Nav className="ms-auto align-items-lg-center flex-column flex-lg-row text-start text-lg-end">
+            <div className="vis-settings-box mb-2 mb-lg-0 me-lg-3">
               <VisSettingsBox />
             </div>
             {!isLoggedIn() ? (
@@ -56,24 +60,24 @@ const Header: React.FC = () => {
                 <Nav.Link
                   as={Link}
                   to="/register"
-                  className="btn-custom w-100 mt-2 mt-lg-0"
+                  className="btn-custom w-100 w-lg-auto mt-2 mt-lg-0 me-lg-2"
                 >
                   {t("header.user.register")}
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className="w-100 mt-2 mt-lg-0"
+                  className="w-100 w-lg-auto mt-2 mt-lg-0"
                 >
                   {t("header.user.login")}
                 </Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/profile">
+                <Nav.Link as={Link} to="/profile" className="me-lg-2">
                   {user?.username}
                 </Nav.Link>
-                <Nav.Link onClick={handleLogout}>
+                <Nav.Link onClick={handleLogout} className="me-lg-2">
                   {t("header.user.logout")}
                 </Nav.Link>
               </>

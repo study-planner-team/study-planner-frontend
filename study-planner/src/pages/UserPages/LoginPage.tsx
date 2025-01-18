@@ -37,10 +37,10 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <Header />
-      <Container className="auth-container mb-3">
+      <Container className="auth-container">
         <Row className="justify-content-center align-items-center vh-100">
-          <Col md={6} className="auth-box h-50 bg-white">
-            <h2 className="text-center mt-2">{t("login.title")}</h2>
+          <Col md={6} className="auth-box h-50 bg-white rounded">
+            <h2 className="text-center mt-3">{t("login.title")}</h2>
             <Form onSubmit={handleLogin}>
               <Form.Group controlId="username">
                 <Form.Label>{t("login.username")}</Form.Label>
@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
                 />
               </Form.Group>
               <Form.Group controlId="password">
-                <Form.Label>{t("login.password")}</Form.Label>
+                <Form.Label className="mt-2">{t("login.password")}</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder={t("login.passwordPlaceholder")}
@@ -60,9 +60,6 @@ const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Group>
-              <Link to="/forgot-password" className="d-block mt-2 mb-2">
-                {t("login.forgotPassword")}
-              </Link>
               <div className="d-flex align-items-center mt-3" style={{ gap: "2px" }}>
                 <Button variant="warning" type="submit" className="flex-grow-1">
                   {t("login.login")}
@@ -82,7 +79,7 @@ const LoginPage: React.FC = () => {
   
           <Col
             md={6}
-            className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center"
+            className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center rounded"
           >
             <h3 className="text-center">{t("login.welcomeMessage")}</h3>
             <Link to="/register">

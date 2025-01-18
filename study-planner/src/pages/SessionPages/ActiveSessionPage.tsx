@@ -9,7 +9,7 @@ import "../../styles/StudyPlanStyles.css";
 import { useTranslation } from "react-i18next";
 
 const ActiveSessionPage: React.FC = () => {
- const { t } = useTranslation("global");
+  const { t } = useTranslation("global");
 
   return (
     <>
@@ -25,12 +25,21 @@ const ActiveSessionPage: React.FC = () => {
         </Row>
         <Row className="gy-4 gx-4 justify-content-center">
           <Col md={4}>
+            <h4 className="text-center mb-3">
+              {t("session.pastSessions")}
+            </h4>
             <FinishedSessionBlock />
           </Col>
           <Col md={4}>
+            <h4 className="text-center mb-3">
+              {t("session.currentSession")}
+            </h4>
             <CurrentSessionCard />
           </Col>
           <Col md={4}>
+            <h4 className="text-center mb-3">
+              {t("session.upcomingSessions")}
+            </h4>
             <UpcomingSessionCard />
           </Col>
         </Row>

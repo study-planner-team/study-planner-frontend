@@ -27,7 +27,7 @@ const CurrentSessionCard: React.FC = () => {
   if (!session) {
     return (
       <Container className="text-center my-5">
-        <h3>{t("session.noActiveSession")}</h3>
+        <h4>{t("session.noActiveSession")}</h4>
       </Container>
     );
   }

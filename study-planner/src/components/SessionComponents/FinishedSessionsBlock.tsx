@@ -33,7 +33,7 @@ const FinishedSessionBlock: React.FC = () => {
         ))
       ) : (
         <Container className="text-center my-5">
-        <h3>{t("session.noFinishedSessions")}</h3>
+        <h4>{t("session.noFinishedSessions")}</h4>
         </Container>
       )}
     </ul>

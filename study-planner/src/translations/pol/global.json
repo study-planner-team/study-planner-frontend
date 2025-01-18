@@ -84,7 +84,10 @@
     "loadingSessions": "Ładowanie sesji...",
     "noFinishedSessions": "Brak zakończonych sesji.",
     "noUpcomingSession": "Brak nadchodzących sesji.",
-    "yourSessions": "Twoje Sesje"
+    "yourSessions": "Twoje Sesje",
+    "pastSessions": "Zakończone Sesje",
+    "currentSession": "Obecna Sesja",
+    "upcomingSessions": "Nadchodzące Sesje"
   },
   "statistics": {
     "loading": "Ładowanie...",
@@ -101,9 +104,9 @@
     "actualStudyTime": "Rzeczywisty Czas Nauki",
     "progressTowardGoals": "Postęp w Realizacji Celów (%)",
     "completionPercentage": "Procent Ukończenia",
-    "sessionsByDay": "Sesje ukończone dziennie",
+    "sessionsByDay": "Dzienna liczba ukończonych sesji",
     "sessions": "Sesje",
-    "sessionsMissedByDay": "Sesje nieudane dziennie",
+    "sessionsMissedByDay": "Dzienna liczba nieudanych sesji",
     "missedSessions": "Nieudane Sesje",
     "preferredStudyTimes": "Preferowane godziny nauki (Godzina dnia)",
     "quizStatistics": "Statystyki Quizów",
@@ -115,7 +118,8 @@
     "quizzes": "Quizy",
     "archived": "Archiwizowane",
     "active": "Aktywne",
-    "assigned": "Przypisane"
+    "assigned": "Przypisane",
+    "noData": "Brak danych"
   },
   "studyPlans": {
     "myPlans": "Moje Plany Nauki",
@@ -175,21 +179,21 @@
   },
   "landingPage": {
     "illustrationAlt": "Ilustracja Nauki",
-    "heroText": "Planuj swoje nauki efektywnie i osiągaj cele.",
+    "heroText": "Planuj naukę efektywnie i osiągaj swoje cele",
     "viewMore": "Zobacz więcej",
     "readMore": "Czytaj więcej",
     "features": "Główne funkcjonalności",
     "feature1": {
       "title": "Generowanie Planów Nauki",
-      "text": "Planuj swój harmonogram nauki łatwo i trzymaj się planu."
+      "text": "Łatwo planuj harmonogram nauki i realizuj swoje cele"
     },
     "feature2": {
       "title": "Nauka w Grupach",
-      "text": "Współpracuj i ucz się ze znajomymi."
+      "text": "Współpracuj i ucz się ze znajomymi"
     },
     "feature3": {
       "title": "Przypomnienia i Powiadomienia",
-      "text": "Bądź na bieżąco dzięki inteligentnym przypomnieniom i powiadomieniom."
+      "text": "Nie przegap żadnej sesji nauki dzięki przypomnieniom"
     }
   },
   "login": {

@@ -40,7 +40,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({
       <Card.Body>
         <Card.Title>{quizData.title}</Card.Title>
         {quizData.description && <Card.Text>{quizData.description}</Card.Text>}
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between flex-wrap gap-2">
           {createdQuiz && (
             <>
               <Button

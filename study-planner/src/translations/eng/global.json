@@ -84,7 +84,10 @@
     "loadingSessions": "Loading sessions...",
     "noFinishedSessions": "No finished sessions available.",
     "noUpcomingSession": "No upcoming session available",
-    "yourSessions": "Your Sessions"
+    "yourSessions": "Your Sessions",
+    "pastSessions": "Past Sessions",
+    "currentSession": "Current Session",
+    "upcomingSessions": "Upcoming Sessions"
   },
   "statistics": {
     "loading": "Loading...",
@@ -115,7 +118,8 @@
     "quizCompletionsOverTime": "Quiz Completions Over Time",
     "completions": "Completions",
     "quizScoreDistribution": "Quiz Score Distribution",
-    "quizzes": "Quizzes"
+    "quizzes": "Quizzes",
+    "noData": "No data"
   },
 
   "studyPlans": {
@@ -190,7 +194,7 @@
     },
     "feature3": {
       "title": "Reminders and Notifications",
-      "text": "Stay informed with smart notifications and reminders."
+      "text": "Never miss a study session with helpful reminders"
     }
   },
   "login": {

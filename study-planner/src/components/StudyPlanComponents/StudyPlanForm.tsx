@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useTranslation } from "react-i18next"; // Import translations
+import { formatDateForInput } from "../../utils/dateTimeUtils";
 
 interface StudyPlanFormProps {
   initialValues?: {
@@ -34,16 +35,8 @@ const StudyPlanForm: React.FC<StudyPlanFormProps> = ({
       setTitle(initialValues.title || "");
       setDescription(initialValues.description || "");
       setCategory(initialValues.category || "");
-      setStartDate(
-        initialValues.startDate
-          ? new Date(initialValues.startDate).toISOString().split("T")[0]
-          : ""
-      );
-      setEndDate(
-        initialValues.endDate
-          ? new Date(initialValues.endDate).toISOString().split("T")[0]
-          : ""
-      );
+      setStartDate(initialValues.startDate ? formatDateForInput(initialValues.startDate) : "");
+      setEndDate(initialValues.endDate ? formatDateForInput(initialValues.endDate) : "");
       setIsPublic(initialValues.isPublic || false);
     }
   }, [initialValues]);
