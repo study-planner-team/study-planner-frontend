@@ -14,7 +14,11 @@
       "eng": "Angielski",
       "pol": "Polski"
     },
-    "public-users": "Publiczne Profile"
+    "public-users": "Publiczne Profile",
+    "user-docs": "Pomoc",
+    "user-docs-tooltip": "Dokumentacja użytkownika",
+    "tech-docs": "API",
+    "tech-docs-tooltip": "Dokumentacja techniczna"
   },
   "quiz": {
     "title": "Quiz",
