@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, Container, ListGroup } from "react-bootstrap";
-import { useTranslation } from "react-i18next"; // Import translations
-import {
-  calculateTimeLeft,
-  formatDate,
-  formatTime,
-} from "../../utils/dateTimeUtils";
+import { useTranslation } from "react-i18next";
+import {calculateTimeLeft, formatDate, formatTime } from "../../utils/dateTimeUtils";
 import { useActiveSessionContext } from "../../context/ActiveSessionProvider";
 
 const CurrentSessionCard: React.FC = () => {
   const { t } = useTranslation("global");
-  const { activeSession: session, startSession, endSession } =
-    useActiveSessionContext();
+  const { activeSession: session, startSession, endSession } = useActiveSessionContext();
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log(session?.studyTopic.studyMaterials)
     if (session?.status === "InProgress") {
       const interval = setInterval(() => {
         setTimeLeft(calculateTimeLeft(session.date, session.endTime));
       }, 1000);
-      return () => clearInterval(interval); // Cleanup on unmount
+      return () => clearInterval(interval);
     }
   }, [session]);
 

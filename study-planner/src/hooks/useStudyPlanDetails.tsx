@@ -51,6 +51,8 @@ export const useStudyPlanDetails = (id: string | undefined) => {
 
     if (success) {
       toast.success("Pomyślnie zmieniono lidera planu");
+      await fetchStudyPlan();
+      await fetchPlanMembers();
     }
   };
 

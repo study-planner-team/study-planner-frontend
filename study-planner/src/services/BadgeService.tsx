@@ -11,6 +11,16 @@ class BadgeService {
       return null;
     }
   }
+
+  async fetchPublicUsersWithBadges() {
+    try {
+      const response = await axiosInstance.get(`/api/users/profiles/public`);
+      return response.data;
+    } catch (error) {
+      handleError(error, "Nie udało się pobrać publicznych użytkowników");
+      return null;
+    }
+  }
 }
 
 export default new BadgeService();
