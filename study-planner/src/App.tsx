@@ -21,6 +21,7 @@ import StatisticPage from './pages/StatisticPages/StatisticPage';
 import QuizPage from './pages/QuizPages/QuizPage';
 import ResultPage from './pages/QuizPages/ResultPage';
 import ChangePasswordPage from './pages/UserPages/ChangePasswordPage';
+import PublicUsersPage from './pages/UserPages/PublicUsersPage';
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={ <ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/public-users" element={<ProtectedRoute><PublicUsersPage /></ProtectedRoute>} />
               <Route path="/studyplans" element={<ProtectedRoute><StudyPlanPage /></ProtectedRoute>} />
               <Route path="/studyplans/new" element={<ProtectedRoute><AddStudyPlanPage /></ProtectedRoute>} />
               <Route path="/studyplans/:id" element={<ProtectedRoute><StudyPlanDetailsPage /></ProtectedRoute>} />

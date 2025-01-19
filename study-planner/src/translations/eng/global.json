@@ -13,7 +13,8 @@
     "languages": {
       "eng": "English",
       "pol": "Polish"
-    }
+    },
+    "public-users": "Public Profiles"
   },
   "quiz": {
     "title": "Quiz",
@@ -98,7 +99,7 @@
   "statistics": {
     "loading": "Loading...",
     "studyPlansAndSessions": "Study Plans and Sessions",
-    "totalSessions": "Total Sessions",
+    "totalSessions": "Completed Sessions",
     "completed": "Completed",
     "missed": "Missed",
     "inProgress": "In Progress",
@@ -279,5 +280,15 @@
     "event": "Event",
     "allDay": "All Day",
     "noEventsInRange": "No events in this range."
+  },
+  "badges": {
+    "titleForUser": "Badges for {{username}}",
+    "noBadges": "This user has no badges yet"
+  },
+  "publicUsers": {
+    "title": "Public Profiles",
+    "noUsers": "No public users available.",
+    "viewProfile": "View Profile",
+    "searchPlaceholder": "Search users..."
   }
 }

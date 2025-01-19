@@ -48,6 +48,9 @@ const Header: React.FC = () => {
               <Nav.Link as={Link} to="/statistics">
                 {t("header.statistics")}
               </Nav.Link>
+              <Nav.Link as={Link} to="/public-users">
+                {t("header.public-users")}
+              </Nav.Link>
             </Nav>
           )}
 

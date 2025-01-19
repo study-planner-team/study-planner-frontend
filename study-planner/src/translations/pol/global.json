@@ -13,7 +13,8 @@
     "languages": {
       "eng": "Angielski",
       "pol": "Polski"
-    }
+    },
+    "public-users": "Publiczne Profile"
   },
   "quiz": {
     "title": "Quiz",
@@ -98,7 +99,7 @@
   "statistics": {
     "loading": "Ładowanie...",
     "studyPlansAndSessions": "Plany Nauki i Sesje",
-    "totalSessions": "Łączne Sesje",
+    "totalSessions": "Ukończone sesje",
     "completed": "Zakończone",
     "missed": "Nieudane",
     "inProgress": "W toku",
@@ -273,7 +274,9 @@
     "5": "Utwórz 5 planów nauki",
     "6": "Zgromadź 50 godzin czasu nauki",
     "7": "Udostępnij plan nauki publicznie",
-    "8": "Utwórz 10 quizów"
+    "8": "Utwórz 10 quizów",
+    "titleForUser": "Odznaki użytkownika {{username}}",
+    "noBadges": "Brak odznak"
   },
   "calendar": {
     "today": "Dziś",
@@ -287,6 +290,12 @@
     "time": "Czas",
     "event": "Wydarzenie",
     "allDay": "Cały dzień",
-    "noEventsInRange": "Brak wydarzeń w tym zakresie."
+    "noEventsInRange": "Brak wydarzeń w tym zakresie"
+  },
+  "publicUsers": {
+    "title": "Publiczne profile",
+    "noUsers": "Brak dostępnych publicznych użytkowników",
+    "viewProfile": "Wyświetl profil",
+    "searchPlaceholder": "Szukaj użytkowników..."
   }
 }
