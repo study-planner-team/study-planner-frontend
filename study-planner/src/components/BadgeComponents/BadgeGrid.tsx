@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import BadgeDisplay from './BadgeDisplay';
 import { Container, Row, Col } from 'react-bootstrap';
 import BadgeService from '../../services/BadgeService';
-import { useTranslation } from 'react-i18next';
 
 interface Badge {
     badgeId: number;
@@ -13,7 +12,6 @@ interface Badge {
 }
 
 const BadgeGrid: React.FC<{ userId: number }> = ({ userId }) => {
-    const { t } = useTranslation("global");
     const [badges, setBadges] = useState<Badge[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
