@@ -105,7 +105,6 @@ export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({
     setActiveSession(null);
     setToastDisplayed(false);
     toast.success("Sesja zakończona!");
-
     // Restart polling after session ends
     if (!intervalRef.current) {
       intervalRef.current = setInterval(fetchActiveSession, 60000); 
