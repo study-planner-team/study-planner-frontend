@@ -36,6 +36,22 @@ export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const intervalRef = useRef<NodeJS.Timeout | null>(null); // Ref to store the interval ID
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchActiveSession();
+
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(fetchActiveSession, 60000);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current); // Cleanup interval on unmount
+        intervalRef.current = null;
+      }
+    };
+  }, [activeSession, toastDisplayed]);
+
+
   const fetchActiveSession = async () => {
     if (!isLoggedIn()) return;
 
@@ -88,29 +104,13 @@ export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({
     await ScheduleService.endSession(activeSession.studySessionId);
     setActiveSession(null);
     setToastDisplayed(false);
+    toast.success("Sesja zakończona!");
 
     // Restart polling after session ends
     if (!intervalRef.current) {
       intervalRef.current = setInterval(fetchActiveSession, 60000); 
     }
-
-    toast.success("Sesja zakończona!");
   };
-
-  useEffect(() => {
-    fetchActiveSession();
-
-    if (!intervalRef.current) {
-      intervalRef.current = setInterval(fetchActiveSession, 60000);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current); // Cleanup interval on unmount
-        intervalRef.current = null;
-      }
-    };
-  }, [activeSession, toastDisplayed]);
 
   return (
     <ActiveSessionContext.Provider value={{ activeSession, fetchActiveSession, startSession, endSession }}>
