@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Row, Col, Card } from "react-bootstrap";
 import { useQuiz } from "../../hooks/useQuiz";
+import "../../styles/QuizStyles.css";
 import AddQuizFormModal from "./AddQuizFormModal";
 import QuizComponent from "./QuizComponent";
 import { useTranslation } from "react-i18next";
@@ -33,13 +34,14 @@ const QuizBlock: React.FC<QuizBlockProps> = ({
       <Row className="g-4">
         <Col md={4}>
           <Card>
-            <Card.Header className="d-flex justify-content-between align-items-center">
+            <Card.Header className="d-flex justify-content-between align-items-center custom-card-header">
               <h5 className="mb-0">{t("quiz.createdQuizzes")}</h5>
               {canViewDetails && (
                 <Button
                   variant="warning"
                   size="sm"
                   onClick={() => setQuizModalShow(true)}
+                  style={{ minWidth: "100px", textAlign: "center" }}
                 >
                   {t("quiz.addQuiz")}
                 </Button>
@@ -65,7 +67,7 @@ const QuizBlock: React.FC<QuizBlockProps> = ({
 
         <Col md={4}>
           <Card>
-            <Card.Header className="d-flex justify-content-between align-items-center">
+            <Card.Header className="d-flex justify-content-between align-items-center custom-card-header">
               <h5 className="mb-0">{t("quiz.assignedQuizzes")}</h5>
             </Card.Header>
             <Card.Body>
@@ -88,7 +90,7 @@ const QuizBlock: React.FC<QuizBlockProps> = ({
 
         <Col md={4}>
           <Card>
-            <Card.Header className="d-flex justify-content-between align-items-center">
+            <Card.Header className="d-flex justify-content-between align-items-center custom-card-header">
               <h5 className="mb-0">{t("quiz.completedQuizzes")}</h5>
             </Card.Header>
             <Card.Body>

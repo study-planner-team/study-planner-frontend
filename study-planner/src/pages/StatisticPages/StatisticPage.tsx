@@ -60,230 +60,262 @@ const StatisticPage: React.FC = () => {
     { name: t("statistics.inProgress"), value: precomputedMetrics.inProgressSessions },
   ].filter((item) => item.value > 0);
 
-  const totalSessionsOption: echarts.EChartsOption = {
-    title: { text: t("statistics.totalSessions") },
-    series: [
-      {
-        type: "pie",
-        data: totalSessionsData,
-        label: { ...pieLabelStyle },
-        labelLine: { show: true },
+  const createChartOption = (title: string, data: any[], series: echarts.SeriesOption, additionalOptions: Partial<echarts.EChartsOption> = {}): echarts.EChartsOption => ({
+    title: { text: title },
+    graphic: {
+      type: "text",
+      left: "center",
+      top: "center",
+      style: {
+        text: data.length > 0 ? "" : t("statistics.noData"),
+        fontSize: 20,
+        fill: "#000",
       },
-    ],
-  };
-
-  const plansOption: echarts.EChartsOption = {
-    title: { text: t("statistics.plansStatus") },
-    series: [
-      {
-        type: "pie",
-        data: [
-          { name: t("statistics.active"), value: precomputedMetrics.activePlans },
-          { name: t("statistics.archived"), value: precomputedMetrics.archivedPlans },
-        ],
-        label: { ...pieLabelStyle },
-        labelLine: { show: true },
-      },
-    ],
-  };
-
-  const timeDistributionByPlanOption: echarts.EChartsOption = {
-    title: { text: t("statistics.timeByPlan") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.planName),
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.totalTime),
-        label: { ...labelStyle, formatter: "{c}h" },
-      },
-    ],
-  };
+    ...additionalOptions,
+    series: [series],
+  });
 
-  const timeDistributionOption: echarts.EChartsOption = {
-    title: { text: t("statistics.timeByTopic") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.timeDistribution.map((d: any) => d.topicName),
+  const totalSessionsOption = createChartOption(
+    t("statistics.totalSessions"),
+    totalSessionsData,
+    {
+      type: "pie",
+      data: totalSessionsData,
+      label: { ...pieLabelStyle },
+      labelLine: { show: true },
+    }
+  );
+  
+  const plansOption = createChartOption(
+    t("statistics.plansStatus"),
+    [
+      { name: t("statistics.active"), value: precomputedMetrics.activePlans },
+      { name: t("statistics.archived"), value: precomputedMetrics.archivedPlans },
+    ],
+    {
+      type: "pie",
+      data: [
+        { name: t("statistics.active"), value: precomputedMetrics.activePlans },
+        { name: t("statistics.archived"), value: precomputedMetrics.archivedPlans },
+      ],
+      label: { ...pieLabelStyle },
+      labelLine: { show: true },
+    }
+  );
+  
+  const timeDistributionByPlanOption = createChartOption(
+    t("statistics.timeByPlan"),
+    aggregatedStatistics.timeDistributionByPlan,
+    {
+      type: "bar",
+      data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.totalTime),
+      label: { ...labelStyle, formatter: "{c}h" },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.timeDistribution.map((d: any) => d.totalTime),
-        name: t("statistics.totalTime"),
-        label: { ...labelStyle, formatter: "{c}h" },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.timeDistributionByPlan.map((d: any) => d.planName),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const durationTrendsOption: echarts.EChartsOption = {
-    title: { text: t("statistics.durationTrends") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.durationTrends.map((d: any) => formatDate(d.date)),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const timeDistributionOption = createChartOption(
+    t("statistics.timeByTopic"),
+    aggregatedStatistics.timeDistribution,
+    {
+      type: "bar",
+      data: aggregatedStatistics.timeDistribution.map((d: any) => d.totalTime),
+      name: t("statistics.totalTime"),
+      label: { ...labelStyle, formatter: "{c}h" },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "line",
-        data: aggregatedStatistics.durationTrends.map((d: any) => d.totalActualDuration),
-        name: t("statistics.actualStudyTime"),
-        label: {
-          ...labelStyle,
-          formatter: "{c} min",
-          position: "top",
-        },
-        symbol: "circle",
-        symbolSize: 8,
-        lineStyle: { color: "#5470c6", width: 2 },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.timeDistribution.map((d: any) => d.topicName),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const progressTowardGoalsOption: echarts.EChartsOption = {
-    title: { text: t("statistics.progressTowardGoals") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.planName),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const durationTrendsOption = createChartOption(
+    t("statistics.durationTrends"),
+    aggregatedStatistics.durationTrends,
+    {
+      type: "line",
+      data: aggregatedStatistics.durationTrends.map((d: any) => d.totalActualDuration),
+      name: t("statistics.actualStudyTime"),
+      label: { ...labelStyle, formatter: "{c} min", position: "top" },
+      symbol: "circle",
+      symbolSize: 8,
+      lineStyle: { color: "#5470c6", width: 2 },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.completionPercentage),
-        name: t("statistics.completionPercentage"),
-        label: { ...labelStyle, formatter: "{c} %" },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.durationTrends.map((d: any) => formatDate(d.date)),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const sessionsByDayOption: echarts.EChartsOption = {
-    title: { text: t("statistics.sessionsByDay") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.sessionsByDay.map((d: any) => formatDate(d.date)),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const progressTowardGoalsOption = createChartOption(
+    t("statistics.progressTowardGoals"),
+    aggregatedStatistics.progressTowardGoals,
+    {
+      type: "bar",
+      data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.completionPercentage),
+      name: t("statistics.completionPercentage"),
+      label: { ...labelStyle, formatter: "{c} %" },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.sessionsByDay.map((d: any) => d.count),
-        name: t("statistics.sessions"),
-        label: { ...labelStyle },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.progressTowardGoals.map((d: any) => d.planName),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const sessionsMissedByDayOption: echarts.EChartsOption = {
-    title: { text: t("statistics.sessionsMissedByDay") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => formatDate(d.date)),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const sessionsByDayOption = createChartOption(
+    t("statistics.sessionsByDay"),
+    aggregatedStatistics.sessionsByDay,
+    {
+      type: "bar",
+      data: aggregatedStatistics.sessionsByDay.map((d: any) => d.count),
+      name: t("statistics.sessions"),
+      label: { ...labelStyle },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => d.count),
-        name: t("statistics.missedSessions"),
-        label: { ...labelStyle },
-        itemStyle: { color: "#c23531" },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.sessionsByDay.map((d: any) => formatDate(d.date)),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const preferredStudyTimesOption: echarts.EChartsOption = {
-    title: { text: t("statistics.preferredStudyTimes") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.preferredStudyTimes.map((d: any) => formatTime(null, d.hour)),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const sessionsMissedByDayOption = createChartOption(
+    t("statistics.sessionsMissedByDay"),
+    aggregatedStatistics.sessionsMissedByDay,
+    {
+      type: "bar",
+      data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => d.count),
+      name: t("statistics.missedSessions"),
+      label: { ...labelStyle },
+      itemStyle: { color: "#c23531" },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        type: "bar",
-        data: aggregatedStatistics.preferredStudyTimes.map((d: any) => d.count),
-        name: t("statistics.sessions"),
-        label: { ...labelStyle },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.sessionsMissedByDay.map((d: any) => formatDate(d.date)),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
-
-  const quizStatsOption: echarts.EChartsOption = {
-    title: { text: t("statistics.quizStats") },
-    series: [
-      {
-        type: "pie",
-        data: [
-          { name: t("statistics.assigned"), value: precomputedMetrics.assignedQuizCount },
-          { name: t("statistics.completed"), value: precomputedMetrics.completedQuizCount },
-        ],
-        label: { ...pieLabelStyle },
-      },
-    ],
-  };
-
-  const averageScoreOption: echarts.EChartsOption = {
-    title: { text: t("statistics.averageScore") },
-    series: [
-      {
-        type: "gauge",
-        max: 100,
-        data: [{ value: precomputedMetrics.averageQuizScore }],
-        detail: { formatter: "{value}%", fontSize: 14 },
-      },
-    ],
-  };
-
-  const quizCompletionsOverTimeOption: echarts.EChartsOption = {
-    title: { text: t("statistics.quizCompletionsOverTime") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => formatDate(d.date)),
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const preferredStudyTimesOption = createChartOption(
+    t("statistics.preferredStudyTimes"),
+    aggregatedStatistics.preferredStudyTimes,
+    {
+      type: "bar",
+      data: aggregatedStatistics.preferredStudyTimes.map((d: any) => d.count),
+      name: t("statistics.sessions"),
+      label: { ...labelStyle },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        name: t("statistics.completions"),
-        type: "line",
-        data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => d.count),
-        label: { ...labelStyle },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.preferredStudyTimes.map((d: any) => formatTime(null, d.hour)),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const quizStatsOption = createChartOption(
+    t("statistics.quizStats"),
+    [
+      { name: t("statistics.assigned"), value: precomputedMetrics.assignedQuizCount },
+      { name: t("statistics.completed"), value: precomputedMetrics.completedQuizCount },
     ],
-  };
-
-  const quizScoreDistributionOption: echarts.EChartsOption = {
-    title: { text: t("statistics.quizScoreDistribution") },
-    xAxis: {
-      type: "category",
-      data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.bucket),
+    {
+      type: "pie",
+      data: [
+        { name: t("statistics.assigned"), value: precomputedMetrics.assignedQuizCount },
+        { name: t("statistics.completed"), value: precomputedMetrics.completedQuizCount },
+      ],
+      label: { ...pieLabelStyle },
+    }
+  );
+  
+  const averageScoreOption = createChartOption(
+    t("statistics.averageScore"),
+    [precomputedMetrics.averageQuizScore],
+    {
+      type: "gauge",
+      max: 100,
+      data: [{ value: precomputedMetrics.averageQuizScore }],
+      detail: { formatter: "{value}%", fontSize: 14 },
+    }
+  );
+  
+  const quizCompletionsOverTimeOption = createChartOption(
+    t("statistics.quizCompletionsOverTime"),
+    aggregatedStatistics.quizCompletionsOverTime,
+    {
+      type: "line",
+      data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => d.count),
+      name: t("statistics.completions"),
+      label: { ...labelStyle },
     },
-    yAxis: { type: "value" },
-    series: [
-      {
-        name: t("statistics.quizzes"),
-        type: "bar",
-        data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.count),
-        label: { ...labelStyle },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.quizCompletionsOverTime.map((d: any) => formatDate(d.date)),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
       },
-    ],
-  };
+      yAxis: { type: "value" },
+    }
+  );
+  
+  const quizScoreDistributionOption = createChartOption(
+    t("statistics.quizScoreDistribution"),
+    aggregatedStatistics.quizScoreDistribution,
+    {
+      type: "bar",
+      data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.count),
+      name: t("statistics.quizzes"),
+      label: { ...labelStyle },
+    },
+    {
+      xAxis: {
+        type: "category",
+        data: aggregatedStatistics.quizScoreDistribution.map((d: any) => d.bucket),
+        axisLabel: { show: true, interval: 0, rotate: 45 },
+      },
+      yAxis: { type: "value" },
+    }
+  );
 
   return (
     <>
       <Header />
       <Container fluid className="my-5">
-        <Row className="mb-4">
+        <Row>
           <Col>
             <h2>{t("statistics.studyPlansAndSessions")}</h2>
             <hr />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={totalSessionsOption} />
           </Col>
@@ -291,7 +323,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={plansOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={timeDistributionByPlanOption} />
           </Col>
@@ -299,7 +331,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={timeDistributionOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={durationTrendsOption} />
           </Col>
@@ -307,7 +339,7 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={progressTowardGoalsOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={sessionsByDayOption} />
           </Col>
@@ -315,18 +347,18 @@ const StatisticPage: React.FC = () => {
             <ChartComponent option={sessionsMissedByDayOption} />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={preferredStudyTimesOption} />
           </Col>
         </Row>
-        <Row className="my-4">
+        <Row className="mb-4">
           <Col>
             <h2>{t("statistics.quizStatistics")}</h2>
             <hr />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <ChartComponent option={quizStatsOption} />
           </Col>

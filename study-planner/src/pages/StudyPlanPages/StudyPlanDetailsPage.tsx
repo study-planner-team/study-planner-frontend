@@ -84,14 +84,18 @@ const StudyPlanDetailsPage: React.FC = () => {
             </Row>
           </Tab>
           <Tab eventKey="members" title={t("studyPlans.membersTab")}>
-            <ul className="list-unstyled">
+            <ul className="list-group w-50">
               {members.length > 0 ? (
                 members.map((member) => (
-                  <li key={member.userId} className="mb-3">
-                    {member.username}
+                  <li
+                    key={member.userId}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span className="fw-bold text-dark">{member.username}</span>
                     {canEdit && member.userId !== studyPlan?.owner.userId && (
                       <Button
                         variant="danger"
+                        size="sm"
                         onClick={() => handleOwnerChange(Number(id), member.userId)}
                       >
                         {t("studyPlans.changeLeader")}
@@ -100,7 +104,7 @@ const StudyPlanDetailsPage: React.FC = () => {
                   </li>
                 ))
               ) : (
-                <p>{t("studyPlans.noMembers")}</p>
+                <p className="text-center">{t("studyPlans.noMembers")}</p>
               )}
             </ul>
           </Tab>

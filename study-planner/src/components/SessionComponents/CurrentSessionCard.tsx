@@ -15,6 +15,7 @@ const CurrentSessionCard: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log(session?.studyTopic.studyMaterials)
     if (session?.status === "InProgress") {
       const interval = setInterval(() => {
         setTimeLeft(calculateTimeLeft(session.date, session.endTime));
@@ -26,7 +27,7 @@ const CurrentSessionCard: React.FC = () => {
   if (!session) {
     return (
       <Container className="text-center my-5">
-        <h3>{t("session.noActiveSession")}</h3>
+        <h4>{t("session.noActiveSession")}</h4>
       </Container>
     );
   }

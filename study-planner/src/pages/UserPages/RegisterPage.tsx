@@ -22,8 +22,8 @@ const RegisterPage: React.FC = () => {
     const success = await registerUser(username, password, email);
 
     if (success) {
-      toast.success(t("register.success"));
-      navigate("/login");
+      toast.success(t("common.success"));
+      navigate("/");
     }
   };
 
@@ -32,8 +32,8 @@ const RegisterPage: React.FC = () => {
       <Header />
       <Container className="auth-container mb-3">
         <Row className="justify-content-center align-items-center vh-100">
-          <Col md={6} className="auth-box h-50 bg-white">
-            <h2 className="text-center mt-2">{t("register.title")}</h2>
+          <Col md={6} className="auth-box h-50 bg-white rounded">
+            <h2 className="text-center mt-3">{t("register.title")}</h2>
             <Form onSubmit={handleRegister}>
               <Form.Group controlId="username">
                 <Form.Label>{t("register.username")}</Form.Label>
@@ -45,7 +45,7 @@ const RegisterPage: React.FC = () => {
                 />
               </Form.Group>
               <Form.Group controlId="password">
-                <Form.Label>{t("register.password")}</Form.Label>
+                <Form.Label className="mt-2">{t("register.password")}</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder={t("register.passwordPlaceholder")}
@@ -54,7 +54,7 @@ const RegisterPage: React.FC = () => {
                 />
               </Form.Group>
               <Form.Group controlId="email">
-                <Form.Label>{t("register.email")}</Form.Label>
+                <Form.Label className="mt-2">{t("register.email")}</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder={t("register.emailPlaceholder")}
@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
 
           <Col
             md={6}
-            className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center"
+            className="auth-box auth-box-right h-50 d-flex flex-column justify-content-center align-items-center text-center rounded"
           >
             <h3 className="text-center">{t("register.haveAccount")}</h3>
             <Link to="/login">

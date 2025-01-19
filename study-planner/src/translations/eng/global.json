@@ -42,7 +42,13 @@
     "option": "Option",
     "correct": "Correct",
     "questionPlaceholder": "Enter question text",
-    "removeQuestion": "Remove Question"
+    "removeQuestion": "Remove Question",
+    "yourAnswer": "Your answer",
+    "correctAnswer": "Correct Answer",
+    "backToDashboard": "Back to study plan",
+    "completed": "Completed quiz",
+    "yourScore": "Your score",
+    "yourResults": "Your results"
   },
   "common": {
     "delete": "Delete",
@@ -51,7 +57,8 @@
     "private": "Private",
     "add": "Add",
     "deleteIconAlt": "Trash Icon",
-    "close": "Close"
+    "close": "Close",
+    "success": "Account created successfully"
   },
   "schedule": {
     "date": "Date",
@@ -63,7 +70,7 @@
     "generateSchedule": "Generate Schedule",
     "sessionsPerDay": "Sessions Per Day",
     "sessionsPerDayPlaceholder": "Enter number of sessions per day",
-    "sessionLength": "Session Length (minutes)",
+    "sessionLength": "Session Length (hours)",
     "sessionLengthPlaceholder": "Enter session length",
     "preferredStudyDays": "Preferred Study Days",
     "saveSchedule": "Save Schedule"
@@ -82,7 +89,11 @@
     "endSession": "End Session",
     "loadingSessions": "Loading sessions...",
     "noFinishedSessions": "No finished sessions available.",
-    "noUpcomingSession": "No upcoming session available"
+    "noUpcomingSession": "No upcoming session available",
+    "yourSessions": "Your Sessions",
+    "pastSessions": "Past Sessions",
+    "currentSession": "Current Session",
+    "upcomingSessions": "Upcoming Sessions"
   },
   "statistics": {
     "loading": "Loading...",
@@ -113,7 +124,8 @@
     "quizCompletionsOverTime": "Quiz Completions Over Time",
     "completions": "Completions",
     "quizScoreDistribution": "Quiz Score Distribution",
-    "quizzes": "Quizzes"
+    "quizzes": "Quizzes",
+    "noData": "No data"
   },
 
   "studyPlans": {
@@ -188,7 +200,7 @@
     },
     "feature3": {
       "title": "Reminders and Notifications",
-      "text": "Stay informed with smart notifications and reminders."
+      "text": "Never miss a study session with helpful reminders"
     }
   },
   "login": {
@@ -253,5 +265,19 @@
     "deleteConfirmation": "Are you sure you want to delete your account?",
     "deleteSuccess": "Account successfully deleted!",
     "editProfileImageAlt": "Edit Profile"
+  },
+  "calendar": {
+    "today": "Today",
+    "previous": "Previous",
+    "next": "Next",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "agenda": "Agenda",
+    "date": "Date",
+    "time": "Time",
+    "event": "Event",
+    "allDay": "All Day",
+    "noEventsInRange": "No events in this range."
   }
 }

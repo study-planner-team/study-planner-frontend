@@ -5,6 +5,7 @@ import Header from "../../components/GeneralComponents/Header";
 import Footer from "../../components/GeneralComponents/Footer";
 import FeatureCard from "../../components/GeneralComponents/FeatureCard";
 import "../../styles/LandingPageStyles.css";
+import { Link } from "react-router-dom";
 
 const LandingPage: React.FC = () => {
   const { t } = useTranslation("global");
@@ -26,9 +27,11 @@ const LandingPage: React.FC = () => {
             className="d-flex flex-column justify-content-center align-items-center text-center"
           >
             <h2>{t("landingPage.heroText")}</h2>
-            <Button variant="warning" className="mt-3">
-              {t("landingPage.viewMore")}
-            </Button>
+            <Link to="/studyplans">
+              <Button variant="warning" className="mt-3">
+                {t("landingPage.viewMore")}
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row className="mt-4" id="braker-row">

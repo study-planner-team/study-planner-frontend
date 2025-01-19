@@ -51,8 +51,8 @@ const Header: React.FC = () => {
             </Nav>
           )}
 
-          <Nav className="align-items-left">
-            <div className="vis-settings-box"> 
+          <Nav className="ms-auto align-items-lg-center flex-column flex-lg-row text-start text-lg-end">
+            <div className="vis-settings-box mb-2 mb-lg-0 me-lg-3">
               <VisSettingsBox />
             </div>
             {!isLoggedIn() ? (
@@ -60,24 +60,24 @@ const Header: React.FC = () => {
                 <Nav.Link
                   as={Link}
                   to="/register"
-                  className="btn-custom w-100 text-left mt-2 mt-lg-0"
+                  className="btn-custom w-100 w-lg-auto mt-2 mt-lg-0 me-lg-2"
                 >
                   {t("header.user.register")}
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className="w-100 text-left mt-2 mt-lg-0"
+                  className="w-100 w-lg-auto mt-2 mt-lg-0"
                 >
                   {t("header.user.login")}
                 </Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/profile">
+                <Nav.Link as={Link} to="/profile" className="me-lg-2">
                   {user?.username}
                 </Nav.Link>
-                <Nav.Link onClick={handleLogout}>
+                <Nav.Link onClick={handleLogout} className="me-lg-2">
                   {t("header.user.logout")}
                 </Nav.Link>
               </>

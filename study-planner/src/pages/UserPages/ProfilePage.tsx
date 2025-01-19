@@ -64,14 +64,17 @@ const ProfilePage: React.FC = () => {
                     placeholder={t("profile.usernamePlaceholder")}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    disabled={user?.isGoogleUser}
                   />
                 </Form.Group>
                 <Form.Group controlId="password" className="mt-3">
                   <Form.Label>{t("profile.password")}</Form.Label>
                   <Form.Control type="password" placeholder="********" disabled />
-                  <Link to="/change-password" style={{ marginLeft: "10px" }}>
-                    {t("profile.changePassword")}
-                  </Link>
+                  {!user?.isGoogleUser && (
+                    <Link to="/change-password" style={{ marginLeft: "10px" }}>
+                      {t("profile.changePassword")}
+                    </Link>
+                  )}
                 </Form.Group>
                 <Form.Group controlId="email" className="mt-3">
                   <Form.Label>{t("profile.email")}</Form.Label>
@@ -80,14 +83,15 @@ const ProfilePage: React.FC = () => {
                     placeholder={t("profile.emailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={user?.isGoogleUser}
                   />
                 </Form.Group>
                 <Form.Group controlId="accountStatus" className="mt-3">
                   <Form.Label>{t("profile.accountStatus")}</Form.Label>
                   <Form.Control
                     as="select"
-                    value={isPublic ? t("profile.public") : t("profile.private")}
-                    onChange={(e) => setIsPublic(e.target.value === t("profile.public"))}
+                    value={isPublic ? "public" : "private"}
+                    onChange={(e) => setIsPublic(e.target.value === "public")}
                   >
                     <option value="private">{t("profile.private")}</option>
                     <option value="public">{t("profile.public")}</option>

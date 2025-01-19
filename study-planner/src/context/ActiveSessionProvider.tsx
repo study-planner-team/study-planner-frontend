@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useRef } from "react";
 import ScheduleService from "../services/ScheduleService";
 import { toast } from "react-toastify";
 import { useAuthContext } from "./useAuthContext";
@@ -32,16 +32,43 @@ const ActiveSessionContext = createContext<ActiveSessionContextType | undefined>
 export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isLoggedIn } = useAuthContext();
   const [activeSession, setActiveSession] = useState<StudySession | null>(null);
+  const [toastDisplayed, setToastDisplayed] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null); // Ref to store the interval ID
   const navigate = useNavigate();
 
   const fetchActiveSession = async () => {
     if (!isLoggedIn()) return;
 
     const session = await ScheduleService.getCurrentSession();
-    if (!session || (activeSession && session.studySessionId === activeSession.studySessionId)) return;
 
+    // If no session or session hasn't changed, do nothing
+    if (!session || (activeSession && session.studySessionId === activeSession.studySessionId)) {
+      return;
+    }
+
+    if (session.status === "InProgress") {
+      setActiveSession(session);
+
+      if (!toastDisplayed) {
+        toast.info(`Masz trwającą sesję: ${session.studyTopic.title}`, {
+          onClick: () => navigate(`/sessions/active`),
+        });
+        setToastDisplayed(true);
+      }
+
+      // Stop polling
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+
+      return;
+    }
+
+    // For other statuses, update the state and reset the toast
     setActiveSession(session);
-    toast.info(`Masz ${session.status === "InProgress" ? "trwającą" : "aktywną"} sesję: ${session.studyTopic.title}`, {
+    setToastDisplayed(false);
+    toast.info(`Masz aktywną sesję: ${session.studyTopic.title}`, {
       onClick: () => navigate(`/sessions/active`),
     });
   };
@@ -51,6 +78,7 @@ export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const updatedSession = await ScheduleService.startSession(activeSession.studySessionId);
     setActiveSession(updatedSession);
+    setToastDisplayed(false);
     toast.success("Sesja rozpoczęta!");
   };
 
@@ -59,14 +87,30 @@ export const ActiveSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 
     await ScheduleService.endSession(activeSession.studySessionId);
     setActiveSession(null);
+    setToastDisplayed(false);
+
+    // Restart polling after session ends
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(fetchActiveSession, 60000); 
+    }
+
     toast.success("Sesja zakończona!");
   };
 
   useEffect(() => {
-    fetchActiveSession(); // Initial fetch
-    const interval = setInterval(fetchActiveSession, 60000); // Poll every minute
-    return () => clearInterval(interval); // Cleanup interval
-  }, []);
+    fetchActiveSession();
+
+    if (!intervalRef.current) {
+      intervalRef.current = setInterval(fetchActiveSession, 60000);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current); // Cleanup interval on unmount
+        intervalRef.current = null;
+      }
+    };
+  }, [activeSession, toastDisplayed]);
 
   return (
     <ActiveSessionContext.Provider value={{ activeSession, fetchActiveSession, startSession, endSession }}>

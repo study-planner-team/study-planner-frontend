@@ -8,6 +8,7 @@ export interface User {
   username: string;
   email: string;
   isPublic: boolean;
+  isGoogleUser: boolean;
 }
 
 type AuthContextType = {
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }: Props) => {
         username: response.username,
         email: response.email,
         isPublic: response.isPublic,
+        isGoogleUser: response.isGoogleUser
       };
   
 
@@ -67,6 +69,7 @@ export const AuthProvider = ({ children }: Props) => {
         username: response.username,
         email: response.email,
         isPublic: response.IsPublic,
+        isGoogleUser: response.isGoogleUser
       };
 
       localStorage.setItem("user", JSON.stringify(userObj));
@@ -85,6 +88,7 @@ export const AuthProvider = ({ children }: Props) => {
         username: response.username,
         email: response.email,
         isPublic: response.IsPublic,
+        isGoogleUser: response.isGoogleUser
       };
 
       localStorage.setItem("user", JSON.stringify(userObj));
@@ -103,6 +107,7 @@ export const AuthProvider = ({ children }: Props) => {
         username: response.username,
         email: response.email,
         isPublic: response.isPublic,
+        isGoogleUser: response.isGoogleUser
       };
 
       localStorage.setItem("user", JSON.stringify(userObj));

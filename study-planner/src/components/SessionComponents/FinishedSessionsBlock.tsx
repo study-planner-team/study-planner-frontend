@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"; // Import translations
 import ScheduleService from "../../services/ScheduleService";
 import FinishedSessionCard from "./FinishedSessionCard";
+import { Container } from "react-bootstrap";
 
 const FinishedSessionBlock: React.FC = () => {
   const { t } = useTranslation("global");
@@ -31,7 +32,9 @@ const FinishedSessionBlock: React.FC = () => {
           <FinishedSessionCard key={index} session={sessionData} />
         ))
       ) : (
-        <p>{t("session.noFinishedSessions")}</p>
+        <Container className="text-center my-5">
+        <h4>{t("session.noFinishedSessions")}</h4>
+        </Container>
       )}
     </ul>
   );
