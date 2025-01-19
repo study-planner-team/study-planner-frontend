@@ -44,7 +44,6 @@ const ProfilePage: React.FC = () => {
       <Header />
       <Container className="auth-container mt-5 mb-3">
         <Row className="d-flex align-items-stretch">
-          {/* Left Column: Badges */}
           <Col md={6}>
             <div className="bg-light p-4 rounded shadow-sm h-100 d-flex flex-column">
               <h2 className="text-center mb-4">{t("profile.badgesTitle")}</h2>
@@ -52,7 +51,6 @@ const ProfilePage: React.FC = () => {
             </div>
           </Col>
 
-          {/* Right Column: Profile Form */}
           <Col md={6}>
             <div className="bg-light p-4 rounded shadow-sm h-100 d-flex flex-column">
               <h2 className="text-center">{t("profile.title")}</h2>
@@ -100,12 +98,7 @@ const ProfilePage: React.FC = () => {
                 <Button variant="warning" type="submit" className="w-100 mt-3">
                   {t("profile.save")}
                 </Button>
-                <Button
-                  variant="danger"
-                  type="button"
-                  onClick={handleDelete}
-                  className="w-100 mt-3"
-                >
+                <Button variant="danger" type="button" onClick={handleDelete} className="w-100 mt-3">
                   {t("profile.delete")}
                 </Button>
               </Form>

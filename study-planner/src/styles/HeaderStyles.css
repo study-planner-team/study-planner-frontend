@@ -41,3 +41,33 @@
         color: var(--accent-color) !important;
     }
 }
+
+@media (min-width: 1053px) and (max-width: 1245px) {
+    .navbar-custom .nav-link {
+      font-size: 0.8rem;
+    }
+  
+    .navbar-custom .navbar-brand {
+      font-size: 1rem;
+    }
+  
+    .navbar-custom .nav-item {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+
+  @media (min-width: 985px) and (max-width: 1051px){
+    .navbar-custom .nav-link {
+      font-size: 0.74rem;
+    }
+  
+    .navbar-custom .navbar-brand {
+      font-size: 0.9rem;
+    }
+  
+    .navbar-custom .nav-item {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
